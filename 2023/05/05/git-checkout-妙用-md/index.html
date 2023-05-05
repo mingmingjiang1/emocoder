@@ -9,7 +9,7 @@
   <meta name="description" content="当你在 Git 中处理一个仓库时，你可能需要从另一个分支中获取（checkout）一个指定的文件。 幸运的是，Git 提供了许多可能的方法来快速完成这项任务。其中一个最简单的解决方案是使用git checkout命令，将指定的文件作为一个参数。 在这篇文章中，我们将分析这个问题的不同解决方案，并介绍每一种解决方案所需要遵循的流程。 让我们开始吧。😎 Git Checkout 用例你正在处理一个名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git checkout 妙用.md">
-<meta property="og:url" content="http://example.com/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/index.html">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/index.html">
 <meta property="og:site_name" content="迷途知返">
 <meta property="og:description" content="当你在 Git 中处理一个仓库时，你可能需要从另一个分支中获取（checkout）一个指定的文件。 幸运的是，Git 提供了许多可能的方法来快速完成这项任务。其中一个最简单的解决方案是使用git checkout命令，将指定的文件作为一个参数。 在这篇文章中，我们将分析这个问题的不同解决方案，并介绍每一种解决方案所需要遵循的流程。 让我们开始吧。😎 Git Checkout 用例你正在处理一个名">
 <meta property="og:locale" content="en_US">
@@ -19,10 +19,10 @@
 <meta property="article:tag" content="github, git">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="迷途知返" type="application/atom+xml">
+    <link rel="alternate" href="/emocoder/atom.xml" title="迷途知返" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="shortcut icon" href="/emocoder/favicon.png">
   
   
     
@@ -30,11 +30,11 @@
 
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/emocoder/css/style.css">
 
   
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+<link rel="stylesheet" href="/emocoder/fancybox/jquery.fancybox.min.css">
 
   
 <meta name="generator" content="Hexo 6.3.0"></head>
@@ -47,7 +47,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">迷途知返</a>
+        <a href="/emocoder/" id="logo">迷途知返</a>
       </h1>
       
     </div>
@@ -55,19 +55,19 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/">Home</a>
+          <a class="main-nav-link" href="/emocoder/">Home</a>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          <a class="main-nav-link" href="/emocoder/archives">Archives</a>
         
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/emocoder/atom.xml" title="RSS Feed"></a>
         
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mingmingjiang1.github.io/emocoder"></form>
       </div>
     </div>
   </div>
@@ -76,12 +76,12 @@
       <div class="outer">
         <section id="main"><article id="post-git-checkout-妙用-md" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/" class="article-date">
+    <a href="/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/" class="article-date">
   <time class="dt-published" datetime="2023-05-05T09:13:52.000Z" itemprop="datePublished">2023-05-05</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/git-github/">git/github</a>
+    <a class="article-category-link" href="/emocoder/categories/git-github/">git/github</a>
   </div>
 
   </div>
@@ -146,11 +146,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/" data-id="clhar2fcj0000c4nr0yo4fdbo" data-title="git checkout 妙用.md" class="article-share-link">Share</a>
+      <a data-url="https://mingmingjiang1.github.io/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/" data-id="clhar2fcj0000c4nr0yo4fdbo" data-title="git checkout 妙用.md" class="article-share-link">Share</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github-git/" rel="tag">github, git</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/emocoder/tags/github-git/" rel="tag">github, git</a></li></ul>
 
     </footer>
   </div>
@@ -158,7 +158,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2023/05/05/xxs/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/emocoder/2023/05/05/xxs/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -168,7 +168,7 @@
     </a>
   
   
-    <a href="/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">git多账号管理</div>
     </a>
@@ -187,7 +187,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/git-github/">git/github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/git-github/">git/github</a></li><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
     </div>
   </div>
 
@@ -197,7 +197,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-git/" rel="tag">github, git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" rel="tag">前端，xxs，跨站脚本攻击</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" rel="tag">编译原理，计算机基础, node</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/github-git/" rel="tag">github, git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" rel="tag">前端，xxs，跨站脚本攻击</a></li><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" rel="tag">编译原理，计算机基础, node</a></li></ul>
     </div>
   </div>
 
@@ -207,7 +207,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/github-git/" style="font-size: 20px;">github, git</a> <a href="/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" style="font-size: 10px;">前端，xxs，跨站脚本攻击</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" style="font-size: 10px;">编译原理，计算机基础, node</a>
+      <a href="/emocoder/tags/github-git/" style="font-size: 20px;">github, git</a> <a href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" style="font-size: 10px;">前端，xxs，跨站脚本攻击</a> <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" style="font-size: 10px;">编译原理，计算机基础, node</a>
     </div>
   </div>
 
@@ -216,7 +216,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/emocoder/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/emocoder/archives/2023/02/">February 2023</a></li></ul>
     </div>
   </div>
 
@@ -229,23 +229,23 @@
       <ul>
         
           <li>
-            <a href="/2023/05/05/xxs/">XXS</a>
+            <a href="/emocoder/2023/05/05/xxs/">XXS</a>
           </li>
         
           <li>
-            <a href="/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/">git checkout 妙用.md</a>
+            <a href="/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/">git checkout 妙用.md</a>
           </li>
         
           <li>
-            <a href="/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/">git多账号管理</a>
+            <a href="/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/">git多账号管理</a>
           </li>
         
           <li>
-            <a href="/2023/05/05/node%E4%BB%8E%E5%A4%B4%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%BC%96%E8%AF%91%E5%99%A8/">node从头手写一个基本编译器</a>
+            <a href="/emocoder/2023/05/05/node%E4%BB%8E%E5%A4%B4%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%BC%96%E8%AF%91%E5%99%A8/">node从头手写一个基本编译器</a>
           </li>
         
           <li>
-            <a href="/2023/05/05/minic/">(no title)</a>
+            <a href="/emocoder/2023/05/05/minic/">(no title)</a>
           </li>
         
       </ul>
@@ -270,25 +270,25 @@
     </div>
     <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="/emocoder/" class="mobile-nav-link">Home</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    <a href="/emocoder/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
     
 
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/emocoder/js/jquery-3.4.1.min.js"></script>
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="/emocoder/fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
-<script src="/js/script.js"></script>
+<script src="/emocoder/js/script.js"></script>
 
 
 
