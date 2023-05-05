@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>git checkout 妙用.md | 迷途知返</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="当你在 Git 中处理一个仓库时，你可能需要从另一个分支中获取（checkout）一个指定的文件。 幸运的是，Git 提供了许多可能的方法来快速完成这项任务。其中一个最简单的解决方案是使用git checkout命令，将指定的文件作为一个参数。 在这篇文章中，我们将分析这个问题的不同解决方案，并介绍每一种解决方案所需要遵循的流程。 让我们开始吧。😎 Git Checkout 用例你正在处理一个名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git checkout 妙用.md">
+<meta property="og:url" content="http://example.com/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/index.html">
+<meta property="og:site_name" content="迷途知返">
+<meta property="og:description" content="当你在 Git 中处理一个仓库时，你可能需要从另一个分支中获取（checkout）一个指定的文件。 幸运的是，Git 提供了许多可能的方法来快速完成这项任务。其中一个最简单的解决方案是使用git checkout命令，将指定的文件作为一个参数。 在这篇文章中，我们将分析这个问题的不同解决方案，并介绍每一种解决方案所需要遵循的流程。 让我们开始吧。😎 Git Checkout 用例你正在处理一个名">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-05T09:13:52.000Z">
+<meta property="article:modified_time" content="2023-05-05T09:16:11.787Z">
+<meta property="article:author" content="迷途知返">
+<meta property="article:tag" content="github, git">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="迷途知返" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">迷途知返</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-git-checkout-妙用-md" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/" class="article-date">
+  <time class="dt-published" datetime="2023-05-05T09:13:52.000Z" itemprop="datePublished">2023-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/git-github/">git/github</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      git checkout 妙用.md
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>当你在 Git 中处理一个仓库时，你可能需要从另一个分支中获取（checkout）一个指定的文件。</p>
+<p>幸运的是，Git 提供了许多可能的方法来快速完成这项任务。其中一个最简单的解决方案是使用git checkout命令，将指定的文件作为一个参数。</p>
+<p>在这篇文章中，我们将分析这个问题的不同解决方案，并介绍每一种解决方案所需要遵循的流程。</p>
+<p>让我们开始吧。😎</p>
+<p>Git Checkout 用例<br>你正在处理一个名为feature&#x2F;A的分支，其中包含一个名为utils.js的文件。</p>
+<p>你有另一个名为feature&#x2F;B的分支，里面有一个更新的utils.js文件。</p>
+<p>你想签出该文件，并将其从feature&#x2F;B分支带到feature&#x2F;A分支。</p>
+<p>下面是这个任务的三种可行的解决方案。</p>
+<p>解决方案 1：使用 git checkout 命令<br>git checkout命令提供了一个简单的方法来从另一个分支获取文件或文件夹。</p>
+<p>以下是从另一个分支获得（checkout）文件的语法：</p>
+<p>git checkout <other-branch-name> – path&#x2F;to&#x2F;your&#x2F;folder<br>以下是要遵循的流程：</p>
+<ol>
+<li>切换（checkout）到你想复制文件的那个分支。</li>
+</ol>
+<p>git checkout feature&#x2F;A<br>2. 你在当前分支上，复制该文件。</p>
+<p>git checkout feature&#x2F;B – utils.js<br>3. 使用git status命令来确保文件已经被复制了。</p>
+<ol start="4">
+<li>提交并推送到远程。</li>
+</ol>
+<p>在使用 checkout 命令时，你也可以得到：</p>
+<p>一个来自另一个分支的文件夹。<br>通过指定每一个文件，可以指定多个文件<br>另外，请注意，你可以从 stash 获得一个文件&#x2F;文件夹。</p>
+<p>解决方案 2：使用 git restore 命令<br>另一个选择是使用git switch命令和git restore命令。</p>
+<p>如果你从未听说过这两个命令，那也没关系。它们是比较新的。Git 在 2019 年的 2.23 版本中引入了它们。</p>
+<p>这两个命令的目的是减少使用 git checkout命令，以简化用户的工作。</p>
+<p>git restore命令可以恢复工作树。</p>
+<p>git switch命令切换分支。</p>
+<p>下面是从另一个分支获取文件的过程：</p>
+<ol>
+<li>切换到你想获取（checkout）文件的分支。</li>
+</ol>
+<p>git switch feature&#x2F;A<br>2. 从另一个分支获取文件。</p>
+<p>git restore –source feature&#x2F;B – utils.js<br>3. 提交并推送更改。</p>
+<p>解决方案 3：使用 git show 命令<br>最后，我们可以使用git show命令。</p>
+<p>以下是要遵循的流程：</p>
+<ol>
+<li>切换到工作分支。</li>
+</ol>
+<p>git switch feature&#x2F;A<br>2. 从另一个分支获取文件。</p>
+<p>git show feature&#x2F;B:path&#x2F;utils.js &gt; path&#x2F;utils.js<br>3. 提交并推送更改。</p>
+<p>注意: 这次你需要指定来自你的目录根的相对路径。</p>
+<p>小结<br>正如你所看到的，从另一个分支获取一个文件并不是什么像发射火箭那样困难。</p>
+<p>当我在日常生活中需要这样做时，我通常使用git checkout命令。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/" data-id="clhar2fcj0000c4nr0yo4fdbo" data-title="git checkout 妙用.md" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github-git/" rel="tag">github, git</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/05/xxs/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XXS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">git多账号管理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/git-github/">git/github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-git/" rel="tag">github, git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" rel="tag">前端，xxs，跨站脚本攻击</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" rel="tag">编译原理，计算机基础, node</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/github-git/" style="font-size: 20px;">github, git</a> <a href="/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" style="font-size: 10px;">前端，xxs，跨站脚本攻击</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" style="font-size: 10px;">编译原理，计算机基础, node</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/05/xxs/">XXS</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/">git checkout 妙用.md</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/">git多账号管理</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/05/node%E4%BB%8E%E5%A4%B4%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%BC%96%E8%AF%91%E5%99%A8/">node从头手写一个基本编译器</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/05/minic/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 迷途知返<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
