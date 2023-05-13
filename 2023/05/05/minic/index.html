@@ -13,20 +13,20 @@
 <meta property="og:site_name" content="迷途知返">
 <meta property="og:description" content="node 手写编译器-minicompiler使用语言：node, C++本文涉及：编译器的词法分析，抽象语义树生成，语法分析，代码生成本文重点内容：  实现正则表达式分析器 实现简易版 Flex 实现 LR0 语法，并简单介绍其他语法(LL, LR1, SLR, LSPR) 实现简易版 Bison 实现生成汇编代码 实现简易编译器功能，提供编译时期类型检查和推断，支持加减乘除支持函数的递归调用，">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://mingmingjiang1.github.io/mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-125517.jpg">
-<meta property="og:image" content="https://mingmingjiang1.github.io/mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-124728.jpg">
-<meta property="og:image" content="https://mingmingjiang1.github.io/mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-163301.jpg">
-<meta property="og:image" content="https://mingmingjiang1.github.io/mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230502-104729.jpg">
+<meta property="og:image" content="https://mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-125517.jpg">
+<meta property="og:image" content="https://mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-124728.jpg">
+<meta property="og:image" content="https://mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-163301.jpg">
+<meta property="og:image" content="https://mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230502-104729.jpg">
 <meta property="article:published_time" content="2023-05-05T06:53:30.898Z">
 <meta property="article:modified_time" content="2023-05-05T06:53:37.539Z">
 <meta property="article:author" content="迷途知返">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://mingmingjiang1.github.io/mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-125517.jpg">
+<meta name="twitter:image" content="https://mingmingjiang1.github.io/%E9%A3%9E%E4%B9%A620230430-125517.jpg">
   
-    <link rel="alternate" href="/mingmingjiang1/emocoder/atom.xml" title="迷途知返" type="application/atom+xml">
+    <link rel="alternate" href="/emocoder/atom.xml" title="迷途知返" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/mingmingjiang1/emocoder/favicon.png">
+    <link rel="shortcut icon" href="/emocoder/favicon.png">
   
   
     
@@ -34,11 +34,11 @@
 
   
   
-<link rel="stylesheet" href="/mingmingjiang1/emocoder/css/style.css">
+<link rel="stylesheet" href="/emocoder/css/style.css">
 
   
     
-<link rel="stylesheet" href="/mingmingjiang1/emocoder/fancybox/jquery.fancybox.min.css">
+<link rel="stylesheet" href="/emocoder/fancybox/jquery.fancybox.min.css">
 
   
 <meta name="generator" content="Hexo 6.3.0"></head>
@@ -51,7 +51,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/mingmingjiang1/emocoder/" id="logo">迷途知返</a>
+        <a href="/emocoder/" id="logo">迷途知返</a>
       </h1>
       
     </div>
@@ -59,14 +59,14 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/mingmingjiang1/emocoder/">Home</a>
+          <a class="main-nav-link" href="/emocoder/">Home</a>
         
-          <a class="main-nav-link" href="/mingmingjiang1/emocoder/archives">Archives</a>
+          <a class="main-nav-link" href="/emocoder/archives">Archives</a>
         
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/mingmingjiang1/emocoder/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/emocoder/atom.xml" title="RSS Feed"></a>
         
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
@@ -80,7 +80,7 @@
       <div class="outer">
         <section id="main"><article id="post-minic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/mingmingjiang1/emocoder/2023/05/05/minic/" class="article-date">
+    <a href="/emocoder/2023/05/05/minic/" class="article-date">
   <time class="dt-published" datetime="2023-05-05T06:53:30.898Z" itemprop="datePublished">2023-05-05</time>
 </a>
     
@@ -176,9 +176,9 @@
 <h2 id="三、构建抽象语法树"><a href="#三、构建抽象语法树" class="headerlink" title="三、构建抽象语法树"></a>三、构建抽象语法树</h2><p>这里我用的是简单的 LR(0)上下无关文法，关于什么是上下无关文什么是有关文，请戳-&gt;,理论上上下无关文法 LR(1) &gt; LSPR &gt; SLR &gt; LR(0)<br>LR(0): 没有提前预测的符号，容易出现 shift-reduce 冲突以及 reduce-reduce 冲突，所以需要设计适合的文法；<br>SLR: 有简单的预测，可以解决 shift-reduce 冲突，但是无法解决 reduce-reduce 冲突<br>LR(1): 可以解决 shift-reduce 冲突，也解决 reduce-reduce 冲突<br>LSPR: 由于 LR(1)的表特别大，在此基础上做了优化</p>
 <p>根据相应文法生成 ast，本质上是利用栈和 nfa，看如下文法的 LR(0)生成过程：<br>E-&gt; Program $<br>Program -&gt; Assign &#x3D;&#x3D; Assign<br>Assign -&gt; Assign + Token<br>Assign -&gt; Token<br>Token -&gt; id</p>
 <p>LR(0)dfa</p>
-<p><img src="/mingmingjiang1.github.io/emocoder/../%E9%A3%9E%E4%B9%A620230430-125517.jpg"></p>
-<p>LR(0)对应的状态转移表：<br><img src="/mingmingjiang1.github.io/emocoder/../%E9%A3%9E%E4%B9%A620230430-124728.jpg"></p>
-<p>可以看到在状态 9 是存在移位-规约冲突的，这是因为 LR(0)默认在所有的终结符号处做规约，slr 语法是比 LR(0),更为广泛的一种语法，它只在特定的地方放置规约动作。具体来说，在上面的例子里，在状态 9 处，只有规约式 1 的移位指针到达里末尾，所以可以看下规约式 1 后面可能会紧接着什么符号，也就是 followSet(Program) &#x3D; {$}，所以只在$处放置规约动作。<br>下面是 slr 分析表：<br><img src="/mingmingjiang1.github.io/emocoder/../%E9%A3%9E%E4%B9%A620230430-163301.jpg"></p>
+<p><img src="/emocoder/../%E9%A3%9E%E4%B9%A620230430-125517.jpg"></p>
+<p>LR(0)对应的状态转移表：<br><img src="/emocoder/../%E9%A3%9E%E4%B9%A620230430-124728.jpg"></p>
+<p>可以看到在状态 9 是存在移位-规约冲突的，这是因为 LR(0)默认在所有的终结符号处做规约，slr 语法是比 LR(0),更为广泛的一种语法，它只在特定的地方放置规约动作。具体来说，在上面的例子里，在状态 9 处，只有规约式 1 的移位指针到达里末尾，所以可以看下规约式 1 后面可能会紧接着什么符号，也就是 followSet(Program) &#x3D; {$}，所以只在$处放置规约动作。<br>下面是 slr 分析表：<br><img src="/emocoder/../%E9%A3%9E%E4%B9%A620230430-163301.jpg"></p>
 <p>有了这张表就可以基于输入(一般是 token 流)去做语法分析了，刷过算法题的都应该猜到了会用栈来作为数据结果，是的，每一次自底向上规约都可以看作是栈的 pop 动作，并且在这次动作中可以做很多事情，比如生成我们想要的树节点，如：</p>
 <p>在设计 AST 结构的同时需要同时兼顾到 AST 的结构方便语义分析和代码生成，该语言的 ast 结构大致如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">Program_Class &#123;</span><br><span class="line">  expr: Function_Class &#123;</span><br><span class="line">    formal_list: [ &#x27;x&#x27; ],</span><br><span class="line">    name: &#x27;total&#x27;,</span><br><span class="line">    expressions: Branch_Class &#123;</span><br><span class="line">      ifCond: Cond_Class &#123;</span><br><span class="line">        lExpr: Indentifier_Class &#123; token: &#x27;x&#x27; &#125;,</span><br><span class="line">        rExpr: Int_Contant_Class &#123; token: &#x27;0&#x27; &#125;,</span><br><span class="line">        op: &#x27;==&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      statementTrue: Return_Class &#123; expr: Indentifier_Class &#123; token: &#x27;x&#x27; &#125; &#125;,</span><br><span class="line">      statementFalse: Assign_Class &#123;</span><br><span class="line">        name: &#x27;m&#x27;,</span><br><span class="line">        ltype: &#x27;int&#x27;,</span><br><span class="line">        r: Caller_Class &#123;</span><br><span class="line">          params_list: [ undefined ],</span><br><span class="line">          id: &#x27;total&#x27;,</span><br><span class="line">          params: Sub_Class &#123;</span><br><span class="line">            lvalue: Indentifier_Class &#123; token: &#x27;x&#x27; &#125;,</span><br><span class="line">            rvalue: Int_Contant_Class &#123; token: &#x27;1&#x27; &#125;</span><br><span class="line">          &#125;,</span><br><span class="line">          next: undefined</span><br><span class="line">        &#125;,</span><br><span class="line">        next: Return_Class &#123;</span><br><span class="line">          expr: Add_Class &#123;</span><br><span class="line">            lvalue: Indentifier_Class &#123; token: &#x27;x&#x27; &#125;,</span><br><span class="line">            rvalue: Indentifier_Class &#123; token: &#x27;m&#x27; &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    formals: Formal_Class &#123; name: &#x27;x&#x27;, type: &#x27;int&#x27;, next: undefined &#125;,</span><br><span class="line">    next: Function_Class &#123;</span><br><span class="line">      formal_list: [ &#x27;x&#x27;, &#x27;y&#x27; ],</span><br><span class="line">      name: &#x27;sum&#x27;,</span><br><span class="line">      expressions: Return_Class &#123;</span><br><span class="line">        expr: Add_Class &#123;</span><br><span class="line">          lvalue: Indentifier_Class &#123; token: &#x27;x&#x27; &#125;,</span><br><span class="line">          rvalue: Indentifier_Class &#123; token: &#x27;y&#x27; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      formals: Formal_Class &#123;</span><br><span class="line">        name: &#x27;y&#x27;,</span><br><span class="line">        type: &#x27;int&#x27;,</span><br><span class="line">        next: Formal_Class &#123; name: &#x27;x&#x27;, type: &#x27;int&#x27;, next: undefined &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      next: Function_Class &#123;</span><br><span class="line">        formal_list: [],</span><br><span class="line">        name: &#x27;main&#x27;,</span><br><span class="line">        expressions: Assign_Class &#123;</span><br><span class="line">          name: &#x27;x&#x27;,</span><br><span class="line">          ltype: &#x27;int&#x27;,</span><br><span class="line">          r: Caller_Class &#123;</span><br><span class="line">            params_list: [ &#x27;10&#x27; ],</span><br><span class="line">            id: &#x27;total&#x27;,</span><br><span class="line">            params: Int_Contant_Class &#123; token: &#x27;10&#x27; &#125;,</span><br><span class="line">            next: undefined</span><br><span class="line">          &#125;,</span><br><span class="line">          next: Caller_Class &#123;</span><br><span class="line">            params_list: [ &#x27;x&#x27; ],</span><br><span class="line">            id: &#x27;print&#x27;,</span><br><span class="line">            params: Indentifier_Class &#123; token: &#x27;x&#x27; &#125;,</span><br><span class="line">            next: undefined</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        formals: undefined,</span><br><span class="line">        next: undefined,</span><br><span class="line">        return_type: &#x27;int&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      return_type: &#x27;int&#x27;</span><br><span class="line">    &#125;,</span><br><span class="line">    return_type: &#x27;int&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -201,7 +201,7 @@
 <li>同一个作用域不得出现同名变量</li>
 <li>变量必须先声明并初始化才能使用</li>
 </ol>
-<h2 id="七、汇编代码生成"><a href="#七、汇编代码生成" class="headerlink" title="七、汇编代码生成"></a>七、汇编代码生成</h2><p>思路：自上向下进行利用堆栈机代码生成，仅使用了3个寄存器，a0，v0，t0，其中v0是辅助寄存器帮助函数返回值存储以及系统调用的退出和打印；<br>总结了下，最重要的点是对声明变量的内存分配以及取变量的时候，要知道对应的作用域链，该从哪个作用取，只要我们对基本的一些单元表达式做好了代码生成的工作，后面就是搭积木的工作了；下面是该语言的函数栈示意图：<br><img src="/mingmingjiang1.github.io/emocoder/../%E9%A3%9E%E4%B9%A620230502-104729.jpg"></p>
+<h2 id="七、汇编代码生成"><a href="#七、汇编代码生成" class="headerlink" title="七、汇编代码生成"></a>七、汇编代码生成</h2><p>思路：自上向下进行利用堆栈机代码生成，仅使用了3个寄存器，a0，v0，t0，其中v0是辅助寄存器帮助函数返回值存储以及系统调用的退出和打印；<br>总结了下，最重要的点是对声明变量的内存分配以及取变量的时候，要知道对应的作用域链，该从哪个作用取，只要我们对基本的一些单元表达式做好了代码生成的工作，后面就是搭积木的工作了；下面是该语言的函数栈示意图：<br><img src="/emocoder/../%E9%A3%9E%E4%B9%A620230502-104729.jpg"></p>
 <p>这里如何取参数？由于函数栈在扩增的时候，不太方便通过sp指针获取参数和变量的存储位置，所以这里使用fp指针去作为基地址，寻找参数和局部变量</p>
 <p>关于作用域问题是采用的树结构存储(双向链表)，每次从当前所在作用域内寻找变量，再继续依次向上寻找，直到找到函数级作用域；</p>
 <p>以下是具体的几个单元表达式生成的例子：</p>
@@ -254,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingmingjiang1.github.io/emocoder/2023/05/05/minic/" data-id="clhlja3ta000c08nrcxnt2mrt" data-title="" class="article-share-link">Share</a>
+      <a data-url="https://mingmingjiang1.github.io/emocoder/2023/05/05/minic/" data-id="clhlzzjqd000cu6nreajtak0c" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -264,7 +264,7 @@
     
 <nav id="article-nav">
   
-    <a href="/mingmingjiang1/emocoder/2023/05/05/node%E4%BB%8E%E5%A4%B4%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%BC%96%E8%AF%91%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/emocoder/2023/05/05/node%E4%BB%8E%E5%A4%B4%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%BC%96%E8%AF%91%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -274,7 +274,7 @@
     </a>
   
   
-    <a href="/mingmingjiang1/emocoder/2023/02/27/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/emocoder/2023/02/27/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Hello World</div>
     </a>
@@ -293,7 +293,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mingmingjiang1/emocoder/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/mingmingjiang1/emocoder/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/mingmingjiang1/emocoder/categories/git-github/">git/github</a></li><li class="category-list-item"><a class="category-list-link" href="/mingmingjiang1/emocoder/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/git-github/">git/github</a></li><li class="category-list-item"><a class="category-list-link" href="/emocoder/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
     </div>
   </div>
 
@@ -303,7 +303,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1/emocoder/tags/github-git/" rel="tag">github, git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/" rel="tag">前端，node，调试，debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" rel="tag">前端，xxs，跨站脚本攻击</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1/emocoder/tags/%E6%B8%97%E9%80%8F%EF%BC%8C%E7%88%86%E7%A0%B4/" rel="tag">渗透，爆破</a></li><li class="tag-list-item"><a class="tag-list-link" href="/mingmingjiang1/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" rel="tag">编译原理，计算机基础, node</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/github-git/" rel="tag">github, git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/" rel="tag">前端，node，调试，debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" rel="tag">前端，xxs，跨站脚本攻击</a></li><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/%E6%B8%97%E9%80%8F%EF%BC%8C%E7%88%86%E7%A0%B4/" rel="tag">渗透，爆破</a></li><li class="tag-list-item"><a class="tag-list-link" href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" rel="tag">编译原理，计算机基础, node</a></li></ul>
     </div>
   </div>
 
@@ -313,7 +313,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/mingmingjiang1/emocoder/tags/github-git/" style="font-size: 20px;">github, git</a> <a href="/mingmingjiang1/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/" style="font-size: 10px;">前端，node，调试，debug</a> <a href="/mingmingjiang1/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" style="font-size: 10px;">前端，xxs，跨站脚本攻击</a> <a href="/mingmingjiang1/emocoder/tags/%E6%B8%97%E9%80%8F%EF%BC%8C%E7%88%86%E7%A0%B4/" style="font-size: 10px;">渗透，爆破</a> <a href="/mingmingjiang1/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" style="font-size: 10px;">编译原理，计算机基础, node</a>
+      <a href="/emocoder/tags/github-git/" style="font-size: 20px;">github, git</a> <a href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/" style="font-size: 10px;">前端，node，调试，debug</a> <a href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cxxs%EF%BC%8C%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/" style="font-size: 10px;">前端，xxs，跨站脚本攻击</a> <a href="/emocoder/tags/%E6%B8%97%E9%80%8F%EF%BC%8C%E7%88%86%E7%A0%B4/" style="font-size: 10px;">渗透，爆破</a> <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/" style="font-size: 10px;">编译原理，计算机基础, node</a>
     </div>
   </div>
 
@@ -322,7 +322,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mingmingjiang1/emocoder/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mingmingjiang1/emocoder/archives/2023/02/">February 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/emocoder/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/emocoder/archives/2023/02/">February 2023</a></li></ul>
     </div>
   </div>
 
@@ -335,23 +335,23 @@
       <ul>
         
           <li>
-            <a href="/mingmingjiang1/emocoder/2023/05/07/debug/">debug</a>
+            <a href="/emocoder/2023/05/07/debug/">debug</a>
           </li>
         
           <li>
-            <a href="/mingmingjiang1/emocoder/2023/05/06/hacktech/">hacktech</a>
+            <a href="/emocoder/2023/05/06/hacktech/">hacktech</a>
           </li>
         
           <li>
-            <a href="/mingmingjiang1/emocoder/2023/05/05/xxs/">XXS</a>
+            <a href="/emocoder/2023/05/05/xxs/">XXS</a>
           </li>
         
           <li>
-            <a href="/mingmingjiang1/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/">git checkout 妙用.md</a>
+            <a href="/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/">git checkout 妙用.md</a>
           </li>
         
           <li>
-            <a href="/mingmingjiang1/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/">git多账号管理</a>
+            <a href="/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/">git多账号管理</a>
           </li>
         
       </ul>
@@ -376,25 +376,25 @@
     </div>
     <nav id="mobile-nav">
   
-    <a href="/mingmingjiang1/emocoder/" class="mobile-nav-link">Home</a>
+    <a href="/emocoder/" class="mobile-nav-link">Home</a>
   
-    <a href="/mingmingjiang1/emocoder/archives" class="mobile-nav-link">Archives</a>
+    <a href="/emocoder/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
     
 
 
-<script src="/mingmingjiang1/emocoder/js/jquery-3.4.1.min.js"></script>
+<script src="/emocoder/js/jquery-3.4.1.min.js"></script>
 
 
 
   
-<script src="/mingmingjiang1/emocoder/fancybox/jquery.fancybox.min.js"></script>
+<script src="/emocoder/fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
-<script src="/mingmingjiang1/emocoder/js/script.js"></script>
+<script src="/emocoder/js/script.js"></script>
 
 
 
