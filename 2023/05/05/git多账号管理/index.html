@@ -104,7 +104,7 @@
 <p>其中Github官方给出了一个官方文件，告诉我们什么样的Commit可以被记入Contribution，请点击此处查看。</p>
 <p>在官方的帮助文档中，有一条是Commit被记入Contribution中必须满足用于Commit的邮件地址必须与Github账户相关联。其实，这也是为什么我的Commit没有被记入Contribution和不显示头像的原因，也是大多数人也是这个原因</p>
 <p><a target="_blank" rel="noopener" href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile">https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile</a></p>
-<p>我遇到的问题的解决方案是：该仓库的本地的邮箱和github账户的邮箱不是同一个配置：可以修改本地仓库的邮箱和github上一致：<br>git config –local  user.name 张三<br>git config –local  user.email <a href="mailto:&#122;&#104;&#x61;&#110;&#x73;&#97;&#110;&#x40;&#x39;&#57;&#54;&#105;&#x63;&#117;&#x2e;&#x63;&#x6f;&#x6d;">&#122;&#104;&#x61;&#110;&#x73;&#97;&#110;&#x40;&#x39;&#57;&#54;&#105;&#x63;&#117;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<p>我遇到的问题的解决方案是：该仓库的本地的邮箱和github账户的邮箱不是同一个配置：可以修改本地仓库的邮箱和github上一致：<br>git config –local  user.name 张三<br>git config –local  user.email <a href="mailto:&#122;&#x68;&#x61;&#110;&#x73;&#97;&#110;&#x40;&#x39;&#57;&#x36;&#x69;&#99;&#x75;&#x2e;&#99;&#111;&#109;">&#122;&#x68;&#x61;&#110;&#x73;&#97;&#110;&#x40;&#x39;&#57;&#x36;&#x69;&#99;&#x75;&#x2e;&#99;&#111;&#109;</a></p>
 <p>如果拿到一台公司电脑, 那么就请按照下面的最佳实践配置下git的多环境:<br>请先执行命令打开配置文件<br>vi ~&#x2F;.ssh&#x2F;config</p>
 <p>然后输入以下内容：</p>
 <h1 id="gitlab"><a href="#gitlab" class="headerlink" title="gitlab"></a>gitlab</h1><p>Host gitlab<br>    User git<br>    HostName gitlab.company.com<br>    PreferredAuthentications publickey<br>    IdentityFile ~&#x2F;.ssh&#x2F;gitlab_rsa<br>    ServerAliveInterval 300<br>    ServerAliveCountMax 10</p>
@@ -116,7 +116,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingmingjiang1.github.io/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/" data-id="clhac1hr10002ugnrh3xlb9cz" data-title="git多账号管理" class="article-share-link">Share</a>
+      <a data-url="https://mingmingjiang1.github.io/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/" data-id="clhlja3t7000608nr72m788kb" data-title="git多账号管理" class="article-share-link">Share</a>
       
       
       
