@@ -118,9 +118,9 @@
   
   
   <entry>
-    <title>git checkout 妙用.md</title>
-    <link href="/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/"/>
-    <url>/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8-md/</url>
+    <title>git checkout 妙用</title>
+    <link href="/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8/"/>
+    <url>/emocoder/2023/05/05/git-checkout-%E5%A6%99%E7%94%A8/</url>
     
     <content type="html"><![CDATA[<p>当你在 Git中处理一个仓库时，你可能需要从另一个分支中获取（checkout）一个指定的文件。</p><p>幸运的是，Git提供了许多可能的方法来快速完成这项任务。其中一个最简单的解决方案是使用gitcheckout命令，将指定的文件作为一个参数。</p><p>在这篇文章中，我们将分析这个问题的不同解决方案，并介绍每一种解决方案所需要遵循的流程。</p><p>让我们开始吧。😎</p><p>Git Checkout 用例你正在处理一个名为feature/A的分支，其中包含一个名为utils.js的文件。</p><p>你有另一个名为feature/B的分支，里面有一个更新的utils.js文件。</p><p>你想签出该文件，并将其从feature/B分支带到feature/A分支。</p><p>下面是这个任务的三种可行的解决方案。</p><p>解决方案 1：使用 git checkout 命令 gitcheckout命令提供了一个简单的方法来从另一个分支获取文件或文件夹。</p><p>以下是从另一个分支获得（checkout）文件的语法：</p><p>git checkout <other-branch-name> -- path/to/your/folder以下是要遵循的流程：</p><ol type="1"><li>切换（checkout）到你想复制文件的那个分支。</li></ol><p>git checkout feature/A 2. 你在当前分支上，复制该文件。</p><p>git checkout feature/B -- utils.js 3. 使用gitstatus命令来确保文件已经被复制了。</p><ol start="4" type="1"><li>提交并推送到远程。</li></ol><p>在使用 checkout 命令时，你也可以得到：</p><p>一个来自另一个分支的文件夹。 通过指定每一个文件，可以指定多个文件另外，请注意，你可以从 stash 获得一个文件/文件夹。</p><p>解决方案 2：使用 git restore 命令 另一个选择是使用git switch命令和gitrestore命令。</p><p>如果你从未听说过这两个命令，那也没关系。它们是比较新的。Git 在 2019年的 2.23 版本中引入了它们。</p><p>这两个命令的目的是减少使用 git checkout命令，以简化用户的工作。</p><p>git restore命令可以恢复工作树。</p><p>git switch命令切换分支。</p><p>下面是从另一个分支获取文件的过程：</p><ol type="1"><li>切换到你想获取（checkout）文件的分支。</li></ol><p>git switch feature/A 2. 从另一个分支获取文件。</p><p>git restore --source feature/B -- utils.js 3. 提交并推送更改。</p><p>解决方案 3：使用 git show 命令 最后，我们可以使用git show命令。</p><p>以下是要遵循的流程：</p><ol type="1"><li>切换到工作分支。</li></ol><p>git switch feature/A 2. 从另一个分支获取文件。</p><p>git show feature/B:path/utils.js &gt; path/utils.js 3.提交并推送更改。</p><p>注意: 这次你需要指定来自你的目录根的相对路径。</p><p>小结正如你所看到的，从另一个分支获取一个文件并不是什么像发射火箭那样困难。</p><p>当我在日常生活中需要这样做时，我通常使用git checkout命令。</p>]]></content>
     
