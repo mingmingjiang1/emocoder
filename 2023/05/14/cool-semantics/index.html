@@ -1,0 +1,857 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/emocoder/img/fluid.png">
+  <link rel="icon" href="/emocoder/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="迷途知返">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出 接下来的课程比较&quot;符号化&quot; 在类型推断和检查的时候，引进过这样一种符号： \[ Context \vdash e: C 在给定大的上下文context里，表达式是类型C \] 同样的，评估阶段(代码生成阶段之前的准备工作)，也会用类似的符号： \[ Context \vdash e: v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="斯坦福cs231(编译原理)の 2 cool-semantics">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/14/cool-semantics/index.html">
+<meta property="og:site_name" content="迷途知返">
+<meta property="og:description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出 接下来的课程比较&quot;符号化&quot; 在类型推断和检查的时候，引进过这样一种符号： \[ Context \vdash e: C 在给定大的上下文context里，表达式是类型C \] 同样的，评估阶段(代码生成阶段之前的准备工作)，也会用类似的符号： \[ Context \vdash e: v">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-14T07:39:20.000Z">
+<meta property="article:modified_time" content="2023-05-15T15:55:03.647Z">
+<meta property="article:author" content="迷途知返">
+<meta property="article:tag" content="编译原理，计算机基础，cool">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>斯坦福cs231(编译原理)の 2 cool-semantics - 迷途知返</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/emocoder/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/emocoder/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/emocoder/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mingmingjiang1.github.io","root":"/emocoder/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/emocoder/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/emocoder/js/utils.js" ></script>
+  <script  src="/emocoder/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/emocoder/">
+      <strong>Emoer</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/emocoder/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 2 cool-semantics"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-14 15:39" pubdate>
+          2023年5月14日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">斯坦福cs231(编译原理)の 2 cool-semantics</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出</p>
+<p>接下来的课程比较"符号化"</p>
+<p>在类型推断和检查的时候，引进过这样一种符号： <span
+class="math display">\[
+Context \vdash e: C
+在给定大的上下文context里，表达式是类型C
+\]</span>
+同样的，评估阶段(代码生成阶段之前的准备工作)，也会用类似的符号： <span
+class="math display">\[
+Context \vdash e: v
+在给定大的上下文context里，表达式会被评估为值v
+\]</span> 🌰： <span class="math display">\[
+\frac{Context \vdash e1: 5 \quad
+Context \vdash e2: 7}{Context \vdash e1 + e2: 12}
+\]</span> &gt;
+在语境Context下e1被评估为5，e2被评估为7，那么e1+e2就是12，当然这种是常量比较简单哈，没什么用处，实际情况下有变量的情况下就复杂了；
+&gt;</p>
+<p>考虑评估：y &lt;- x + 1</p>
+<p>由于存在局部作用域，所以评估一个值，需要：</p>
+<p>Environment: where in memory a variable is</p>
+<p>Store: what is in the memory</p>
+<p>简单来说就是两个映射表：</p>
+<p>Enviroment：va r =&gt; loc</p>
+<p>Store: loc =&gt; value</p>
+<p>形式化表示：</p>
+<p><span class="math display">\[
+E = [a: l1, b: l2] \quad 变量a在内存中的l1处，b在内存的l2处 \\
+S = [l1 =&gt; 5, l2 =&gt; 7] \quad l1处存储的值是5，l2处存储的值是7 \\
+S&#39; = S[l2/l1] \quad defines \quad a \quad store \quad
+S&#39;\quad  such \quad that \\ S&#39;(l1) = 12 \quad and
+\quad  S&#39;(l) = S(l) \quad  if \quad l \neq l1 \\
+简单理解下S‘就是S在l1处做了单点修改
+\]</span></p>
+<p>cool里面值都是对象，因为cool是面向对象的</p>
+<p>X(a1 = l1, ..., an = ln)表示为一个cool 对象，其中</p>
+<p>—X式对象的累</p>
+<p>—ai是其属性，包含继承的属性</p>
+<p>—li是对应ai被存储的内存位置</p>
+<p><strong>cool内置类：</strong></p>
+<p>Int(5),</p>
+<p>Bool(true)</p>
+<p>String(4, "cool") the string "Cool" of length 4</p>
+<p>特殊值：void</p>
+<p>该对象上没有方法</p>
+<p>如果调用isvoid将会抛出异常f</p>
+<p>cool里对void的具体实现时NULL（Cpp里的空指针，因为cool是用pp实现的）</p>
+<p>考虑如下评估式： <span class="math display">\[
+{so, E, S \vdash e: v, S&#39;}
+\]</span> so(self object)， E 是当前的变量环境，S是当前Store；</p>
+<p>e获得了评估结果后值是v，并且新的store是S‘</p>
+<p>评估的结果实际是值v和新的Store，新的Store是有副作用(副作用是值引用修改，而不是copy)</p>
+<p>但是在评估后有一些事不会改变的：</p>
+<ul>
+<li><p>变量环境</p></li>
+<li><p>self</p></li>
+<li><p>操作语义允许递归</p></li>
+</ul>
+<p>下面具体介绍了cool的一些操作语义评估，我就简单那几个比较经典的：</p>
+<p><strong>变量使用</strong>：在E中找到id的位置，然后在S中找对应的值
+<span class="math display">\[
+\frac{E(id) = I_{id} \quad
+S(I_{id}) = v}{so, E, S \vdash id: v, S}
+\]</span> <strong>self:</strong> <span class="math display">\[
+{so, E, S \vdash self: so, S}
+\]</span>
+<strong>变量赋值：</strong>就是对id处做单点修改返回新的Store，id的评估结果就是e的评估结果v
+<span class="math display">\[
+\frac{so, E, S \vdash e: v, S_1 \quad
+E(id) = I_{id} \quad
+S_2 = S_1[v/id]}{so, E, S \vdash id=e: v, S2}
+\]</span> e1+e2：先递归对e1评估，评估后e1的值是v1，并产生新的Store
+S1，接着对e2递归进行评估，评估后e2的值是v2，并产生新的Store
+S2，最终e1+e2的评估结果就是值为v1 + v2，新的Store S2 <span
+class="math display">\[
+\frac{so, E, S \vdash e: v, S_1 \quad
+so, E, S1 \vdash e: v2, S_2}{so, E, S \vdash e1 + e2: v1 + v2, S2}
+\]</span> <strong>语句块：</strong></p>
+<p>🌰：{ X = 7 + 5; 4;}</p>
+<p>先对一个表达式X=7+5评估 <span class="math display">\[
+{so, [X&lt;-1], [l&lt;-0] \vdash x=7+5: ?, ?}
+\]</span> 继续递归对7+5进行评估 <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 7+5: ?, ?}
+\]</span> 继续递归对7评估： <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 7: Int(7), [l&lt;-0]}
+\]</span> 同样的对5评估： <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 5: Int(5), [l&lt;-0]}
+\]</span></p>
+<p>返回到上一层7+5: <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 7+5: Int(12), [l&lt;-0]}
+\]</span> 继续返回到上一层x=7+5：</p>
+<p>这个时候已经处理完了7+5，继续处理x，这是声明变量，得到单点更新后的Store：
+<span class="math display">\[
+[l&lt;-0](12/l) =&gt; [l/12]
+\]</span> 这个时候子表达式都处理完了，继续处理最外层的第一个表达式 <span
+class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash x=7+5: 12, [l&lt;-12]}
+\]</span> 继续处理同级别的表达式4 <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-12] \vdash 4: Int(4), [l&lt;-12]}
+\]</span></p>
+<p><span class="math display">\[
+\frac{...}{so, [X&lt;-1], [1&lt;-0] \vdash \{X=7+5;4;\}: Int(4),
+[1&lt;-12]}
+\]</span></p>
+<p><strong>if-else</strong></p>
+<p><img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514173710435.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514173710435" /> <span class="math display">\[
+\frac{so, E, S \vdash e1: Bool(false), S1}{so, E, S \vdash while \quad
+e1 \quad loop \quad e2 \quad pool: void, S1}
+\]</span> <strong>while</strong></p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514173719883.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514173719883" />
+<figcaption aria-hidden="true">image-20230514173719883</figcaption>
+</figure>
+<p><strong>声明变量：</strong> <span class="math display">\[
+\frac{so, E, S \vdash e1: v1, S1 \quad so, ?, ? \vdash v, S2}{so, E, S
+\vdash let \quad id: T = e1 \quad in \quad e2: v2, S2}
+\]</span> e2应该在什么环境下评估呢（问号处应该填什么呢）？</p>
+<p>—仍然是E，但是E里应该新增映射<code>id =&gt; Inew</code>，表示为id新分配了一块内存，同样的Store应该是有新的映射
+<code>Inew =&gt; v1</code></p>
+<p>新增符号：Inew =
+newloc(S)，表示Inew是一个新分配的内存，newloc可以理解为是一个内存分配函数
+<span class="math display">\[
+\frac{so, E, S \vdash e1: v1, S1 \quad I_{new} = newloc(S1) \quad  so,
+E[I{new}/id], S1[v1/I_{new}] \vdash v2, S2}{so, E, S \vdash let \quad
+id: T = e1 \quad in \quad e2: v2, S2}
+\]</span></p>
+<p><strong>new对象的评估语义：</strong></p>
+<p>—首先，为对象的所有参数分配内存（本质上就是分配对象）</p>
+<p>—为对象设置缺省值</p>
+<p>—评估对象的初始化语句，并重新设置属性值</p>
+<p>—返回被分配的对象</p>
+<p>每个对象都有默认值</p>
+<p>int： Int(0)</p>
+<p>bool: Bool(false)</p>
+<p>String: String(0, '')</p>
+<p>void:</p>
+<p>Informal semantics of class A：</p>
+<p>class(A) = (a1: T1 &lt;-e1, ..., an: Tn &lt;- en)，其中：</p>
+<p>—ai是属性，包含继承属性</p>
+<p>—Ti是属性的类型</p>
+<p>—ei是初始化表达式</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514173910377.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514173910377" />
+<figcaption aria-hidden="true">image-20230514173910377</figcaption>
+</figure>
+<p>在评估初始化表达式阶段：</p>
+<p>— self is the current object</p>
+<p>— only the attributes are in scope()，作用域内只有属性</p>
+<p>—
+属性的初始值都是默认值，主要是防止在初始化语句里面会用到这些初始值，比如:</p>
+<p>Class A { a &lt;- a
+}，用a初始化a，如果a没有默认值，可能会有异常；</p>
+<p>Informal semantics of class e0.f(e1, ..., en)：</p>
+<p>—首先，依次评估参数e1, ..., en，</p>
+<p>—评估e0，获得e0的值</p>
+<p>—假设X是e0评估结果的动态类型</p>
+<p>—从dispatch table中获取f</p>
+<p>—为n个参数分配内存空间，更新Enviroment</p>
+<p>—为分配的空间初始化值</p>
+<p>—set selft to the target object and evaluate f's body</p>
+<p>For a class A and a method f of A (possible inherited)</p>
+<p>impl(A, f) = (X1, ..., Xn, ebody) ，其中：</p>
+<p>—Xi是形式桉树</p>
+<p>—ebody是方法体(函数体)</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514174645616.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514174645616" />
+<figcaption aria-hidden="true">image-20230514174645616</figcaption>
+</figure>
+<p><u>impl</u>有没有可能获取不到方法？不可能，因为类型检查以已经通过了，倘若没有类型检查，这一阶段会更复杂</p>
+<p>当然也有一些runtime error类型检查检查不到：</p>
+<p>— A dispathc on void</p>
+<p>— Division by zero</p>
+<p>— Substring out of range</p>
+<p>— Heap overflow</p>
+<p>这些异常情形下，编译器必须抛出错误，并中断，而不是崩溃(not with a
+segfault)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%EF%BC%8Ccool/">#编译原理，计算机基础，cool</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>斯坦福cs231(编译原理)の 2 cool-semantics</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/05/14/cool-semantics/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>迷途知返</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/emocoder/2023/05/14/cool-optimize/" title="斯坦福cs231(编译原理)の 3 cool-optimize">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 3 cool-optimize</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/emocoder/2023/05/14/cool-object-layout/" title="斯坦福cs231(编译原理)の 1 cool-object-layout">
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 1 cool-object-layout</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/emocoder/js/events.js" ></script>
+<script  src="/emocoder/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/emocoder/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/emocoder/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/emocoder/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
