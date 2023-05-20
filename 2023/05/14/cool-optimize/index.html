@@ -24,7 +24,7 @@
 <meta property="og:description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出  中间代码 什么是中间代码？一般常指介于高级语言(源语言)和低级语言(汇编语言)的一种语言  Provides an intermediate level of abstraction  More details than the source Fewer details then th">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-14T10:05:25.000Z">
-<meta property="article:modified_time" content="2023-05-15T15:57:00.864Z">
+<meta property="article:modified_time" content="2023-05-20T06:05:27.421Z">
 <meta property="article:author" content="迷途知返">
 <meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.1k 字
+          5.1k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          35 分钟
+          43 分钟
         
       </span>
     
@@ -473,7 +473,7 @@ alt="img" />
 </figure>
 <h2 id="peephole-optimization">Peephole Optimization</h2>
 <h2 id="全局优化">全局优化</h2>
-<p>为了在在基本块质检用常数k代替变量x，编译器必须知道每条使用变量x路径的最后一个关于x的赋值语句<code>x := k</code>～～</p>
+<p>为了在基本块之间用常数k代替变量x，编译器必须知道每条使用变量x路径的最后一个关于x的赋值语句<code>x := k</code>～～</p>
 <p>对于全局优化，全局常量传播应该在～～处执行</p>
 <p>所以全局优化的目标就是找到所有的～～</p>
 <p>定义如下形式化符号：</p>
@@ -491,8 +491,8 @@ alt="img" />
 <td>This statement never executes（还没执行，一般用于初始化）</td>
 </tr>
 <tr class="even">
-<td>$ c $</td>
-<td>X = c (c is constant)</td>
+<td>$ C $</td>
+<td>X = C (C is constant)</td>
 </tr>
 <tr class="odd">
 <td>$$</td>
@@ -510,32 +510,78 @@ C(s, x, in) = value \quad of \quad x \quad before \quad s  \quad
 C(s, x, out) = value \quad of \quad x \quad after \quad s \quad
 在语句s之后变量x的信息
 \]</span></p>
-<p>由于课本上的规则过于复杂，本人总结了下：</p>
+<p>由于课本上的规则过于复杂，本人总结了以下规则rules：</p>
 <ul>
 <li>针对某个节点的入度，有以下几种情况：
-<ul>
+<ol type="1">
 <li>如果其入度节点其中有一个是T，则该节点信息为T</li>
 <li>如果其入度节点存在常量，但是均不相等，则该节点信息为T</li>
 <li>如果其入度节点存在节点固定为某个常量，且其入度节点不为T，则该节点也为该常量</li>
 <li>如果其入度节点均为unknown，则该节点为unknown</li>
-</ul></li>
+</ol></li>
 <li>针对某个节点的出度，
-<ul>
-<li>入度为unknown，则出度也为unknown</li>
-<li>在s语句赋值为某个常量，则出度为该常量</li>
-<li>在s语句赋值为某个非常量表达式，则出度为T</li>
-<li>s语句如果没有对入度节点做任何更改，则出度=入度</li>
-</ul></li>
+<ol start="5" type="1">
+<li><p>入度为unknown，则出度也为unknown</p></li>
+<li><p>在s语句赋值为某个常量，则出度为该常量</p></li>
+<li><p>在s语句赋值为某个非常量表达式，则出度为T</p></li>
+<li><p>s语句如果没有对入度节点做任何更改，则出度=入度</p></li>
+</ol></li>
 </ul>
-<p><strong>总结：</strong></p>
-<p><strong>排序：</strong></p>
+<p><strong>伪代码描述常量传播：</strong></p>
+<blockquote>
+<p>For every entry s to the program,，set C(s, x, in) = <span
+class="math inline">\(\top\)</span> set C(s, x, in) = C(s, x, out) =
+<span class="math display">\[\perp\]</span> everywhere else repeat util
+all points satisfy 1-8： Pick s not satisfying 1-8 and update using the
+appropriate rule</p>
+</blockquote>
+<p><strong>为什么要引入$ $？</strong></p>
+<p>由于循环，循环的每个点都需要值存在</p>
+<p>直觉上，分配一些初始值去打破循环</p>
+<p>$ $表示直到目前为止，控制流程还没有到达当前点；</p>
+<p><span
+class="math inline">\(\top\)</span>事一种抽象值，因为不知道运行的时候具体的值，</p>
+<p>C之间是不可比较的</p>
+<p><span class="math inline">\(\top\)</span>是最大的，$ $是最小的</p>
+<p><strong>符号形式化：</strong></p>
+<p>对是$ ,, C$进行排序： <span class="math display">\[
+\perp &lt; C &lt; \top
+\]</span> 可以形象化如下：</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230520134741534.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230520134741534" />
+<figcaption aria-hidden="true">image-20230520134741534</figcaption>
+</figure>
+<p>定义 <code>lub</code> 运算： 在这个层级规则下的最小上界</p>
+<p><code>lub(x, y, z, ..)</code>：大于等于x,y,z,...的最小值</p>
+<p>部分可以写作：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-constructor">C(<span class="hljs-params">s</span>, <span class="hljs-params">x</span>, <span class="hljs-params">in</span>)</span> = lub &#123; <span class="hljs-constructor">C(<span class="hljs-params">p</span>, <span class="hljs-params">x</span>, <span class="hljs-params">out</span>)</span> <span class="hljs-pattern-match">| p is a predecessor <span class="hljs-keyword">of</span> s &#125;</span><br><span class="hljs-pattern-match"></span><br></code></pre></td></tr></table></figure>
+<p>🌰：</p>
+<p><code>Lub(到, 1) = 1</code></p>
+<p><code>Lub(T, 1) = 1</code></p>
+<p><code>Lub(1, 2) = T</code></p>
+<p>之前简单的说一直重复直到没什么东西发生变化才停止是不准确，不规范的；</p>
+<p>正式描述应该使用lub，lub为什么是正确的？</p>
+<ul>
+<li>values start as 到 and only increase</li>
+<li>$ $ can change to a constant, and a constant to <span
+class="math inline">\(\top\)</span></li>
+<li>Thus, <code>C(s, x, _)</code> can change at most twice</li>
+</ul>
+<p>常量拷贝算法是的时间复杂度和程序大小成正比</p>
+<blockquote>
+<p>Number of steps =</p>
+<p>Number of C(...) values computed * 2 =
+✖️2是因为每个语句的最多算两次</p>
+<p>Number of program statements * 4 ✖️2是因为每个语句的in and out</p>
+</blockquote>
 <p><strong>变量生存分析：</strong></p>
 <p>从程序退出节点开始分析，向上回溯节点，</p>
 <ol type="1">
-<li><p>如果当前节点包含出度的活跃变量的赋值语句，则当前节点的入度，就不会在有这个活跃变量(因为重新赋值了，之前的相当于是dead
-code，可以被视为dead variable)；</p></li>
-<li><p>如果当前节点的rfs（右表达式）包含某个变量，则这些变量是活跃变量；</p></li>
-<li><p>在表达式lfs没有出现的变量活跃性不发生变化</p></li>
+<li>如果当前节点包含出度的活跃变量的赋值语句，则当前节点的入度，就不会在有这个活跃变量(因为重新赋值了，之前的相当于是dead
+code，可以被视为dead variable)；</li>
+<li>如果当前节点的rfs（右表达式）包含某个变量，则这些变量是活跃变量；</li>
 </ol>
 <figure>
 <img
@@ -543,27 +589,7 @@ src="https://github.com/Doraemonzzz/md-photo/blob/master/Compiler/Week8%20P2/202
 alt="img" />
 <figcaption aria-hidden="true">img</figcaption>
 </figure>
-<p>有两个exit节点，initNode = { a, b }, lives = { b
-}，开始自底向上分析</p>
-<p>b = f + c
-使用了f和c，产生了b，根据规则2，入度里f和c是活跃变量，根据规则1入度里b不是活跃变量
-{f, c}</p>
-<p>f = 2 * e
-使用了e，根据规则2，入度里e是活跃变量，f是新的赋值，根据规则1入度里f不是活跃变量，格局规则3，c的活跃不发生变化
-{c, e}</p>
-<p>b = d +
-e，使用了d和e，根据规则2，d和e是活跃变量，而b被赋值了，c和f未出现1在左侧，所以{c,d,e,f}</p>
-<p>e = e + 1,
-使用了e，根据规则1，e是活跃变量，而c和f以及b都是其后续节点需要的，所以{b,
-c, e, f }</p>
-<p>对于分支处，取并集得：{b, c, f}</p>
-<p>对于f = 2 * e的入度，f被重新赋值，而e是被用的，所以{ c, e }</p>
-<p>同理对于 b = d + e和e = e + 1的入度，其活跃变量已经计算过：{c, d, e,
-f}</p>
-<p>取并集的e = d + f的出度 {c, d, e, f}</p>
-<p>e = d + f的入度 =&gt; {c, d, f}</p>
-<p>d = -a 的入度 =&gt; {c, a, f}</p>
-<p>a = b + c的入度 =&gt; {f, c, b}</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">有两个exit节点，initNode = </span><span class="hljs-template-variable">&#123; a, b &#125;</span><span class="language-xml">, lives = </span><span class="hljs-template-variable">&#123; b &#125;</span><span class="language-xml">，开始自底向上分析</span><br><span class="language-xml"></span><br><span class="language-xml">b = f + c 使用了f和c，产生了b，根据规则2，入度里f和c是活跃变量，根据规则1入度里b不是活跃变量 </span><span class="hljs-template-variable">&#123;f, c&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">f = 2 * e 使用了e，根据规则2，入度里e是活跃变量，f是新的赋值，根据规则1入度里f不是活跃变量，格局规则3，c的活跃不发生变化 </span><span class="hljs-template-variable">&#123;c, e&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">b = d + e，使用了d和e，根据规则2，d和e是活跃变量，而b被赋值了，c和f未出现1在左侧，所以</span><span class="hljs-template-variable">&#123;c,d,e,f&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">e = e + 1, 使用了e，根据规则1，e是活跃变量，而c和f以及b都是其后续节点需要的，所以</span><span class="hljs-template-variable">&#123;b, c, e, f &#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">对于分支处，取并集得：</span><span class="hljs-template-variable">&#123;b, c, f&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">对于f = 2 * e的入度，f被重新赋值，而e是被用的，所以</span><span class="hljs-template-variable">&#123; c, e &#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">同理对于 b = d + e和e = e + 1的入度，其活跃变量已经计算过：</span><span class="hljs-template-variable">&#123;c, d, e, f&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">取并集的e = d + f的出度 </span><span class="hljs-template-variable">&#123;c, d, e, f&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">e = d + f的入度 =&gt; </span><span class="hljs-template-variable">&#123;c, d, f&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">d = -a 的入度 =&gt; </span><span class="hljs-template-variable">&#123;c, a, f&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">a = b + c的入度 =&gt; </span><span class="hljs-template-variable">&#123;f, c, b&#125;</span><br></code></pre></td></tr></table></figure>
 <p><strong>总结：</strong></p>
 <p>变量分析是自底向上，从程序的退出节点回溯的，因为程序退出的时候，可能希望某些变量依旧保存</p>
 
@@ -634,6 +660,12 @@ f}</p>
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/emocoder/2023/05/20/automatic-memory-management/" title="automatic-memory-management">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">automatic-memory-management</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

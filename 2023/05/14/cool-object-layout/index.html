@@ -16,22 +16,22 @@
   <meta name="author" content="迷途知返">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出 Object Layout and dynamic dispatch OO(Objetc Oriented) Implementation &#x3D; Basic code generation + more stuff (面向对象的实现其实就是之前所介绍的基本代码生成+本次要讲的内容) OO">
+    <meta name="description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出  Introduction to code gen code gen 1 code gen 2  Temporaries 之前介绍的汇编代码比如两个表达式相加： 1234lw $a0 (0)$spli $t0 ?add $a0, $t0, $a0sw $s0 $sp 这里把其中一个加数放">
 <meta property="og:type" content="article">
-<meta property="og:title" content="斯坦福cs231(编译原理)の 1 cool-object-layout">
+<meta property="og:title" content="斯坦福cs231(编译原理)の 1 cool object layout">
 <meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/14/cool-object-layout/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出 Object Layout and dynamic dispatch OO(Objetc Oriented) Implementation &#x3D; Basic code generation + more stuff (面向对象的实现其实就是之前所介绍的基本代码生成+本次要讲的内容) OO">
+<meta property="og:description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出  Introduction to code gen code gen 1 code gen 2  Temporaries 之前介绍的汇编代码比如两个表达式相加： 1234lw $a0 (0)$spli $t0 ?add $a0, $t0, $a0sw $s0 $sp 这里把其中一个加数放">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-14T06:48:21.000Z">
-<meta property="article:modified_time" content="2023-05-15T15:55:06.210Z">
+<meta property="article:modified_time" content="2023-05-20T08:19:51.225Z">
 <meta property="article:author" content="迷途知返">
 <meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>斯坦福cs231(编译原理)の 1 cool-object-layout - 迷途知返</title>
+  <title>斯坦福cs231(编译原理)の 1 cool object layout - 迷途知返</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 1 cool-object-layout"></span>
+            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 1 cool object layout"></span>
           
         </div>
 
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.6k 字
+          3.6k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          22 分钟
+          31 分钟
         
       </span>
     
@@ -269,12 +269,39 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">斯坦福cs231(编译原理)の 1 cool-object-layout</h1>
+            <h1 style="display: none">斯坦福cs231(编译原理)の 1 cool object layout</h1>
             
             
               <div class="markdown-body">
                 
                 <p>本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出</p>
+<ul>
+<li>Introduction to code gen</li>
+<li>code gen 1</li>
+<li>code gen 2</li>
+</ul>
+<h2 id="temporaries">Temporaries</h2>
+<p>之前介绍的汇编代码比如两个表达式相加：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">lw </span>$<span class="hljs-built_in">a0</span> (<span class="hljs-number">0</span>)$<span class="hljs-built_in">sp</span><br>li $<span class="hljs-built_in">t0</span> ?<br><span class="hljs-keyword">add </span>$<span class="hljs-built_in">a0</span>, $<span class="hljs-built_in">t0</span>, $<span class="hljs-built_in">a0</span><br><span class="hljs-keyword">sw </span>$<span class="hljs-built_in">s0</span> $<span class="hljs-built_in">sp</span><br></code></pre></td></tr></table></figure>
+<p>这里把其中一个加数放在了stack里，然后取出来，再把计算的中间结果放在了stack里，这就是临时变量</p>
+<p>最普通的<strong><code>堆栈机</code></strong>需要在函数栈帧暂存这些临时变量（虽然这并不高效，后面会讲解关于临时变量分配到寄存器的算法）</p>
+<p>考虑下面代码使用了多少临时变量：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">def</span> fib(x) = <br><span class="hljs-attribute">if</span> (x == <span class="hljs-number">1</span>) ==&gt; <span class="hljs-number">1</span><br>	<span class="hljs-attribute">then</span> <span class="hljs-number">0</span> ==&gt; <span class="hljs-number">0</span><br><span class="hljs-attribute">else</span><br>	<span class="hljs-attribute">if</span> (x == <span class="hljs-number">2</span>) ==&gt; <span class="hljs-number">1</span><br>		<span class="hljs-attribute">then</span> <span class="hljs-number">1</span> ==&gt; <span class="hljs-number">0</span><br>	<span class="hljs-attribute">else</span><br>		<span class="hljs-attribute">fib</span>(x-<span class="hljs-number">1</span>) + fib(x-<span class="hljs-number">2</span>) ==&gt; x-<span class="hljs-number">1</span>是一个，x-<span class="hljs-number">2</span>是一个，两式相加，会产生一个，所以共两个<br>	<span class="hljs-attribute">fi</span><br><span class="hljs-attribute">fi</span><br></code></pre></td></tr></table></figure>
+<p>定义NT(e)为表达式e需要多少个临时变量</p>
+<p>对于一个函数定义：<code>f(x1, ..., fn) = e</code>，the AR has
+<code>2 + NT(e)</code> elements:</p>
+<ul>
+<li>Return</li>
+<li>Frame pointer</li>
+<li>n arguments</li>
+<li>NT(e)</li>
+</ul>
+<p>以下是一些常见的规则：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-constructor">NT(<span class="hljs-params">e1</span> + <span class="hljs-params">e2</span>)</span> = <span class="hljs-constructor">Max(NT(<span class="hljs-params">e1</span>)</span>, <span class="hljs-constructor">NT(<span class="hljs-params">e2</span>)</span> + <span class="hljs-number">1</span>)<br>	Needs at least <span class="hljs-keyword">as</span> many tempories <span class="hljs-keyword">as</span> <span class="hljs-constructor">NT(<span class="hljs-params">e1</span>)</span><br>	Needs at least <span class="hljs-keyword">as</span> many tempories <span class="hljs-keyword">as</span> <span class="hljs-constructor">NT(<span class="hljs-params">e2</span>)</span> + <span class="hljs-number">1</span><br>Of course, space used <span class="hljs-keyword">for</span> temporaies <span class="hljs-keyword">in</span> e1 can be reused <span class="hljs-keyword">for</span> temporaies <span class="hljs-keyword">in</span> e2<br><br><span class="hljs-constructor">NT(<span class="hljs-params">if</span> <span class="hljs-params">e1</span> = <span class="hljs-params">e2</span> <span class="hljs-params">then</span> <span class="hljs-params">e3</span> <span class="hljs-params">else</span> <span class="hljs-params">e4</span>)</span> = <span class="hljs-constructor">Max(NT(<span class="hljs-params">e1</span>)</span>, <span class="hljs-constructor">NT(<span class="hljs-params">e2</span>)</span> + <span class="hljs-number">1</span>, <span class="hljs-constructor">NT(<span class="hljs-params">e3</span>)</span>, <span class="hljs-constructor">NT(<span class="hljs-params">e4</span>)</span>)<br><span class="hljs-constructor">NT(<span class="hljs-params">id</span>(<span class="hljs-params">e1</span>, <span class="hljs-operator">...</span>, <span class="hljs-params">en</span>)</span> = <span class="hljs-constructor">Max(NT(<span class="hljs-params">e1</span>)</span>, ..., <span class="hljs-constructor">NT(<span class="hljs-params">en</span>)</span>)<br><span class="hljs-constructor">NT(<span class="hljs-params">int</span>)</span> = <span class="hljs-number">0</span><br><span class="hljs-constructor">NT(<span class="hljs-params">id</span>)</span> = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<p>在没有使用临时变量之前：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">cgen(e1 + e2) = <br>	cgen(e1)<br>	<span class="hljs-keyword">sw </span>$<span class="hljs-built_in">a0</span> <span class="hljs-number">0</span>($<span class="hljs-built_in">sp</span>)<br>	<span class="hljs-keyword">addiu </span>$<span class="hljs-built_in">sp</span> $<span class="hljs-built_in">sp</span> - <span class="hljs-number">4</span><br>	cgen(e2)<br>	<span class="hljs-keyword">lw </span>$<span class="hljs-built_in">t1</span> <span class="hljs-number">4</span>($<span class="hljs-built_in">sp</span>)<br>	<span class="hljs-keyword">add </span>$<span class="hljs-built_in">a0</span> $<span class="hljs-built_in">t1</span> $<span class="hljs-built_in">a0</span><br>	<span class="hljs-keyword">addiu </span>$<span class="hljs-built_in">a0</span> $<span class="hljs-built_in">sp</span> <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+<p>使用了临时变量之后：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">cgen(e1 + e2, nt) = <br>	cgen(e1, nt)<br>	sw <span class="hljs-variable">$a0</span> nt(<span class="hljs-variable">$fp</span>) <span class="hljs-regexp">//</span> 在偏移量处做压入栈<br>	<span class="hljs-regexp">//</span> addiu <span class="hljs-variable">$sp</span> <span class="hljs-variable">$sp</span> - <span class="hljs-number">4</span> 这样就不用了频繁执行addiu了<br>	cgen(e2, nt + <span class="hljs-number">4</span>)<br>	lw <span class="hljs-variable">$t1</span> nt(<span class="hljs-variable">$fp</span>)<br>	add <span class="hljs-variable">$a0</span> <span class="hljs-variable">$t1</span> <span class="hljs-variable">$a0</span><br>  <span class="hljs-regexp">//</span> addiu <span class="hljs-variable">$a0</span> <span class="hljs-variable">$sp</span> <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
 <h2 id="object-layout-and-dynamic-dispatch">Object Layout and dynamic
 dispatch</h2>
 <p>OO(Objetc Oriented) Implementation = Basic code generation + more
@@ -454,7 +481,7 @@ table)，这张表提供了索引这些方法的能力，表里存储的是函�
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>斯坦福cs231(编译原理)の 1 cool-object-layout</div>
+      <div>斯坦福cs231(编译原理)の 1 cool object layout</div>
       <div>https://mingmingjiang1.github.io/emocoder/2023/05/14/cool-object-layout/</div>
     </div>
     <div class="license-meta">

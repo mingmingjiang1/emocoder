@@ -224,6 +224,86 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/emocoder/2023/05/20/register-allocation/" target="_self">
+          斯坦福cs231(编译原理)の 1 register allocation
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/emocoder/2023/05/20/register-allocation/" target="_self">
+        <div>
+          引入 中间代码使用了无限制的临时变量  简化了代码生成和优化 复杂了向汇编转换的过程  实际情况寄存器是有限的，不能无限制的使用，所以在向汇编转换的时候使用有限的寄存器。  Register allocation is as old as compilers  Register allocation was used in the original FORTRAN compiler in the
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-05-20 14:06" pubdate>
+              2023-05-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%EF%BC%8Ccool/">#编译原理，计算机基础，cool</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/emocoder/2023/05/20/automatic-memory-management/" target="_self">
+          automatic-memory-management
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/emocoder/2023/05/20/automatic-memory-management/" target="_self">
+        <div>
+          引出 自动内存管理也称之为垃圾回收(garbage collection) 手动管理内存有很多出乎意料的bug：  忘记释放没有被使用的内存 忘记去掉一些无用引用，或者是野指针 偶然的内存覆盖 ...  内存相关bug很难发现(比如内存溢出，就需要排查很长时间) 🌰： 某个对象没有被引用了，但是对应的指针还在；突然后面该对象被覆盖了，但是指针仍然引用这块内存，这个时候使用这个指针的读写还是按照原
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-05-20 00:17" pubdate>
+              2023-05-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%EF%BC%8Ccool/">#编译原理，计算机基础，cool</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/emocoder/2023/05/14/cool-optimize/" target="_self">
           斯坦福cs231(编译原理)の 3 cool-optimize
         </a>
@@ -272,7 +352,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/emocoder/2023/05/14/cool-semantics/" target="_self">
         <div>
-          本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出 接下来的课程比较"符号化" 在类型推断和检查的时候，引进过这样一种符号： \[ Context \vdash e: C 在给定大的上下文context里，表达式是类型C \] 同样的，评估阶段(代码生成阶段之前的准备工作)，也会用类似的符号： \[ Context \vdash e: v
+          本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出。 接下来的课程比较"符号化" 引言 类比： parser阶段，我们要给每种token设置对应的action 语法分析阶段，有一系列的文法式，要在每个文法式规约的时候设置action，规定对应的行为 类型分析阶段：对每一种表达式设置对应的语义动作，进行语义分析 同样的优化阶段：对每一种表达
         </div>
       </a>
 
@@ -305,14 +385,14 @@
       <h1 class="index-header">
         
         <a href="/emocoder/2023/05/14/cool-object-layout/" target="_self">
-          斯坦福cs231(编译原理)の 1 cool-object-layout
+          斯坦福cs231(编译原理)の 1 cool object layout
         </a>
       </h1>
 
       
       <a class="index-excerpt index-excerpt__noimg" href="/emocoder/2023/05/14/cool-object-layout/" target="_self">
         <div>
-          本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出 Object Layout and dynamic dispatch OO(Objetc Oriented) Implementation = Basic code generation + more stuff (面向对象的实现其实就是之前所介绍的基本代码生成+本次要讲的内容) OO
+          本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出  Introduction to code gen code gen 1 code gen 2  Temporaries 之前介绍的汇编代码比如两个表达式相加： 1234lw $a0 (0)$spli $t0 ?add $a0, $t0, $a0sw $s0 $sp 这里把其中一个加数放
         </div>
       </a>
 
@@ -525,67 +605,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/" target="_self">
-          git多账号管理
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/emocoder/2023/05/05/git%E5%A4%9A%E8%B4%A6%E5%8F%B7%E7%AE%A1%E7%90%86/" target="_self">
-        <div>
-          为什么提交了代码并推送到github，但是github上的contributions并没有增加呢？ 其中Github官方给出了一个官方文件，告诉我们什么样的Commit可以被记入Contribution，请点击此处查看。 在官方的帮助文档中，有一条是Commit被记入Contribution中必须满足用于Commit的邮件地址必须与Github账户相关联。其实，这也是为什么我的Commit没有被记
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-05-05 14:56" pubdate>
-              2023-05-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/emocoder/categories/git-github/" class="category-chain-item">git/github</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/emocoder/tags/github-git/">#github, git</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
         <a href="/emocoder/2023/05/05/node%E4%BB%8E%E5%A4%B4%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%BC%96%E8%AF%91%E5%99%A8/" target="_self">
           node从头手写一个简单编译器
         </a>
@@ -636,39 +655,6 @@
               <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-node/">#编译原理，计算机基础, node</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/emocoder/2023/05/05/minic/" target="_self">
-          
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/emocoder/2023/05/05/minic/" target="_self">
-        <div>
-          node 手写编译器-minicompiler 使用语言：node, C++ 本文涉及：编译器的词法分析，抽象语义树生成，语法分析，代码生成 本文重点内容：  实现正则表达式分析器 实现简易版 Flex 实现 LR0 语法，并简单介绍其他语法(LL, LR1, SLR, LSPR) 实现简易版 Bison 实现生成汇编代码 实现简易编译器功能，提供编译时期类型检查和推断，支持加减乘除支持函数的递归
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-05-05 14:53" pubdate>
-              2023-05-05
-            </time>
-          </div>
-        
-        
         
       </div>
     </article>
