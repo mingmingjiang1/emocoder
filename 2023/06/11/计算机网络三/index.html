@@ -16,22 +16,24 @@
   <meta name="author" content="迷途知返">
   <meta name="keywords" content="">
   
-    <meta name="description" content="日志工具 开发者使用： trace：打印调用堆栈 debug：不仅打印调用堆栈，还打印变量信息 用户使用： info warn：只是警告，但是不影响运行 error：报错，但是不影响整个应用程序的继续运行 fatal: 中断整个应用程序的执行 首先">
+    <meta name="description" content="分组交换 特点：  Packets被独立地路由，通过查找当前路由的局部路由表 所有的Packets共享一个完整的Link 路由不需要维护通信状态 路由是有缓存的  缓存在以下情况下会存在Packets：  When two or more packets arrive at the same time During periods of congestion    Curcuit switchin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="debug">
-<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/07/debug/index.html">
+<meta property="og:title" content="Network-CS144 の 3 Packet Switching">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="日志工具 开发者使用： trace：打印调用堆栈 debug：不仅打印调用堆栈，还打印变量信息 用户使用： info warn：只是警告，但是不影响运行 error：报错，但是不影响整个应用程序的继续运行 fatal: 中断整个应用程序的执行 首先">
+<meta property="og:description" content="分组交换 特点：  Packets被独立地路由，通过查找当前路由的局部路由表 所有的Packets共享一个完整的Link 路由不需要维护通信状态 路由是有缓存的  缓存在以下情况下会存在Packets：  When two or more packets arrive at the same time During periods of congestion    Curcuit switchin">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-07T08:52:00.000Z">
-<meta property="article:modified_time" content="2023-06-11T06:49:42.741Z">
+<meta property="og:image" content="https://img1.sdnlab.com/%20/wp-content/uploads/2020/11111.png">
+<meta property="article:published_time" content="2023-06-11T06:55:28.000Z">
+<meta property="article:modified_time" content="2023-06-18T07:42:58.905Z">
 <meta property="article:author" content="迷途知返">
-<meta property="article:tag" content="前端，node，调试，debug">
+<meta property="article:tag" content="计算机网络，计算机基础">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img1.sdnlab.com/%20/wp-content/uploads/2020/11111.png">
   
   
   
-  <title>debug - 迷途知返</title>
+  <title>Network-CS144 の 3 Packet Switching - 迷途知返</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="debug"></span>
+            <span id="subtitle" data-typed-text="Network-CS144 の 3 Packet Switching"></span>
           
         </div>
 
@@ -208,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-07 16:52" pubdate>
-          2023年5月7日 下午
+        <time datetime="2023-06-11 14:55" pubdate>
+          2023年6月11日 下午
         </time>
       </span>
     
@@ -220,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          114 字
+          4.2k 字
         
       </span>
     
@@ -231,7 +233,7 @@
         
         
         
-          1 分钟
+          35 分钟
         
       </span>
     
@@ -269,18 +271,232 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">debug</h1>
+            <h1 style="display: none">Network-CS144 の 3 Packet Switching</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="日志工具">日志工具</h2>
-<p>开发者使用： trace：打印调用堆栈
-debug：不仅打印调用堆栈，还打印变量信息</p>
-<p>用户使用： info warn：只是警告，但是不影响运行
-error：报错，但是不影响整个应用程序的继续运行 fatal:
-中断整个应用程序的执行</p>
-<p>首先</p>
+                <h2 id="分组交换">分组交换</h2>
+<p>特点：</p>
+<ul>
+<li>Packets被独立地路由，通过查找当前路由的局部路由表</li>
+<li>所有的Packets共享一个完整的Link</li>
+<li>路由不需要维护通信状态</li>
+<li>路由是有缓存的
+<ul>
+<li>缓存在以下情况下会存在Packets：
+<ul>
+<li>When two or more packets arrive at the same time</li>
+<li>During periods of congestion</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="curcuit-switching">Curcuit switching</h2>
+<p>建议了解下通信历史</p>
+<p>建议了解下网络历史</p>
+<p>特点：</p>
+<ul>
+<li>Each call has its own private, guaranteed, isolated data rate from
+end-to-end</li>
+<li>A call has three phases:
+<ul>
+<li>Establish circuit form end-to-end</li>
+<li>Communicate</li>
+<li>Close circuit</li>
+</ul></li>
+<li>Originally, a circuit was end-to0end physical wire</li>
+<li>Nowdays, a circuit is like a virtual private wire</li>
+</ul>
+<p>能否在计算机通信使用Curcuit switching</p>
+<ul>
+<li>Inefficient:
+计算机通信是爆炸式的，通信需要比较高的速度，不然影响体验</li>
+<li>Diverse Rates: 计算机通信在不同情况下速度是不同的，比如 a web server
+streaming video at 6Mb/s, typing at a. Character per second. A fixed
+rate circuit will not be much use.</li>
+<li>State management. Curcuit switch maintain per-communication state,
+which must be managed.</li>
+</ul>
+<blockquote>
+<p>Efficient use of expensive links</p>
+<ul>
+<li>Links were assumed to be expensive and scarce</li>
+<li>Packet switching allows many, bursty flows to shae the same link
+efficiently</li>
+<li>Circuit switching is rarely used for data networks, ... because of
+very inefficient use of the links</li>
+</ul>
+<p>(PS:
+其实就是说分组交换允许共享链接，而电报交换每次链接都是一个新的链路，重新构建一个Link代价是比较大的)</p>
+<p>Resilience to failure of links &amp; routerss</p>
+<ul>
+<li>For high reliability, [the internet] was to be a datagram subnet, so
+if some lines and [routers] were destroyed, messages could be ...
+rerouted</li>
+</ul>
+<p>(PS: 分组交换即使中间路由损坏了，也可以通过其他路由重新路由)</p>
+</blockquote>
+<p>排队机制是ATM交换中一个极为重要的内容，队列的溢出会引起信元丢失，信元排队是交换时延和时延抖动的主要原因，因此排队机制对ATM交换机性能有着决定性的影响。基本排队机制有三种：输入排队、输出排队和中央排队。这三种方式各有缺点，如输入排队有信头阻塞，交换机的负荷达不到60%；输出排队存储器利用率低，平均队长要求长，而中央排队存储器速率要求高、存储器管理复杂。同时，三种方式有各有优点，输入队列对存储器速率要求低，中央排队效率高，输出队列则处于两者之间，所以在实际应用中并没有直接利用这三种方式，而是加以综合，采取了一些改进的措施。</p>
+<h2 id="分包交换">分包交换</h2>
+<h3 id="what-does-a-packet-switch-look-like">what does a packet switch
+look like ?</h3>
+<h3 id="what-does-a-packet-switch-do">what does a packet switch do
+?</h3>
+<ul>
+<li>以太网交换机(Ethernet switch)</li>
+<li>因特网路由器(Internet router)</li>
+</ul>
+<h3 id="how-address-lookup-works">How address lookup works</h3>
+<ul>
+<li>以太网交换机(Ethernet switch)</li>
+<li>因特网路由器(Internet router)</li>
+</ul>
+<p>以太网交换机：</p>
+<figure>
+<img src="https://img1.sdnlab.com/%20/wp-content/uploads/2020/11111.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617171950912.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617171950912" />
+<figcaption aria-hidden="true">image-20230617171950912</figcaption>
+</figure>
+<p><strong>Ethernet switch</strong></p>
+<ul>
+<li>Examine the header of each arrving frame</li>
+<li>If the Ethernet DA(Destniation addrdress) is in the forwarding
+table, forward the frame to correct output port(s)</li>
+<li>If the Ethernet DA is not in the table, boradcast the frame to all
+posts</li>
+<li>Entries in the table are learned by examining the Ethernet of
+arriving packets.</li>
+</ul>
+<p>Internet Router</p>
+<ul>
+<li><p>If the Ethernet DA of the arriving frame belongs to the router,
+accept the frame. Else drop it</p></li>
+<li><p>Examine the IP version number and length of the datagram</p></li>
+<li><p>Decrement the TTL, update the IP header checksum.</p></li>
+<li><p>Check to see if TTL == 0</p></li>
+<li><p>if the IP DA is in the forwarding table, forward to the correct
+egress port(s) for the next hop</p></li>
+<li><p>Find the Ethernet DA for the next hop router</p></li>
+<li><p>Create a new Ethernet frame an d send it</p></li>
+<li><p>Lookup address: How is the address looked up into forwarding
+table ?</p></li>
+<li><p>Switching: How is the packet sent to the correct output port
+?</p></li>
+</ul>
+<p>Lookup address: Ethernet</p>
+<ul>
+<li><p>Methods:</p>
+<ul>
+<li>Store address in hash table (maybe 2-way hash)</li>
+<li>Look for exact match in hash table</li>
+</ul></li>
+</ul>
+<p>Lookup address: IP</p>
+<p>Lookup is a longest prefix match, not an exact match</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617172810926.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617172810926" />
+<figcaption aria-hidden="true">image-20230617172810926</figcaption>
+</figure>
+<p>Method 1:</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617172841236.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617172841236" />
+<figcaption aria-hidden="true">image-20230617172841236</figcaption>
+</figure>
+<p>Method 2:</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617172919259.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617172919259" />
+<figcaption aria-hidden="true">image-20230617172919259</figcaption>
+</figure>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617172935778.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617172935778" />
+<figcaption aria-hidden="true">image-20230617172935778</figcaption>
+</figure>
+<p>switching packetd to the egress port:</p>
+<ul>
+<li>Output queuing and shared memory</li>
+<li>Inout queuing and head-of-line blocking</li>
+<li>Virtual output queues</li>
+</ul>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617175054605.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617175054605" />
+<figcaption aria-hidden="true">image-20230617175054605</figcaption>
+</figure>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617175119541.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617175119541" />
+<figcaption aria-hidden="true">image-20230617175119541</figcaption>
+</figure>
+<p>但是存在线头阻塞（Head of line
+blocking），由于其影响，速率下降了，因为同一时刻，input
+queue内最前面的挡住了后面排队的：</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617175353059.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617175353059" />
+<figcaption aria-hidden="true">image-20230617175353059</figcaption>
+</figure>
+<p>解决方法：Virtual Output Queue</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230617175420698.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230617175420698" />
+<figcaption aria-hidden="true">image-20230617175420698</figcaption>
+</figure>
+<p>The simplest and slowesr switches uses output queuing, which
+minimizes packet delay.</p>
+<p>High performance switches often use iput queuing, with virtual output
+queues to maximize throughput.</p>
+<p>lab 0:</p>
+<p>使用操作系统的TCP和流式socket抽象，基于Internet写一个fetch web
+page的程序：</p>
+<ul>
+<li>使用IDE打开../apps/webget.cc</li>
+<li>在ge tURl函数里实现你的代码</li>
+<li>就像该文件里描述的那样，实现一个简单的web客户端（使用http协议）（注：使用<code>TCPSocket</code>
+and <code>address</code> 这两个类）</li>
+</ul>
+<p>提示：</p>
+<ul>
+<li>Please note that in HTTP, each line must be ended with “” (it’s not
+sufficient to use just “” or endl).</li>
+<li>Don’t forget to include the “Connection: close” line in your
+client’s request. This tells the server that it shouldn’t wait around
+for your client to send any more requests after this one. Instead, the
+server will send one reply and then will immediately end its outgoing
+bytestream (the one from the server’s socket to your socket). You’ll
+discover that your incoming byte stream has ended because your socket
+will reach “EOF” (end of file) when you have read the entire byte stream
+coming from the server. That’s how your client will know that the server
+has finished its reply.</li>
+<li>Make sure to read and print all the output from the server until the
+socket reaches “EOF” (end of file)—<strong>a single call to read is not
+enough.</strong>
+确保读取和打印所有来自服务器的输出，知道socket达到了EOF（文件末尾）</li>
+<li>希望你只用9行代码</li>
+</ul>
+<p>正如上面的<code>TCPSocket</code>类在网络通信中是非常重要的，even
+though the Internet itself only provides the service of “best-effort”
+(unreliable) datagrams.</p>
+<p>下面将实现一个字节流，已经提供了相关的抽象。</p>
+<p>字节s从input侧写入，并以相同顺序从output侧读取，字节流是有限的writer可以end
+the input, 表示没有更多字节写入了。reader一直读，直到遇到了EOF。</p>
 
                 
               </div>
@@ -299,7 +515,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
     
       <span class="category-chain">
         
-  <a href="/emocoder/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  <a href="/emocoder/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
   
   
 
@@ -314,7 +530,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/">#前端，node，调试，debug</a>
+        <a href="/emocoder/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">#计算机网络，计算机基础</a>
       
     </div>
   
@@ -326,8 +542,8 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>debug</div>
-      <div>https://mingmingjiang1.github.io/emocoder/2023/05/07/debug/</div>
+      <div>Network-CS144 の 3 Packet Switching</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/06/11/计算机网络三/</div>
     </div>
     <div class="license-meta">
       
@@ -339,7 +555,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年5月7日</div>
+          <div>2023年6月11日</div>
         </div>
       
       
@@ -371,18 +587,12 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%AB/" title="斯坦福cs231(编译原理)の 8 Cool Object Layout">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 8 Cool Object Layout</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/emocoder/2023/05/06/hacktech/" title="hacktech">
-                        <span class="hidden-mobile">hacktech</span>
+                      <a href="/emocoder/2023/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C/" title="Network-CS144 の 2 TCP Model">
+                        <span class="hidden-mobile">Network-CS144 の 2 TCP Model</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

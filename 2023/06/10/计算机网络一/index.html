@@ -16,22 +16,22 @@
   <meta name="author" content="迷途知返">
   <meta name="keywords" content="">
   
-    <meta name="description" content="日志工具 开发者使用： trace：打印调用堆栈 debug：不仅打印调用堆栈，还打印变量信息 用户使用： info warn：只是警告，但是不影响运行 error：报错，但是不影响整个应用程序的继续运行 fatal: 中断整个应用程序的执行 首先">
+    <meta name="description" content="Introduction 网络应用：  基于网络读取和写数据 常见通信模型：双向的可靠的字节流（为什么是字节流）  通信双方一边写入数据，一变读取数据 可靠的（除非连接中断）   四层网络模型 1234567891011121314151617181920211. Application2. Transport3. Network：[Data, headder: [from, to]]4. Lin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="debug">
-<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/07/debug/index.html">
+<meta property="og:title" content="Network-CS144 の 1 Introduction">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="日志工具 开发者使用： trace：打印调用堆栈 debug：不仅打印调用堆栈，还打印变量信息 用户使用： info warn：只是警告，但是不影响运行 error：报错，但是不影响整个应用程序的继续运行 fatal: 中断整个应用程序的执行 首先">
+<meta property="og:description" content="Introduction 网络应用：  基于网络读取和写数据 常见通信模型：双向的可靠的字节流（为什么是字节流）  通信双方一边写入数据，一变读取数据 可靠的（除非连接中断）   四层网络模型 1234567891011121314151617181920211. Application2. Transport3. Network：[Data, headder: [from, to]]4. Lin">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-07T08:52:00.000Z">
-<meta property="article:modified_time" content="2023-06-11T06:49:42.741Z">
+<meta property="article:published_time" content="2023-06-10T10:02:47.000Z">
+<meta property="article:modified_time" content="2023-06-11T06:54:59.793Z">
 <meta property="article:author" content="迷途知返">
-<meta property="article:tag" content="前端，node，调试，debug">
+<meta property="article:tag" content="计算机网络，计算机基础">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>debug - 迷途知返</title>
+  <title>Network-CS144 の 1 Introduction - 迷途知返</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="debug"></span>
+            <span id="subtitle" data-typed-text="Network-CS144 の 1 Introduction"></span>
           
         </div>
 
@@ -208,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-07 16:52" pubdate>
-          2023年5月7日 下午
+        <time datetime="2023-06-10 18:02" pubdate>
+          2023年6月10日 晚上
         </time>
       </span>
     
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          114 字
+          2.7k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          1 分钟
+          23 分钟
         
       </span>
     
@@ -269,18 +269,159 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">debug</h1>
+            <h1 style="display: none">Network-CS144 の 1 Introduction</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="日志工具">日志工具</h2>
-<p>开发者使用： trace：打印调用堆栈
-debug：不仅打印调用堆栈，还打印变量信息</p>
-<p>用户使用： info warn：只是警告，但是不影响运行
-error：报错，但是不影响整个应用程序的继续运行 fatal:
-中断整个应用程序的执行</p>
-<p>首先</p>
+                <h2 id="introduction">Introduction</h2>
+<p>网络应用：</p>
+<ul>
+<li>基于网络读取和写数据</li>
+<li>常见通信模型：双向的可靠的字节流（为什么是字节流）
+<ul>
+<li>通信双方一边写入数据，一变读取数据</li>
+<li>可靠的（除非连接中断）</li>
+</ul></li>
+</ul>
+<h2 id="四层网络模型">四层网络模型</h2>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs excel"><span class="hljs-number">1</span>. Application<br><span class="hljs-number">2</span>. Transport<br><span class="hljs-number">3</span>. Network：[Data, headd<span class="hljs-symbol">er:</span> [from, to]]<br><span class="hljs-number">4</span>. Li<span class="hljs-symbol">nk:</span> 数据组织形式：Packet, Link层，是在路由之间的数据传递，<span class="hljs-symbol">eg:</span> wifi <span class="hljs-built_in">and</span> 以太网<br><br><br>=&gt; Rout<span class="hljs-symbol">er:</span> 路由从链路层解析网络层的数据，获取target，根据路由转发标寻找下一跳，包装好后形成新的Link数据包，继续转发<br><span class="hljs-number">3</span>. Network：[Data, headd<span class="hljs-symbol">er:</span> [from, to]]<br><span class="hljs-number">4</span>. Li<span class="hljs-symbol">nk:</span> 数据组织形式：Packet, Link层，是在路由之间的数据传递，<span class="hljs-symbol">eg:</span> wifi <span class="hljs-built_in">and</span> 以太网<br><br><br>=&gt; Rout<span class="hljs-symbol">er:</span> 路由从链路层解析网络层的数据，获取target，根据路由转发标寻找下一跳，包装好后形成新的Link数据包，继续转发<br><span class="hljs-number">3</span>. Network：[Data, headd<span class="hljs-symbol">er:</span> [from, to]]<br><span class="hljs-number">4</span>. Li<span class="hljs-symbol">nk:</span> 数据组织形式：Packet, Link层，是在路由之间的数据传递，<span class="hljs-symbol">eg:</span> wifi <span class="hljs-built_in">and</span> 以太网<br><br><br>=&gt;<br><span class="hljs-number">1</span>. Application<br><span class="hljs-number">2</span>. Transport<br><span class="hljs-number">3</span>. Network：[Data, headd<span class="hljs-symbol">er:</span> [from, to]]<br><span class="hljs-number">4</span>. Li<span class="hljs-symbol">nk:</span> 数据组织形式：Packet, Link层，是在路由之间的数据传递，<span class="hljs-symbol">eg:</span> wifi <span class="hljs-built_in">and</span> 以太网<br></code></pre></td></tr></table></figure>
+<p>网络层是特殊的：因为必须要使用 <code>Internet Protocol</code></p>
+<ul>
+<li>IP尽最大努力转发数据报，但是不能保证</li>
+<li>IP数据报可能会丢失，会无需，会损坏，这些都是没办法保证的</li>
+</ul>
+<p>IP是最重要的，IP是瘦身层，因为其他协议都有很多种类，<strong>但是IP就一种，为什么呢</strong>？</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>, smtp, ssh, ftp<br>	<span class="hljs-attribute">tcp</span>, udp, rtp<br>			<span class="hljs-attribute">IP</span><br><span class="hljs-attribute">Ethernet</span> Wifi DSL <span class="hljs-number">3</span>G <span class="hljs-number">5</span>G<br></code></pre></td></tr></table></figure>
+<p>传输层：</p>
+<ul>
+<li>TCP：虽然IP不保证，但是TCP保证</li>
+<li>UDP</li>
+</ul>
+<p>七层OSI模型：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">Application</span> <span class="hljs-operator">=</span>&lt; http<br><span class="hljs-attribute">Presention</span> <span class="hljs-operator">=</span>&gt; ASCII<br><span class="hljs-attribute">Session</span> <span class="hljs-operator">=</span>&gt; TCP<br><span class="hljs-attribute">Transport</span> <span class="hljs-operator">=</span>&gt; TCP<br><span class="hljs-attribute">Network</span> <span class="hljs-operator">=</span>&gt; IP<br><span class="hljs-attribute">Link</span>    <span class="hljs-operator">=</span>&gt; Link<br><span class="hljs-attribute">Physical</span> <span class="hljs-operator">=</span>&gt; Link<br></code></pre></td></tr></table></figure>
+<p>IP模型：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs lasso">Application<br>Transport: <span class="hljs-meta">[</span><span class="hljs-built_in">Data</span><span class="hljs-meta">]</span><span class="hljs-meta">[</span><span class="hljs-keyword">Header</span><span class="hljs-meta">]</span><br>Network    <span class="hljs-meta">[</span>   IP <span class="hljs-built_in">Data</span>  <span class="hljs-meta">]</span><span class="hljs-meta">[</span>IP <span class="hljs-keyword">Header</span><span class="hljs-meta">]</span><br>Link		   <span class="hljs-meta">[</span>   <span class="hljs-keyword">Link</span> <span class="hljs-built_in">Data</span>           <span class="hljs-meta">]</span><span class="hljs-meta">[</span><span class="hljs-keyword">Link</span> <span class="hljs-keyword">Header</span><span class="hljs-meta">]</span><br></code></pre></td></tr></table></figure>
+<p>​</p>
+<table>
+<thead>
+<tr class="header">
+<th>性质</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Datagram</td>
+<td>独立的路由包，包是一跳一跳的转发</td>
+</tr>
+<tr class="even">
+<td>不可信</td>
+<td>包可能会丢失</td>
+</tr>
+<tr class="odd">
+<td>尽力</td>
+<td>尽最大里交付数据</td>
+</tr>
+<tr class="even">
+<td>Connectionless</td>
+<td>No per-flow state（连接是无状态的） 包可能乱序</td>
+</tr>
+</tbody>
+</table>
+<p>为什么IP模型如此简单？</p>
+<ul>
+<li>快</li>
+<li>端到端原则</li>
+<li>更方便自定义在其上封装一些定制的协议（可信的or不可信的）</li>
+<li>实现的简单，能够适用于各种链路层协议</li>
+</ul>
+<p>IP模型的特点：</p>
+<ul>
+<li>防止循环转发（套娃）</li>
+<li>如果数据太长，将会分割数据报</li>
+<li>使用checksum减少错误分发的机会</li>
+<li>允许更多的IP版本，ipv4, ipv6</li>
+<li>允许自定义header</li>
+</ul>
+<p>Ipv4数据报格式：网上有自己查</p>
+<ul>
+<li>version</li>
+<li>header len</li>
+<li>Toatl Packet len</li>
+<li>Packet ID</li>
+<li>flags</li>
+<li>flags offset</li>
+<li>TTL</li>
+<li>protocol ID</li>
+<li>checksum</li>
+<li>src ip addr</li>
+<li>dest ip addr</li>
+<li>options</li>
+<li>padding</li>
+<li>Data</li>
+</ul>
+<p>整体流程：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs routeros">Client =&gt;<span class="hljs-built_in"> Server </span>(<span class="hljs-literal">No</span>, 么有直接连接)，一般是通过路由转发<br><span class="hljs-built_in"></span><br><span class="hljs-built_in">IP </span>addr: 171.67.76.157<br>TCP port: 80<br><br><br>Server:<span class="hljs-built_in"></span><br><span class="hljs-built_in">IP </span>addr: 128.148.252.129<br>TCP port: 56567<br><span class="hljs-built_in"></span><br><span class="hljs-built_in">Client </span>=&gt; router1 =&gt; router2 =&gt; <span class="hljs-built_in"> Server </span>(<span class="hljs-literal">No</span>, 么有直接连接)，一般是通过路由转发，每个路由里面都有路由表，如果没有找到则从默认路由转发<br></code></pre></td></tr></table></figure>
+<h2 id="网络中的设计模式">网络中的设计模式</h2>
+<h3 id="分组交换原理">分组交换原理</h3>
+<p>将数据切割成小块（Packet）</p>
+<blockquote>
+<p>Packet: A self-contained unit of data that carries infomation for it
+to reach its destination</p>
+</blockquote>
+<p>分包转发(packet
+switching)：每个到达的包都是相互独立的，如果这条链路是availble的，则服用；否则缓存数据包后，继续等待。</p>
+<p>分包转发相当于让路由自己去做转发动作，可不可以在每个Packet里携带转发目的地信息呢？可以的，但是这种没有必要，占用了一定的数据，以及存在一定安全问题（会被诱导到不安全的网络）</p>
+<p>分包转发的好处：</p>
+<ul>
+<li>交换机为每个数据包做单独的本地决策，不需要在数据包中指明路由</li>
+<li>高效的链路共享</li>
+<li>分包转发不需要为每个流量保存自己的状态，每个包都是自包含的</li>
+</ul>
+<h3 id="分层原则">分层原则</h3>
+<p>将大系统切分成多个独立功能的部分</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">layer1</span> <span class="hljs-operator">=</span>&gt; layer2 <span class="hljs-operator">=</span>&gt; ... <span class="hljs-operator">=</span>&gt; layern<br></code></pre></td></tr></table></figure>
+<p>好处：</p>
+<ul>
+<li>独立</li>
+<li>顺序通信，从上到下，从下到上通信</li>
+<li>上层为下层提供定义完整的服务，不需要了解下层是什么</li>
+</ul>
+<p>为什么要分层：</p>
+<ul>
+<li>Modularity</li>
+<li>Well defined service</li>
+<li>Reuse</li>
+<li>Seperation of concerns</li>
+<li>Continuous improvement</li>
+</ul>
+<h3 id="封装原则">封装原则</h3>
+<p>Layer N data is payload to layer N - 1, eg:</p>
+<ul>
+<li>Http application payload in</li>
+<li>a TCP transport segment in</li>
+<li>an IP network packet in</li>
+<li>a wifi link frame</li>
+</ul>
+<p>分层的好处：Encapsulation Flexibility</p>
+<p>Encapsulation allows you to layer recursively</p>
+<p>VPN:</p>
+<ul>
+<li>HTTP application payload in</li>
+<li>a TCP transport segment in</li>
+<li>an IP network packet in</li>
+<li>a secured TLS presentation message in</li>
+<li>a TCP transport segment in</li>
+<li>an IP network packet in</li>
+<li>an Ethernet link frame</li>
+</ul>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vbscript">[link, ip, tcp, tls, ip, tcp, http]<br><br><span class="hljs-keyword">to</span> <span class="hljs-keyword">next</span> hop <span class="hljs-keyword">to</span> vpn gateway, <span class="hljs-keyword">to</span> vpn gateway, <span class="hljs-keyword">to</span> vpn gateway, <span class="hljs-keyword">to</span> web <span class="hljs-built_in">server</span>, <span class="hljs-keyword">to</span> web <span class="hljs-built_in">server</span><br></code></pre></td></tr></table></figure>
+<h2 id="字节顺序">字节顺序</h2>
+<h2 id="ipv4-vs-ipv6">IPv4 vs IPv6</h2>
+<h2 id="最长前缀匹配">最长前缀匹配</h2>
+<h2 id="地址解析协议">地址解析协议</h2>
+<h2 id="总结">总结</h2>
 
                 
               </div>
@@ -299,7 +440,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
     
       <span class="category-chain">
         
-  <a href="/emocoder/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  <a href="/emocoder/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
   
   
 
@@ -314,7 +455,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/">#前端，node，调试，debug</a>
+        <a href="/emocoder/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">#计算机网络，计算机基础</a>
       
     </div>
   
@@ -326,8 +467,8 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>debug</div>
-      <div>https://mingmingjiang1.github.io/emocoder/2023/05/07/debug/</div>
+      <div>Network-CS144 の 1 Introduction</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/06/10/计算机网络一/</div>
     </div>
     <div class="license-meta">
       
@@ -339,7 +480,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年5月7日</div>
+          <div>2023年6月10日</div>
         </div>
       
       
@@ -371,9 +512,9 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%AB/" title="斯坦福cs231(编译原理)の 8 Cool Object Layout">
+                      <a href="/emocoder/2023/06/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%9B%9B/" title="斯坦福cs231(编译原理)の 4 Parsing Analysis 2 (LR Analysis)">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 8 Cool Object Layout</span>
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 4 Parsing Analysis 2 (LR Analysis)</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -381,8 +522,8 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
                   <article class="post-next col-6">
                     
                     
-                      <a href="/emocoder/2023/05/06/hacktech/" title="hacktech">
-                        <span class="hidden-mobile">hacktech</span>
+                      <a href="/emocoder/2023/06/06/WebAssembly%E5%85%A5%E9%97%A8/" title="WebAssembly入门">
+                        <span class="hidden-mobile">WebAssembly入门</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

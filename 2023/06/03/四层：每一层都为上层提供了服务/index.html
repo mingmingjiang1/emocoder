@@ -16,22 +16,21 @@
   <meta name="author" content="迷途知返">
   <meta name="keywords" content="">
   
-    <meta name="description" content="引入 中间代码使用了无限制的临时变量  简化了代码生成和优化 复杂了向汇编转换的过程  实际情况寄存器是有限的，不能无限制的使用，所以在向汇编转换的时候使用有限的寄存器。  Register allocation is as old as compilers  Register allocation was used in the original FORTRAN compiler in the">
+    <meta name="description" content="四层：每一层都为上层提供了服务 Application：双向可靠的字节流(using application-specific semantics) Transport: 保证了数据正确，有序，以及拥塞控制 Network: 不能保证数据的有序正确，不损坏，from ,to Link: 节点之间的数据传播 IP：瘦身层，因为底层可以有很多（http, smtp, ssh, ftp），上层也是，比如">
 <meta property="og:type" content="article">
-<meta property="og:title" content="斯坦福cs231(编译原理)の 1 register allocation">
-<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/20/register-allocation/index.html">
+<meta property="og:title" content="迷途知返">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/06/03/%E5%9B%9B%E5%B1%82%EF%BC%9A%E6%AF%8F%E4%B8%80%E5%B1%82%E9%83%BD%E4%B8%BA%E4%B8%8A%E5%B1%82%E6%8F%90%E4%BE%9B%E4%BA%86%E6%9C%8D%E5%8A%A1/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="引入 中间代码使用了无限制的临时变量  简化了代码生成和优化 复杂了向汇编转换的过程  实际情况寄存器是有限的，不能无限制的使用，所以在向汇编转换的时候使用有限的寄存器。  Register allocation is as old as compilers  Register allocation was used in the original FORTRAN compiler in the">
+<meta property="og:description" content="四层：每一层都为上层提供了服务 Application：双向可靠的字节流(using application-specific semantics) Transport: 保证了数据正确，有序，以及拥塞控制 Network: 不能保证数据的有序正确，不损坏，from ,to Link: 节点之间的数据传播 IP：瘦身层，因为底层可以有很多（http, smtp, ssh, ftp），上层也是，比如">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-20T06:06:12.000Z">
-<meta property="article:modified_time" content="2023-05-20T07:37:42.383Z">
+<meta property="article:published_time" content="2023-06-03T10:01:18.167Z">
+<meta property="article:modified_time" content="2023-06-11T06:57:06.939Z">
 <meta property="article:author" content="迷途知返">
-<meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>斯坦福cs231(编译原理)の 1 register allocation - 迷途知返</title>
+  <title>迷途知返</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +196,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 1 register allocation"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -208,8 +207,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-20 14:06" pubdate>
-          2023年5月20日 下午
+        <time datetime="2023-06-03 18:01" pubdate>
+          2023年6月3日 晚上
         </time>
       </span>
     
@@ -220,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          650 字
         
       </span>
     
@@ -231,7 +230,7 @@
         
         
         
-          20 分钟
+          6 分钟
         
       </span>
     
@@ -269,152 +268,72 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">斯坦福cs231(编译原理)の 1 register allocation</h1>
+            <h1 style="display: none"></h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="引入">引入</h2>
-<p>中间代码使用了无限制的临时变量</p>
+                <p>四层：每一层都为上层提供了服务</p>
+<p>Application：双向可靠的字节流(using application-specific
+semantics)</p>
+<p>Transport: 保证了数据正确，有序，以及拥塞控制</p>
+<p>Network: 不能保证数据的有序正确，不损坏，from ,to</p>
+<p>Link: 节点之间的数据传播</p>
+<p>IP：瘦身层，因为底层可以有很多（http, smtp, ssh,
+ftp），上层也是，比如网络层（tcp, rtp, udp），应用层（ethernet, wifi,
+dsl, sg）,但是网络层只有一种协议: IP</p>
+<p>OSI7层标准</p>
+<p>网络层（最重要）：主要是Internet protocol（IP）</p>
+<p><strong>路由器：</strong></p>
+<p>每个端口都有自己的mac地址</p>
+<p>具有存储局部路由的功能</p>
+<p>具有转发数据包的功能</p>
+<p><strong>交换机：</strong></p>
+<p>没有mac地址</p>
+<p>只能存储全局的mac映射表，随着网络的接入，会越来越大</p>
+<p>可以根据mac映射表，转发给指定主机</p>
+<p><strong>集线器：</strong></p>
+<p>为了解决只有电脑的简单网络时代的互联网之间的连接问题</p>
+<p>没有mac地址，</p>
+<p>没有存储任何表</p>
+<p>仅仅通过广播寻找目的地址</p>
+<p><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44807642/article/details/103054914">(306条消息)
+【动图讲解】计算机网络之回退N步与选择重传_选择重传和回退n步_岳麓山下你和我的博客-CSDN博客</a></p>
+<p>​</p>
 <ul>
-<li>简化了代码生成和优化</li>
-<li>复杂了向汇编转换的过程</li>
-</ul>
-<p>实际情况寄存器是有限的，不能无限制的使用，所以在向汇编转换的时候使用有限的寄存器。</p>
-<blockquote>
-<p>Register allocation is as old as compilers</p>
+<li>Introduction
 <ul>
-<li>Register allocation was used in the original FORTRAN compiler in the
-‘50s</li>
-<li>Very crude algorithms</li>
-</ul>
-<p>A breakthrough came in 1980 – Register allocation scheme based on
-graph coloring – Relatively simple, global and works well in
-practice</p>
-</blockquote>
-<p><strong>思路：</strong></p>
-<ul>
-<li>将多个临时变量分配给同一个寄存器</li>
-<li>同时不改变原来的语义</li>
-</ul>
-<p>考虑如下程序：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-selector-tag">a</span> := c + d<br>e := <span class="hljs-selector-tag">a</span> + <span class="hljs-selector-tag">b</span><br>f : = e - <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-<p>如果仅仅使用三个寄存器的话，这里假设a和e在使用完之后立马dead：</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-built_in">r1</span> := <span class="hljs-built_in">r2</span> + <span class="hljs-built_in">r3</span><br><span class="hljs-built_in">r1</span> := <span class="hljs-built_in">r1</span> + <span class="hljs-built_in">r4</span><br><span class="hljs-built_in">r1</span> := <span class="hljs-built_in">r1</span> - <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-<p>给众多的临时变量分配有限的寄存器并且相互不冲突这是重中之重：</p>
-<ul>
-<li>如果在程序在某个运行点临时变量t1和t2不同时存活，那么t1和t2可以共享相同的寄存器</li>
-<li>否则，t1和t2不能同时分配给一个寄存器</li>
-</ul>
-<figure>
-<img
-src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230520152040397.png" srcset="/emocoder/img/loading.gif" lazyload
-alt="image-20230520152040397" />
-<figcaption aria-hidden="true">image-20230520152040397</figcaption>
-</figure>
-<p>基于之间的活跃变量分析构建无向图(寄存器干扰图, RIG)：</p>
-<ul>
-<li>节点是临时变量</li>
-<li>边表示这两个节点对应的变量同时在某个时刻存活</li>
-<li>如果节点之间没有边，说明节点可以共享一个寄存器</li>
-</ul>
-<p>如下：</p>
-<ul>
-<li>例如，b和c不能在同一寄存器中</li>
-<li>例如，b和d可以在同一寄存器中</li>
-</ul>
-<figure>
-<img
-src="https://github.com/Doraemonzzz/md-photo/blob/master/Compiler/Week8%20P2/2021050602.jpg?raw=true" srcset="/emocoder/img/loading.gif" lazyload
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<blockquote>
-<p>RIG构建完成后，寄存器分配算法与体系架构无关，不依赖任何机器属性</p>
-</blockquote>
-<h2 id="图染色">图染色</h2>
-<p>图着色是对节点的颜色分配，使得通过边连接的节点具有不同的颜色</p>
-<p>如果一个图可以用k种颜色按照上述规则着色，则该图形为k−colorable（这里的颜色就是寄存器，k为寄存器数量）</p>
-<p>进一步的，如果RIG是k−colorable，则存在不超过k个寄存器的寄存器分配。</p>
-<p>图染色算法：</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">The following works well <span class="hljs-keyword">in</span> practice:<br>  – Pick <span class="hljs-keyword">a</span> node t <span class="hljs-keyword">with</span> fewer than k neighbors<br>  – Put t <span class="hljs-keyword">on</span> <span class="hljs-title">a</span> <span class="hljs-title">stack</span> <span class="hljs-title">and</span> <span class="hljs-title">remove</span> <span class="hljs-title">it</span> <span class="hljs-title">from</span> <span class="hljs-title">the</span> <span class="hljs-title">RIG</span><br>  – Repeat <span class="hljs-keyword">until</span> <span class="hljs-keyword">the</span> graph has <span class="hljs-literal">one</span> node<br>Assign colors <span class="hljs-built_in">to</span> nodes <span class="hljs-keyword">on</span> <span class="hljs-title">the</span> <span class="hljs-title">stack</span><br>  – Start <span class="hljs-keyword">with</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">last</span> node added<br>  – At <span class="hljs-keyword">each</span> step pick <span class="hljs-keyword">a</span> color different <span class="hljs-built_in">from</span> those assigned<br>  	<span class="hljs-built_in">to</span> already colored neighbors<br></code></pre></td></tr></table></figure>
-<p>下面这张图里第四个才符合题意</p>
-<figure>
-<img
-src="https://github.com/Doraemonzzz/md-photo/blob/master/Compiler/Week8%20P2/2021050704.jpg?raw=true" srcset="/emocoder/img/loading.gif" lazyload
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<h2 id="变量溢出">变量溢出</h2>
-<figure>
-<img
-src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230520152930506.png" srcset="/emocoder/img/loading.gif" lazyload
-alt="image-20230520152930506" />
-<figcaption aria-hidden="true">image-20230520152930506</figcaption>
-</figure>
-<p>在这种情况下，我们无法将所有值都保存在寄存器中，这个时候会选择一些变量放入内存；其他变量继续图染色，这些溢出的变量将会有以下操作：</p>
-<p><strong>选择哪些变量溢出呢？</strong></p>
-<p>可能的启发式方法：</p>
-<ul>
-<li>spill冲突最多的临时变量（这个时候边比较多）</li>
-<li>spill定义和用途很少的临时变量（因为很少用，放到内存里，也无伤大雅）</li>
-<li>在内部循环中避免spill（因为循环里一直会复用缓存或者寄存器，如果spill了变量到内存，可能会很大程度降低运行速度，见下面缓存部分）</li>
-</ul>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">Before</span> <span class="hljs-keyword">each</span> operation that reads f, <span class="hljs-keyword">insert</span><br>f := <span class="hljs-keyword">load</span> fa<br><span class="hljs-keyword">After</span> <span class="hljs-keyword">each</span> operation that writes f, <span class="hljs-keyword">insert</span><br>store f, fa<br></code></pre></td></tr></table></figure>
-<figure>
-<img
-src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230520152957854.png" srcset="/emocoder/img/loading.gif" lazyload
-alt="image-20230520152957854" />
-<figcaption aria-hidden="true">image-20230520152957854</figcaption>
-</figure>
-<p>重新计算活跃变量：</p>
-<figure>
-<img
-src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230520153015201.png" srcset="/emocoder/img/loading.gif" lazyload
-alt="image-20230520153015201" />
-<figcaption aria-hidden="true">image-20230520153015201</figcaption>
-</figure>
-<blockquote>
-<p>New liveness information is almost as before</p>
-<p>​ – Note f has been split into three temporaries</p>
-<p>fi is live only</p>
-<p>​ – Between a fi := load fa and the next instruction</p>
-<p>​ – Between a store fi, fa and the preceding instr.</p>
-<p>Spilling reduces the live range of f</p>
-<p>​ – And thus reduces its interferences</p>
-<p>​ – Which results in fewer RIG neighbors</p>
-</blockquote>
-<figure>
-<img
-src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230520153209988.png" srcset="/emocoder/img/loading.gif" lazyload
-alt="image-20230520153209988" />
-<figcaption aria-hidden="true">image-20230520153209988</figcaption>
-</figure>
-<h2 id="管理缓存">管理缓存</h2>
-<p>缓存的速度介于寄存器和内存中间，可作为缓冲存在，如果没有缓冲的话，寄存器和内存直接交互，由于访问内存的速度远远小于访问寄存器的速度，这样整个程序会是相对较慢的，所以缓存很重要；</p>
-<figure>
-<img
-src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230520151753508.png" srcset="/emocoder/img/loading.gif" lazyload
-alt="image-20230520151753508" />
-<figcaption aria-hidden="true">image-20230520151753508</figcaption>
-</figure>
-<p>通常情况下，寄存器和内存交互的值，会放在缓存里，每次寄存器访问数据先去缓存里查找，如果没有，才去内存里查找，如果缓存一直没有命中，那么缓存也就失去了它的价值。</p>
-<ul>
-<li>编译器非常擅长管理寄存器
-<ul>
-<li>比程序员要好得多</li>
+<li>引言</li>
+<li>网络中的设计模式</li>
+<li>字节顺序</li>
+<li>IPv4</li>
+<li>最长前缀匹配</li>
+<li>地址解析协议</li>
+<li>总结</li>
 </ul></li>
-<li>但是编译器不善于管理缓存
+<li>传输层协议
 <ul>
-<li>这个问题仍然留给程序员</li>
-<li>尚有一个未解决的问题，编译器可以做些什么来提高缓存性能</li>
+<li>TCP</li>
+<li>UDP</li>
+<li>端到端原则</li>
+<li>错误检测</li>
+<li>网络中的确定性有限状态机</li>
+<li>停止等待协议</li>
+<li>滑动窗口</li>
+<li>可靠策略一(重传)</li>
+<li>可靠策略二(TCPh header)</li>
+<li>可靠策略一(连接与拆卸)</li>
+<li>总结</li>
 </ul></li>
+<li>分组交换</li>
+<li>拥塞控制</li>
+<li>应用层协议</li>
+<li>路由</li>
+<li>物理层协议</li>
+<li>网网络安全与加密</li>
+<li>前沿话题</li>
 </ul>
-<p>考虑如下程序：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">for</span>(j := <span class="hljs-number">1</span>; j &lt; <span class="hljs-number">10</span>; j++)<br>	<span class="hljs-attribute">for</span>(i=<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">1000000</span>; i++) <br>		<span class="hljs-attribute">a</span>[i] *= b[i]<br></code></pre></td></tr></table></figure>
-<p>上面的代码由于内部循环很大，而且每次i都会变化，如果缓存没有足够的大小，那么a[i]和b[i]就一直命中不了缓存；相反，下面的代码在10次以内，一定都是可以缓存的，速度至少比上面代码快10倍。</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">for</span>(i=<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">1000000</span>; i++)<br>	<span class="hljs-attribute">for</span>(j := <span class="hljs-number">1</span>; j &lt; <span class="hljs-number">10</span>; j++) <br>		<span class="hljs-attribute">a</span>[i] *= b[i]<br></code></pre></td></tr></table></figure>
-<p>像这种交换for循环的优化，很少有编译器实现，因为难以发现什么样的循环可以优化，事实上，大部分情况下，还是需要程序员自己去优化这种case的。</p>
 
                 
               </div>
@@ -424,13 +343,6 @@ alt="image-20230520151753508" />
               <div class="post-metas my-3">
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%EF%BC%8Ccool/">#编译原理，计算机基础，cool</a>
-      
-    </div>
-  
 </div>
 
 
@@ -439,8 +351,8 @@ alt="image-20230520151753508" />
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>斯坦福cs231(编译原理)の 1 register allocation</div>
-      <div>https://mingmingjiang1.github.io/emocoder/2023/05/20/register-allocation/</div>
+      <div></div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/06/03/四层：每一层都为上层提供了服务/</div>
     </div>
     <div class="license-meta">
       
@@ -452,7 +364,7 @@ alt="image-20230520151753508" />
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年5月20日</div>
+          <div>2023年6月3日</div>
         </div>
       
       
@@ -484,12 +396,18 @@ alt="image-20230520151753508" />
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/emocoder/2023/06/03/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E4%B8%83/" title="斯坦福cs231(编译原理)の 7 Cool Gode Generation">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 7 Cool Gode Generation</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/emocoder/2023/05/20/automatic-memory-management/" title="automatic-memory-management">
-                        <span class="hidden-mobile">automatic-memory-management</span>
+                      <a href="/emocoder/2023/05/20/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%8D%81/" title="斯坦福cs231(编译原理)の 10 Register Allocation">
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 10 Register Allocation</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

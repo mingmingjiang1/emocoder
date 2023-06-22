@@ -1,0 +1,890 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/emocoder/img/fluid.png">
+  <link rel="icon" href="/emocoder/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="迷途知返">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="TCP模型     性质 行为     字节流 可靠的字节传输服务   可靠传输 确认机制保证了正确有序的传输；checksum检测错误数据，序列号检测丢失数据，滑动窗口式流量控制让值接收方过载；超时和重传机制   有序 有序同步传输（序列号和确认号机制）   用塞控制     TCP连接的唯一ID 1[TCP Data src port , dest port][Ipv4 header, IP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Network-CS144 の 2 TCP Model">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C/index.html">
+<meta property="og:site_name" content="迷途知返">
+<meta property="og:description" content="TCP模型     性质 行为     字节流 可靠的字节传输服务   可靠传输 确认机制保证了正确有序的传输；checksum检测错误数据，序列号检测丢失数据，滑动窗口式流量控制让值接收方过载；超时和重传机制   有序 有序同步传输（序列号和确认号机制）   用塞控制     TCP连接的唯一ID 1[TCP Data src port , dest port][Ipv4 header, IP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-11T06:51:36.000Z">
+<meta property="article:modified_time" content="2023-06-11T07:03:50.564Z">
+<meta property="article:author" content="迷途知返">
+<meta property="article:tag" content="计算机网络，计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Network-CS144 の 2 TCP Model - 迷途知返</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/emocoder/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/emocoder/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/emocoder/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mingmingjiang1.github.io","root":"/emocoder/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/emocoder/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/emocoder/js/utils.js" ></script>
+  <script  src="/emocoder/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/emocoder/">
+      <strong>Emoer</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/emocoder/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Network-CS144 の 2 TCP Model"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-11 14:51" pubdate>
+          2023年6月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Network-CS144 の 2 TCP Model</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="tcp模型">TCP模型</h2>
+<table>
+
+<thead>
+<tr class="header">
+<th>性质</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>字节流</td>
+<td>可靠的字节传输服务</td>
+</tr>
+<tr class="even">
+<td>可靠传输</td>
+<td>确认机制保证了正确有序的传输；checksum检测错误数据，序列号检测丢失数据，滑动窗口式流量控制让值接收方过载；超时和重传机制</td>
+</tr>
+<tr class="odd">
+<td>有序</td>
+<td>有序同步传输（序列号和确认号机制）</td>
+</tr>
+<tr class="even">
+<td>用塞控制</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>TCP连接的唯一ID</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">[TCP Data src<span class="hljs-built_in"> port </span>, dest port][Ipv4 header,<span class="hljs-built_in"> IP </span>src addr,<span class="hljs-built_in"> IP </span>dest addr, protocol ID = <span class="hljs-string">&#x27;TCP&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>一般由src port , dest port][Ipv4 header, IP src addr, IP dest addr,
+protocol ID = 'TCP'组成唯一ID</p>
+<p>Host A increments src port for every new connection</p>
+<p>TCP picks ISN(initial seq number) to avoid overlap with previous
+connections with same ID(防止和上一个TCP连接的数据混淆)</p>
+<h2 id="section"></h2>
+<p>TCP如何可靠？</p>
+<p>停止与等待/滑动窗口</p>
+<h2 id="端到端原则">端到端原则</h2>
+<p>为什么Network不做更多的事情：</p>
+<ul>
+<li>压缩数据</li>
+<li>reformat/imporove requests</li>
+<li>Serve cached data</li>
+<li>add security</li>
+<li>Migrate connections across the network</li>
+<li>or one of any of a huge number of other things</li>
+</ul>
+<p>Network仅仅负责传输的事情，不负责其他的，如存储，如果像上面所说，把很多东西都交给了network来做，实际上很多做不到，或者说有缺陷，所以实际实现中，网络的设计应该满足端到端原则，只负责两边的传输相关功能</p>
+<h2 id="finite-state-machine">Finite State Machine</h2>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pf">state1 =&gt;([event causing <span class="hljs-keyword">state</span> transition | actions taken <span class="hljs-keyword">on</span> <span class="hljs-keyword">state</span> transition]) state2<br><br>state1 =&gt;[event | action] state3<br></code></pre></td></tr></table></figure>
+<h2 id="flow-control">flow control</h2>
+<p>flow control 1：要解决的问题是发送方和接收方速度差异不一致问题</p>
+<ul>
+<li>Stop and wait</li>
+</ul>
+<p>sender: 500, 000 packets/second</p>
+<p>receiver: 200, 000</p>
+<p>如果全速发送，将会丢包40%</p>
+<p>流量控制：不要发送超过接收方可以处理的数据包</p>
+<p>idea：接收方可以发送反馈，这里有两种方式</p>
+<ul>
+<li>停止等待 (其实是window size = 1的滑动窗口)</li>
+<li>滑动窗口</li>
+</ul>
+<p>停止等待：</p>
+<ul>
+<li>任意时间链路中最多仅有一个packet</li>
+<li>发送者每次发送一个</li>
+<li>接收方收到后返回响应</li>
+<li>当接收方收到响应，再次发送新的packet</li>
+<li>一旦超时，重新发送当前数据</li>
+</ul>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230611121206723.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230611121206723" />
+<figcaption aria-hidden="true">image-20230611121206723</figcaption>
+</figure>
+<p>简单停止等待的🌰：</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230611121246484.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230611121246484" />
+<figcaption aria-hidden="true">image-20230611121246484</figcaption>
+</figure>
+<p>case 1: 没有信息丢失</p>
+<p>case 2: req 丢失，timeout 重新发送</p>
+<p>case 3: response 丢失， timeout 重新发送</p>
+<p>case 4: 前面一个丢失的数据报仅仅是delay了，这样就会有重复</p>
+<p><strong>solution:</strong> Use 1-bit counter in data and
+acknowledgements</p>
+<p>​ Receiver can tell if new data or duplicated</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230611121527344.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230611121527344" />
+<figcaption aria-hidden="true">image-20230611121527344</figcaption>
+</figure>
+<p>这样间隔的数据报counter位是不一样的</p>
+<p>1bit基于两个假设：</p>
+<ul>
+<li>延迟不会超过多个timeout，这样间隔的数据counter位是一样的</li>
+<li>网络本身并复制packet，因为如果发送重复packet，那么前后两个packet本身是一致的，但是由于计数却是不一致的，这样两个packet就会同时存在</li>
+</ul>
+<h2 id="滑动窗口">滑动窗口</h2>
+<p>考虑一个发送数据包的🌰：</p>
+<p>上海 =&gt; 北京</p>
+<p>网络性能上限是 10Mb/s</p>
+<p>RTT = 50ms</p>
+<p>Ethnet的传输速度是12kb/s</p>
+<p>这样1s可以发送20次，总共可以发20 * 12 = 240kb/s</p>
+<p>240kb/s/10Mb/s = 240/10, 000 = 2.4%</p>
+<p>假如使用滑动窗口（这里考虑发送方和接收方窗口大小一致）：我们可以使用一个可以达到新能瓶颈的window
+size</p>
+<p>240 * 42 = 1080，大约48个window size即可充分使用整个网络带宽</p>
+<p>滑动窗口：</p>
+<ul>
+<li>Gerneration of stop-and-wait: allow multiple un-packed segments</li>
+<li>Bound on number of un-packed segments, called window</li>
+<li>Can keep pipe full (充分使用整个网络带宽)</li>
+</ul>
+<p>Sliding window Sender</p>
+<ul>
+<li>窗口内的每个segment都有一个序列号</li>
+<li>发送方维护三个变量
+<ul>
+<li>send window size(sws)</li>
+<li>Last acknowledgment received (LAR)</li>
+<li>Last segment sent(LSS)</li>
+</ul></li>
+<li>Maintain invariant: (LSS - LAR) &lt;= SWS</li>
+<li>缓存窗口内的segments</li>
+<li>当有新的确认到来，扩张窗口</li>
+</ul>
+<p>Sliding window Receiver</p>
+<ul>
+<li>维护三个变量
+<ul>
+<li>Receive window size(sws)</li>
+<li>Last acceptable segment (LAS)</li>
+<li>Last segment received(LSR)</li>
+</ul></li>
+<li>Maintain invariant: (LAS - LSR) &lt;= RWS</li>
+<li>如果接受的Packet小于LAS，回复确认</li>
+<li>累计确认：如果收到了1,2,3,5，则回复ack = 3</li>
+</ul>
+<p>比如：RWS=5, LSR = 3, 那么本次将会接收4 ,5 ,6, 7, 8,
+如果有10，是不会接收的</p>
+<p>RWS, SWS and Seq Space</p>
+<ul>
+<li>RWS &gt;= 1, SWS &gt;= 1, RWS &lt;= SWS</li>
+<li>if RWS = 1, go back N protocol, need SWS + 1 seq numbers</li>
+<li>if RWS = SWS, need 2SWS seq numbers</li>
+<li>Generally need RWS + SWS seq numbers</li>
+</ul>
+<p>TCP流量控制：</p>
+<ul>
+<li>接收方 advertises RWS using window field</li>
+<li>Sender can only send data up to LAR + window</li>
+</ul>
+<p>累计确认：累积确认这个概念应该不只适用于TCP协议，也适用其他层，比如链路层。</p>
+<p>一般地讲，如果发送方发了包1，包2，包3，包4；接受方成功收到包1，包2，包3。那么接受方可以发回一个确认包，序号为4(4表示期望下一个收到的包的序号；当然你约定好用3表示也可以)，那么发送方就知道包1到包3都发送接收成功，必要时重发包4。一个确认包确认了累积到某一序号的所有包，而不是对每个序号都发确认包。</p>
+<p>具体到TCP，它对字节编号。比如发送方发了包1，包2，包3；包1含字节0到10，包2含字节11到20，包3含字节21到30。接受方成功收到包1，包2。那么接受方发回一个包含确认序号21的包，发送方就知道字节0到20(包1，包2)都成功收到，必要时要重发的只需从字节21开始。</p>
+<h2 id="重传策略">重传策略</h2>
+<p>现在已经有了window size的概念，累计确认的概念，
+每个Packet都有自己的定时器</p>
+<p>如果定时器超时怎么办？</p>
+<ul>
+<li>Go-back-N:
+一旦一个包丢失了将会重发整个窗口数据，本质上是因为接收方的窗口大小仅仅为1</li>
+<li>选择重传：一旦一个包丢失了只会重发整个窗口数据丢失的那个包</li>
+</ul>
+<p>https://blog.csdn.net/qq_44807642/article/details/103054914
+https://zhuanlan.zhihu.com/p/589068775
+https://blog.csdn.net/u011617742/article/details/50387670#:~:text=%E5%9C%A8%E8%BF%94%E5%9B%9EN%E5%8D%8F%E8%AE%AE%E4%B8%AD%EF%BC%8C%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F%E5%BF%85%E9%A1%BB%3C%3D2m-1%2C%E6%8E%A5%E6%94%B6%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F%E5%A7%8B%E7%BB%88%E4%B8%BA1%E3%80%82,%E6%9C%AC%E8%B4%A8%E5%B0%B1%E6%98%AF%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F%E4%B8%8D%E8%83%BD%20%E8%B6%85%E8%BF%87%E5%BA%8F%E5%8F%B7%E8%83%BD%E8%A1%A8%E7%A4%BA%E7%9A%84%E8%8C%83%E5%9B%B4%EF%BC%8C%E4%BE%8B%E5%A6%82%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%8F%B7%E6%98%AF3%EF%BC%8C%E7%AA%97%E5%8F%A3%E6%98%AF6%E7%AA%97%E5%8F%A3%E6%AF%94%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%8F%B7%E5%A4%A7%EF%BC%8C%E4%BC%9A%E5%87%BA%E7%8E%B00%EF%BC%8C1%EF%BC%8C2%2C3%2C0%2C1%E8%BF%99%E6%A0%B7%E7%9A%84%E7%AA%97%E5%8F%A3%EF%BC%8C%E4%BD%A0%E6%97%A0%E6%B3%95%E5%88%A4%E6%96%AD%E6%8E%A5%E6%94%B6%E7%AA%97%E5%8F%A3%E8%BF%94%E5%9B%9E%E7%9A%84ACK0%E6%98%AF%E4%BB%A3%E8%A1%A8%E7%AC%AC%E4%B8%80%E4%B8%AA0%E6%94%B6%E5%88%B0%E8%BF%98%E6%98%AF%E7%AC%AC%E4%BA%8C%E4%B8%AA0%E6%94%B6%E5%88%B0%E3%80%82</p>
+<h2 id="tcp-header">TCP header</h2>
+<h2 id="tcp的setup-teardown">TCP的Setup &amp; Teardown</h2>
+<p>可靠的通信依赖于通信双方的状态</p>
+<p>问题是链接建立的时候如何维护这个状态？</p>
+<p>当断连的时候如何清理这些状态？</p>
+<p>Cleaning Up Safely</p>
+<ul>
+<li>Problems with closed socket
+<ul>
+<li>What if final ack is lost in the network</li>
+<li>What if the same port pair is immediately resued for a new
+connection ?</li>
+</ul></li>
+<li>Solution: 'active' closer goes into TIME WAIT
+<ul>
+<li>Active close is sendingFIN before receving one</li>
+<li>Keep socket around for 2 MSL (twice the 'maximum segment
+lifetime')</li>
+</ul></li>
+<li>Can pose problems with servers
+<ul>
+<li>OS has too many socketd in TIME WAIT, slows things down</li>
+<li>Hack: Can send RST and delete socket, so SO_LINGER socket option to
+time 0</li>
+<li>OS won't let you re-start server because port still in use
+(SO_REUSEADDR) option lets you re-bind used port number.</li>
+</ul></li>
+</ul>
+<p><strong>TCP🌰：</strong></p>
+<p>不管是发送方还是接收方都会维护一个序列号（用于同步自己发送的数据）和确认号（用于同步对方的序列号），即使是像建立连接的时候数据段长度为0，但是对应的序列号和确认号也要消耗掉一个序号（即自增）</p>
+<figure>
+<img
+src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a437fcc7a69a4ef9b57b34d38a02c2bf~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" srcset="/emocoder/img/loading.gif" lazyload
+alt="image.png" />
+<figcaption aria-hidden="true">image.png</figcaption>
+</figure>
+<p>来看一个🌰：以下都是相对序列号</p>
+<figure>
+<img
+src="https://img-blog.csdn.net/20160818012008762?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>客户端 =&gt; 服务端: [SYN], seq = 0, len = 0, syn = 1, len = 0
+(客户端传递seq希望和服务端同步自己的数据,
+同时消耗掉客户端一个序列号，下一次客户端序列号就是从1开始)</p>
+<p>客户端 &lt;= 服务端: [SYN, ACK] , seq = 0, ack = 1, syn = 1, len = 0
+(服务端回应同步，传递seq希望和客户端同步自己的数据,
+同时消耗掉服务端一个序列号, 下一次服务端序列号就是从1开始)</p>
+<p>客户端 =&gt; 服务端: [ACK], ack = 1, seq = 1, len =
+0(客户端回应同步)</p>
+<p>开始发送数据</p>
+<p>客户端 =&gt; 服务端：[ACK], seq = 1, len = 474, ack =
+1(ack用于同步对方的消息)</p>
+<p>客户端 &lt;= 服务端：[ACK], seq = 1, ack = 475(ack用于同步对方的消息,
+表示我已经收到你的前474个数据包)，服务端无响应数据，仅仅是ack数据包</p>
+<p>客户端 &lt;= 服务端：[ACK], seq = 1, ack = 475, len = 1448, next seq
+= 1449, 是对上一次的客户端请求的一次tcp响应包</p>
+<p>客户端 &lt;= 服务端：[ACK], seq = 1449, ack = 475, len = 1448, next
+seq = 2897, 依旧是对上一次的客户端请求的一次tcp响应包</p>
+<p>客户端 &lt;= 服务端：[ACK], seq = 2897, ack = 475, len = 1334, next
+seq = 2897 + 1334, 还是对上一次的客户端请求的一次tcp响应包</p>
+<p>上面的序列号是相对的，所以看起来都是从0开始，但是实际上起始序列号是随机的，为什么要初始化起始序列号？</p>
+<ul>
+<li>避免偶然性，防止意外乱入</li>
+<li>安全性，防止恶意插入，因为如果起始序列号是固定的活着容易猜到的，在网络代理中，抓到tcp包，即可插入自己的数据，但是实际上几乎所有代理工具都无法解析道tcp的起始序列号。</li>
+</ul>
+<p>https://www.cnblogs.com/163yun/p/9552368.html</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/emocoder/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/emocoder/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">#计算机网络，计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Network-CS144 の 2 TCP Model</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/06/11/计算机网络二/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>迷途知返</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/emocoder/2023/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89/" title="Network-CS144 の 3 Packet Switching">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Network-CS144 の 3 Packet Switching</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/emocoder/2023/06/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E4%B8%80/" title="斯坦福cs231(编译原理)の 1 Introduction">
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 1 Introduction</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/emocoder/js/events.js" ></script>
+<script  src="/emocoder/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/emocoder/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/emocoder/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/emocoder/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

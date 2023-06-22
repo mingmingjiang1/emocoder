@@ -18,20 +18,20 @@
   
     <meta name="description" content="引出 自动内存管理也称之为垃圾回收(garbage collection) 手动管理内存有很多出乎意料的bug：  忘记释放没有被使用的内存 忘记去掉一些无用引用，或者是野指针 偶然的内存覆盖 ...  内存相关bug很难发现(比如内存溢出，就需要排查很长时间) 🌰： 某个对象没有被引用了，但是对应的指针还在；突然后面该对象被覆盖了，但是指针仍然引用这块内存，这个时候使用这个指针的读写还是按照原">
 <meta property="og:type" content="article">
-<meta property="og:title" content="automatic-memory-management">
-<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/20/automatic-memory-management/index.html">
+<meta property="og:title" content="斯坦福cs231(编译原理)の 11 Automatic Memory Management">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/20/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%8D%81%E4%B8%80/index.html">
 <meta property="og:site_name" content="迷途知返">
 <meta property="og:description" content="引出 自动内存管理也称之为垃圾回收(garbage collection) 手动管理内存有很多出乎意料的bug：  忘记释放没有被使用的内存 忘记去掉一些无用引用，或者是野指针 偶然的内存覆盖 ...  内存相关bug很难发现(比如内存溢出，就需要排查很长时间) 🌰： 某个对象没有被引用了，但是对应的指针还在；突然后面该对象被覆盖了，但是指针仍然引用这块内存，这个时候使用这个指针的读写还是按照原">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-19T16:17:29.000Z">
-<meta property="article:modified_time" content="2023-05-20T06:06:25.116Z">
+<meta property="article:modified_time" content="2023-06-11T06:48:52.828Z">
 <meta property="article:author" content="迷途知返">
 <meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>automatic-memory-management - 迷途知返</title>
+  <title>斯坦福cs231(编译原理)の 11 Automatic Memory Management - 迷途知返</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="automatic-memory-management"></span>
+            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 11 Automatic Memory Management"></span>
           
         </div>
 
@@ -269,7 +269,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">automatic-memory-management</h1>
+            <h1 style="display: none">斯坦福cs231(编译原理)の 11 Automatic Memory Management</h1>
             
             
               <div class="markdown-body">
@@ -447,6 +447,27 @@ collection技术</p>
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/emocoder/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="category-chain-item">编译原理</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
@@ -463,8 +484,8 @@ collection技术</p>
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>automatic-memory-management</div>
-      <div>https://mingmingjiang1.github.io/emocoder/2023/05/20/automatic-memory-management/</div>
+      <div>斯坦福cs231(编译原理)の 11 Automatic Memory Management</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/05/20/编译原理十一/</div>
     </div>
     <div class="license-meta">
       
@@ -508,9 +529,9 @@ collection技术</p>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/emocoder/2023/05/20/register-allocation/" title="斯坦福cs231(编译原理)の 1 register allocation">
+                      <a href="/emocoder/2023/05/20/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%8D%81/" title="斯坦福cs231(编译原理)の 10 Register Allocation">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 1 register allocation</span>
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 10 Register Allocation</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -518,8 +539,8 @@ collection技术</p>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/emocoder/2023/05/14/cool-optimize/" title="斯坦福cs231(编译原理)の 3 cool-optimize">
-                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 3 cool-optimize</span>
+                      <a href="/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E4%B9%9D/" title="斯坦福cs231(编译原理)の 9 Optimization">
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 9 Optimization</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

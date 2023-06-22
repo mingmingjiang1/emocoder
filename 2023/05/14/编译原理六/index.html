@@ -16,22 +16,22 @@
   <meta name="author" content="迷途知返">
   <meta name="keywords" content="">
   
-    <meta name="description" content="日志工具 开发者使用： trace：打印调用堆栈 debug：不仅打印调用堆栈，还打印变量信息 用户使用： info warn：只是警告，但是不影响运行 error：报错，但是不影响整个应用程序的继续运行 fatal: 中断整个应用程序的执行 首先">
+    <meta name="description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出。 引言 类比： parser阶段，我们要给每种token设置对应的action 语法分析阶段，有一系列的文法式，要在每个文法式规约的时候设置action，规定对应的行为 类型分析阶段：对每一种表达式设置对应的语义动作，进行语义分析 同样的优化阶段：对每一种表达式设置对应的代码生成及优化动">
 <meta property="og:type" content="article">
-<meta property="og:title" content="debug">
-<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/07/debug/index.html">
+<meta property="og:title" content="斯坦福cs231(编译原理)の 6 Cool Operational semantics">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%AD/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="日志工具 开发者使用： trace：打印调用堆栈 debug：不仅打印调用堆栈，还打印变量信息 用户使用： info warn：只是警告，但是不影响运行 error：报错，但是不影响整个应用程序的继续运行 fatal: 中断整个应用程序的执行 首先">
+<meta property="og:description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出。 引言 类比： parser阶段，我们要给每种token设置对应的action 语法分析阶段，有一系列的文法式，要在每个文法式规约的时候设置action，规定对应的行为 类型分析阶段：对每一种表达式设置对应的语义动作，进行语义分析 同样的优化阶段：对每一种表达式设置对应的代码生成及优化动">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-07T08:52:00.000Z">
-<meta property="article:modified_time" content="2023-06-11T06:49:42.741Z">
+<meta property="article:published_time" content="2023-05-14T07:39:20.000Z">
+<meta property="article:modified_time" content="2023-06-11T06:49:09.539Z">
 <meta property="article:author" content="迷途知返">
-<meta property="article:tag" content="前端，node，调试，debug">
+<meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>debug - 迷途知返</title>
+  <title>斯坦福cs231(编译原理)の 6 Cool Operational semantics - 迷途知返</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="debug"></span>
+            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 6 Cool Operational semantics"></span>
           
         </div>
 
@@ -208,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-07 16:52" pubdate>
-          2023年5月7日 下午
+        <time datetime="2023-05-14 15:39" pubdate>
+          2023年5月14日 下午
         </time>
       </span>
     
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          114 字
+          4k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          1 分钟
+          34 分钟
         
       </span>
     
@@ -269,18 +269,225 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">debug</h1>
+            <h1 style="display: none">斯坦福cs231(编译原理)の 6 Cool Operational semantics</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="日志工具">日志工具</h2>
-<p>开发者使用： trace：打印调用堆栈
-debug：不仅打印调用堆栈，还打印变量信息</p>
-<p>用户使用： info warn：只是警告，但是不影响运行
-error：报错，但是不影响整个应用程序的继续运行 fatal:
-中断整个应用程序的执行</p>
-<p>首先</p>
+                <p>本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出。</p>
+<h2 id="引言">引言</h2>
+<p>类比：</p>
+<p>parser阶段，我们要给每种token设置对应的action</p>
+<p>语法分析阶段，有一系列的文法式，要在每个文法式规约的时候设置action，规定对应的行为</p>
+<p>类型分析阶段：对每一种表达式设置对应的语义动作，进行语义分析</p>
+<p>同样的优化阶段：对每一种表达式设置对应的代码生成及优化动作。</p>
+<p>如何形式化表示这些表达式对应动作（语义，我理解就是表达式的动作）</p>
+<blockquote>
+<p>Denotational semantics: 数学函数表示</p>
+<p>Axiomatic semantics: 通过逻辑公式描述程序行</p>
+<p>Operational sematics: 通过执行规则描述程序评估</p>
+</blockquote>
+<h2 id="操作语义">操作语义</h2>
+<p>在类型推断和检查的时候，引进过这样一种符号： <span
+class="math display">\[
+Context \vdash e: C
+在给定大的上下文context里，表达式是类型C
+\]</span>
+同样的，评估阶段(代码生成阶段之前的准备工作)，也会用类似的符号： <span
+class="math display">\[
+Context \vdash e: v
+在给定大的上下文context里，表达式会被评估为值v
+\]</span> 🌰： <span class="math display">\[
+\frac{Context \vdash e1: 5 \quad
+Context \vdash e2: 7}{Context \vdash e1 + e2: 12}
+\]</span> &gt;
+在语境Context下e1被评估为5，e2被评估为7，那么e1+e2就是12，当然这种是常量比较简单哈，没什么用处，实际情况下有变量的情况下就复杂了；
+&gt;</p>
+<p>考虑评估：y &lt;- x + 1</p>
+<p>由于存在局部作用域，所以评估一个值，需要：</p>
+<p>Environment: where in memory a variable is</p>
+<p>Store: what is in the memory</p>
+<p>简单来说就是两个映射表：</p>
+<p>Enviroment：va r =&gt; loc</p>
+<p>Store: loc =&gt; value</p>
+<p>形式化表示：</p>
+<p><span class="math display">\[
+E = [a: l1, b: l2] \quad 变量a在内存中的l1处，b在内存的l2处 \\
+S = [l1 =&gt; 5, l2 =&gt; 7] \quad l1处存储的值是5，l2处存储的值是7 \\
+S&#39; = S[l2/l1] \quad defines \quad a \quad store \quad
+S&#39;\quad  such \quad that \\ S&#39;(l1) = 12 \quad and
+\quad  S&#39;(l) = S(l) \quad  if \quad l \neq l1 \\
+简单理解下S&#39;就是S在l1处做了单点修改
+\]</span></p>
+<h2 id="cool里的语义">cool里的语义</h2>
+<p>cool里面值都是对象（cool是面向对象的语言）</p>
+<p><code>X(a1 = l1, ..., an = ln)</code> 表示为一个cool 对象，其中</p>
+<ul>
+<li><p>X是类</p></li>
+<li><p>ai是其属性，包含继承的属性</p></li>
+<li><p>li是对应ai被存储的内存位置</p></li>
+</ul>
+<p><strong>cool内置类：</strong></p>
+<ul>
+<li>Int(5),</li>
+<li>Bool(true)</li>
+<li>String(4, "cool") the string "Cool" of length 4</li>
+<li>特殊值：void，该对象上没有方法，如果调用isvoid将会抛出异常，cool里对void的具体实现时NULL（Cpp里的空指针，因为cool是用cpp实现的）</li>
+</ul>
+<p>考虑如下评估式： <span class="math display">\[
+{so, E, S \vdash e: v, S&#39;}
+\]</span> so(self object)， E 是当前的变量环境，S是当前Store；</p>
+<p>e获得了评估结果后值是v，并且新的store是S‘</p>
+<p>评估的结果实际是值v和新的Store，新的Store是有副作用(副作用是值引用修改，而不是copy)</p>
+<p>但是在评估后有一些事不会改变的：</p>
+<ul>
+<li><p>变量环境</p></li>
+<li><p>self</p></li>
+<li><p>操作语义允许递归</p></li>
+</ul>
+<p>下面具体介绍了cool的一些操作语义评估，我就简单那几个比较经典的：</p>
+<hr />
+<p><strong>变量使用</strong>：在E中找到id的位置，然后在S中找对应的值
+<span class="math display">\[
+\frac{E(id) = I_{id} \quad
+S(I_{id}) = v}{so, E, S \vdash id: v, S}
+\]</span> ------</p>
+<p><strong>self:</strong> <span class="math display">\[
+{so, E, S \vdash self: so, S}
+\]</span> ------</p>
+<p><strong>变量赋值：</strong>就是对id处做单点修改返回新的Store，id的评估结果就是e的评估结果v
+<span class="math display">\[
+\frac{so, E, S \vdash e: v, S_1 \quad
+E(id) = I_{id} \quad
+S_2 = S_1[v/id]}{so, E, S \vdash id=e: v, S2}
+\]</span> e1+e2：先递归对e1评估，评估后e1的值是v1，并产生新的Store
+S1，接着对e2递归进行评估，评估后e2的值是v2，并产生新的Store
+S2，最终e1+e2的评估结果就是值为v1 + v2，新的Store S2 <span
+class="math display">\[
+\frac{so, E, S \vdash e: v, S_1 \quad
+so, E, S1 \vdash e: v2, S_2}{so, E, S \vdash e1 + e2: v1 + v2, S2}
+\]</span> ------</p>
+<p>🌰：{ X = 7 + 5; 4;}</p>
+<p>先对一个表达式X=7+5评估 <span class="math display">\[
+{so, [X&lt;-1], [l&lt;-0] \vdash x=7+5: ?, ?}
+\]</span> 继续递归对7+5进行评估 <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 7+5: ?, ?}
+\]</span> 继续递归对7评估： <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 7: Int(7), [l&lt;-0]}
+\]</span> 同样的对5评估： <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 5: Int(5), [l&lt;-0]}
+\]</span></p>
+<p>返回到上一层7+5: <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash 7+5: Int(12), [l&lt;-0]}
+\]</span> 继续返回到上一层x=7+5：</p>
+<p>这个时候已经处理完了7+5，继续处理x，这是声明变量，得到单点更新后的Store：
+<span class="math display">\[
+[l&lt;-0](12/l) =&gt; [l/12]
+\]</span> 这个时候子表达式都处理完了，继续处理最外层的第一个表达式 <span
+class="math display">\[
+{so, [X&lt;-l], [l&lt;-0] \vdash x=7+5: 12, [l&lt;-12]}
+\]</span> 继续处理同级别的表达式4 <span class="math display">\[
+{so, [X&lt;-l], [l&lt;-12] \vdash 4: Int(4), [l&lt;-12]}
+\]</span></p>
+<p><span class="math display">\[
+\frac{...}{so, [X&lt;-1], [1&lt;-0] \vdash \{X=7+5;4;\}: Int(4),
+[1&lt;-12]}
+\]</span></p>
+<hr />
+<p><strong>if-else</strong></p>
+<p><img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514173710435.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514173710435" /> <span class="math display">\[
+\frac{so, E, S \vdash e1: Bool(false), S1}{so, E, S \vdash while \quad
+e1 \quad loop \quad e2 \quad pool: void, S1}
+\]</span> ------</p>
+<p><strong>while</strong></p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514173719883.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514173719883" />
+<figcaption aria-hidden="true">image-20230514173719883</figcaption>
+</figure>
+<hr />
+<p><strong>声明变量：</strong> <span class="math display">\[
+\frac{so, E, S \vdash e1: v1, S1 \quad so, ?, ? \vdash v, S2}{so, E, S
+\vdash let \quad id: T = e1 \quad in \quad e2: v2, S2}
+\]</span> e2应该在什么环境下评估呢（问号处应该填什么呢）？</p>
+<p>—仍然是E，但是E里应该新增映射<code>id =&gt; Inew</code>，表示为id新分配了一块内存，同样的Store应该是有新的映射
+<code>Inew =&gt; v1</code></p>
+<p>新增符号：Inew =
+newloc(S)，表示Inew是一个新分配的内存，newloc可以理解为是一个内存分配函数
+<span class="math display">\[
+\frac{so, E, S \vdash e1: v1, S1 \quad I_{new} = newloc(S1) \quad  so,
+E[I{new}/id], S1[v1/I_{new}] \vdash v2, S2}{so, E, S \vdash let \quad
+id: T = e1 \quad in \quad e2: v2, S2}
+\]</span></p>
+<hr />
+<p><strong>new对象的评估语义：</strong></p>
+<ul>
+<li><p>首先，为对象的所有参数分配内存（本质上就是分配对象）</p></li>
+<li><p>为对象设置缺省值</p></li>
+<li><p>评估对象的初始化语句，并重新设置属性值</p></li>
+<li><p>返回被分配的对象</p></li>
+</ul>
+<p>每个对象都有默认值</p>
+<ul>
+<li><p>int： Int(0)</p></li>
+<li><p>bool: Bool(false)</p></li>
+<li><p>String: String(0, '')</p></li>
+</ul>
+<p>类A的形式化表示：</p>
+<p><code>class(A) = (a1: T1 &lt;-e1, ..., an: Tn &lt;- en)</code>，其中：</p>
+<ul>
+<li><code>ai</code>是属性，包含继承属性</li>
+<li><code>Ti</code>是属性的类型</li>
+<li><code>ei</code>是初始化表达式</li>
+</ul>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514173910377.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514173910377" />
+<figcaption aria-hidden="true">image-20230514173910377</figcaption>
+</figure>
+<p>在评估初始化表达式阶段：</p>
+<ul>
+<li><p>self is the current object</p></li>
+<li><p>only the attributes are in scope()，作用域内只有属性</p></li>
+<li><p>属性的初始值都是默认值，主要是防止在初始化语句里面会用到这些初始值，比如:<code>Class A &#123; a &lt;- a &#125;</code>，用a初始化a，如果a没有默认值，可能会有异常；</p></li>
+</ul>
+<p>Informal semantics of class e0.f(e1, ..., en)：</p>
+<ul>
+<li><p>首先，依次评估参数e1, ..., en，</p></li>
+<li><p>评估e0，获得e0的值</p></li>
+<li><p>假设X是e0评估结果的动态类型</p></li>
+<li><p>从dispatch table中获取f</p></li>
+<li><p>为n个参数分配内存空间，更新Enviroment</p></li>
+<li><p>为分配的空间初始化值</p></li>
+<li><p>set selft to the target object and evaluate f's body</p></li>
+</ul>
+<p>For a class <code>A</code> and a method f of <code>A</code> (possible
+inherited)</p>
+<p><code>impl(A, f) = (X1, ..., Xn, ebody)</code>，其中：</p>
+<ul>
+<li><code>Xi</code>是形式参数</li>
+<li><code>ebody</code>是方法体(函数体)</li>
+</ul>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230514174645616.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230514174645616" />
+<figcaption aria-hidden="true">image-20230514174645616</figcaption>
+</figure>
+<p><u>impl</u>有没有可能获取不到方法？不可能，因为类型检查以已经通过了，倘若没有类型检查，这一阶段会更复杂</p>
+<p>当然也有一些runtime error类型检查检查不到：</p>
+<ul>
+<li>A dispathc on void</li>
+<li>Division by zero</li>
+<li>Substring out of range</li>
+<li>Heap overflow</li>
+</ul>
+<p>这些异常情形下，编译器必须抛出错误，并中断，而不是崩溃(not with a
+segfault)</p>
 
                 
               </div>
@@ -299,7 +506,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
     
       <span class="category-chain">
         
-  <a href="/emocoder/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  <a href="/emocoder/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="category-chain-item">编译原理</a>
   
   
 
@@ -314,7 +521,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/emocoder/tags/%E5%89%8D%E7%AB%AF%EF%BC%8Cnode%EF%BC%8C%E8%B0%83%E8%AF%95%EF%BC%8Cdebug/">#前端，node，调试，debug</a>
+        <a href="/emocoder/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%EF%BC%8Ccool/">#编译原理，计算机基础，cool</a>
       
     </div>
   
@@ -326,8 +533,8 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>debug</div>
-      <div>https://mingmingjiang1.github.io/emocoder/2023/05/07/debug/</div>
+      <div>斯坦福cs231(编译原理)の 6 Cool Operational semantics</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/05/14/编译原理六/</div>
     </div>
     <div class="license-meta">
       
@@ -339,7 +546,7 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年5月7日</div>
+          <div>2023年5月14日</div>
         </div>
       
       
@@ -371,9 +578,9 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%AB/" title="斯坦福cs231(编译原理)の 8 Cool Object Layout">
+                      <a href="/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E4%B9%9D/" title="斯坦福cs231(编译原理)の 9 Optimization">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 8 Cool Object Layout</span>
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 9 Optimization</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -381,8 +588,8 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
                   <article class="post-next col-6">
                     
                     
-                      <a href="/emocoder/2023/05/06/hacktech/" title="hacktech">
-                        <span class="hidden-mobile">hacktech</span>
+                      <a href="/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%AB/" title="斯坦福cs231(编译原理)の 8 Cool Object Layout">
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 8 Cool Object Layout</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -439,6 +646,12 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -632,6 +845,49 @@ error：报错，但是不影响整个应用程序的继续运行 fatal:
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/emocoder/js/local-search.js" ></script>
 

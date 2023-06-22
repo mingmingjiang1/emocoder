@@ -18,20 +18,20 @@
   
     <meta name="description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出  Introduction to code gen code gen 1 code gen 2  Temporaries 之前介绍的汇编代码比如两个表达式相加： 1234lw $a0 (0)$spli $t0 ?add $a0, $t0, $a0sw $s0 $sp 这里把其中一个加数放">
 <meta property="og:type" content="article">
-<meta property="og:title" content="斯坦福cs231(编译原理)の 1 cool object layout">
-<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/14/cool-object-layout/index.html">
+<meta property="og:title" content="斯坦福cs231(编译原理)の 8 Cool Object Layout">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%AB/index.html">
 <meta property="og:site_name" content="迷途知返">
 <meta property="og:description" content="本文是斯坦福cs143编译原理的笔记，内容大部分来自于课件和自己的理解，笔者能力和精力有限，如果有错误欢迎指出  Introduction to code gen code gen 1 code gen 2  Temporaries 之前介绍的汇编代码比如两个表达式相加： 1234lw $a0 (0)$spli $t0 ?add $a0, $t0, $a0sw $s0 $sp 这里把其中一个加数放">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-14T06:48:21.000Z">
-<meta property="article:modified_time" content="2023-05-20T08:19:51.225Z">
+<meta property="article:modified_time" content="2023-06-11T06:49:18.238Z">
 <meta property="article:author" content="迷途知返">
 <meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>斯坦福cs231(编译原理)の 1 cool object layout - 迷途知返</title>
+  <title>斯坦福cs231(编译原理)の 8 Cool Object Layout - 迷途知返</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 1 cool object layout"></span>
+            <span id="subtitle" data-typed-text="斯坦福cs231(编译原理)の 8 Cool Object Layout"></span>
           
         </div>
 
@@ -269,7 +269,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">斯坦福cs231(编译原理)の 1 cool object layout</h1>
+            <h1 style="display: none">斯坦福cs231(编译原理)の 8 Cool Object Layout</h1>
             
             
               <div class="markdown-body">
@@ -465,6 +465,27 @@ table)，这张表提供了索引这些方法的能力，表里存储的是函�
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/emocoder/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="category-chain-item">编译原理</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
@@ -481,8 +502,8 @@ table)，这张表提供了索引这些方法的能力，表里存储的是函�
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>斯坦福cs231(编译原理)の 1 cool object layout</div>
-      <div>https://mingmingjiang1.github.io/emocoder/2023/05/14/cool-object-layout/</div>
+      <div>斯坦福cs231(编译原理)の 8 Cool Object Layout</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/05/14/编译原理八/</div>
     </div>
     <div class="license-meta">
       
@@ -526,9 +547,9 @@ table)，这张表提供了索引这些方法的能力，表里存储的是函�
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/emocoder/2023/05/14/cool-semantics/" title="斯坦福cs231(编译原理)の 2 cool-semantics">
+                      <a href="/emocoder/2023/05/14/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%AD/" title="斯坦福cs231(编译原理)の 6 Cool Operational semantics">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 2 cool-semantics</span>
+                        <span class="hidden-mobile">斯坦福cs231(编译原理)の 6 Cool Operational semantics</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -594,6 +615,12 @@ table)，这张表提供了索引这些方法的能力，表里存储的是函�
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -787,6 +814,49 @@ table)，这张表提供了索引这些方法的能力，表里存储的是函�
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/emocoder/js/local-search.js" ></script>
 
