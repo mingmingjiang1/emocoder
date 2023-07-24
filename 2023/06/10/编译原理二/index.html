@@ -16,18 +16,29 @@
   <meta name="author" content="迷途知返">
   <meta name="keywords" content="">
   
-    <meta name="description" content="WIP">
+    <meta name="description" content="Introduction 12345678编写代码时：if (i &#x3D;&#x3D; j)	z &#x3D; 0;else	z &#x3D; 1;实际喂给leximal analyzer的:\tif (i &#x3D;&#x3D; i)\n\t\tz&#x3D;0;\n\telse\n\t\tz&#x3D;1; Token Class  In English: Noun, Verb, Adjective In Programming language: Identifi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="斯坦福cs231(编译原理)の 2 Lexical Analysis">
 <meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/06/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E4%BA%8C/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="WIP">
+<meta property="og:description" content="Introduction 12345678编写代码时：if (i &#x3D;&#x3D; j)	z &#x3D; 0;else	z &#x3D; 1;实际喂给leximal analyzer的:\tif (i &#x3D;&#x3D; i)\n\t\tz&#x3D;0;\n\telse\n\t\tz&#x3D;1; Token Class  In English: Noun, Verb, Adjective In Programming language: Identifi">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702223309277.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702223139657.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702223124224.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702221029097.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702221052123.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702221104220.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702221203335.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702221219541.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702221643107.png">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702232859459.png">
 <meta property="article:published_time" content="2023-06-10T10:06:38.000Z">
-<meta property="article:modified_time" content="2023-06-11T06:49:14.599Z">
+<meta property="article:modified_time" content="2023-07-09T15:44:46.518Z">
 <meta property="article:author" content="迷途知返">
 <meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702223309277.png">
   
   
   
@@ -220,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3 字
+          6.4k 字
         
       </span>
     
@@ -231,7 +242,7 @@
         
         
         
-          1 分钟
+          53 分钟
         
       </span>
     
@@ -274,7 +285,392 @@
             
               <div class="markdown-body">
                 
-                <p>WIP</p>
+                <h2 id="introduction">Introduction</h2>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">编写代码时：<br>if (i == j)<br>	z = 0;<br>else<br>	z = 1;<br><br>实际喂给leximal analyzer的:<br><span class="hljs-symbol">\t</span>if (i == i)<span class="hljs-symbol">\n</span><span class="hljs-symbol">\t</span><span class="hljs-symbol">\t</span>z=0;<span class="hljs-symbol">\n</span><span class="hljs-symbol">\t</span>else<span class="hljs-symbol">\n</span><span class="hljs-symbol">\t</span><span class="hljs-symbol">\t</span>z=1;<br></code></pre></td></tr></table></figure>
+<p>Token Class</p>
+<ul>
+<li><p>In English: Noun, Verb, Adjective</p></li>
+<li><p>In Programming language: Identifier, Keywords, '(', ')'</p></li>
+</ul>
+<p>Token Class correspond to set of strings</p>
+<ul>
+<li><p>[token class]: [set of strings]</p></li>
+<li><p>Identifier: strings of letters or digits, starting with a
+letter</p></li>
+<li><p>Integer: a non-empty string of digits</p></li>
+<li><p>Keyword: 'else' or 'if'</p></li>
+<li><p>whitespace: a non-empty sequence of blanks, newlines, and
+tabs</p></li>
+</ul>
+<p>Lexical analyzer的主要功能：</p>
+<ul>
+<li><p>Classify program substrings according to role(Token
+Class)</p></li>
+<li><p>Communicate tokens to the parser</p></li>
+</ul>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-built_in">string</span> =&gt; LA =&gt; Parser<br>						token: &lt;<span class="hljs-keyword">class</span>, <span class="hljs-symbol">string</span>&gt;<br>						<br><span class="hljs-symbol">foo</span> = <span class="hljs-symbol">42</span> =&gt; &lt;<span class="hljs-symbol">ID, </span>&#x27;<span class="hljs-symbol">foo</span>&#x27;&gt;, &lt;<span class="hljs-symbol">OP, </span>&#x27;=&#x27;&gt;, &lt;<span class="hljs-symbol">INT, </span>&quot;<span class="hljs-symbol">42</span>&quot;&gt;<br></code></pre></td></tr></table></figure>
+<p>An implementation must do two things:</p>
+<ol type="1">
+<li>Recognize substrings corresponding to tokens
+(切割成一个个子串(专业名词：词素))</li>
+<li>Identify the token class of each lexeme (为这些子串分配Token
+class)</li>
+</ol>
+<p>最终形成的就是以下输出：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stata">tokens: [token1, token2]<br><span class="hljs-keyword">token</span>: &lt;<span class="hljs-keyword">token</span> <span class="hljs-keyword">class</span>, lexeme&gt;<br></code></pre></td></tr></table></figure>
+<h2 id="regular-language">Regular Language</h2>
+<p>正则语言用于规定编程语言的词法结构</p>
+<p>词法结构本质上就是一组token classes</p>
+<p>所以我们必须要定义这样一些规则：什么样的字符串属于某一类token
+class（这样的规则就是正则表达式）</p>
+<p>比如：</p>
+<p><span class="math inline">\(single \quad character:
+\{c\}\)</span></p>
+<p><span class="math inline">\(Epsilon: \{&#39;&#39;\}\)</span></p>
+<p><span class="math inline">\(Union: A+B = \{a|a \in A\} \cup \{b|b \in
+B\}\)</span></p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230628232115530.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230628232115530" />
+<figcaption aria-hidden="true">image-20230628232115530</figcaption>
+</figure>
+<p>基于字符集sigma的正则表达式集合：</p>
+<p><img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230628232258693.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230628232258693" />这个描述正则表达式的带竖线的语法叫做文法（grammar)</p>
+<p>同一个集合可以由不同的方法表示出来。</p>
+<p>如：1* = 1* + 1，因为1*= {'', 1, 11, 111}, 而1* +
+1（注意这里的+不是连接的意思，而是并集），{'', 1, 11, 111} U {1} = {'',
+1, 11, 111},不变</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230628233030413.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230628233030413" />
+<figcaption aria-hidden="true">image-20230628233030413</figcaption>
+</figure>
+<h3 id="conclusion">Conclusion：</h3>
+<p>正则表达式指定了正则语言</p>
+<p>正则表达式5个组成部分：</p>
+<ul>
+<li><p>Two base cases: empty and 1-character strings</p></li>
+<li><p>Three compound expressions: union concatenatation and
+iteration</p></li>
+</ul>
+<h2 id="形式语言">形式语言：</h2>
+<p><a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47583941">形式语言与自动机——形式语言
+- 知乎 (zhihu.com)</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/hencoff/article/details/7515047">(163条消息)
+自然语言和形式语言 （包含各种术语的区别）_Hencoff的博客-CSDN博客</a></p>
+<p>定义：let <span class="math inline">\(\Sigma\)</span> be a set of
+characters (an alphabet)</p>
+<p>A language over <span class="math inline">\(\Sigma\)</span> is a set
+of strings of characters drawn from <span
+class="math inline">\(\Sigma\)</span></p>
+<p>简而言之，所以形式语言其实就是字符集上的任何一组字符串，正则表达式是形式语言的一种</p>
+<p>如：alphabet：英文字符</p>
+<p>lang: 英语句子</p>
+<p>上面的例子不是，因为英文单词的定义是没有规则的</p>
+<p>如：alphabet：ascii</p>
+<p>language: C program</p>
+<p><strong>映射函数</strong>：L maps syntax to semantics</p>
+<p><span class="math inline">\(L(e) = M\)</span></p>
+<p><span class="math inline">\(e =&gt; re(regular \quad
+expression)\)</span></p>
+<p><span class="math inline">\(M =&gt; set \quad of \quad
+strings\)</span></p>
+<p>实际上之前的</p>
+<p><span class="math inline">\(A+B = A \cup B
+就是这样一套map函数，其本质上就是：L(A+B) = L(A) \cup \
+L(B)\)</span></p>
+<p>Why use a meaning function ?</p>
+<ul>
+<li>划分了syntax和semantics</li>
+<li>可以把notation作为一个独立的问题</li>
+<li>因为表达式(文法)和meanings并不是一对一的关系(可能是多对一，但不会是一对多，这样会出现二义性)</li>
+</ul>
+<h2 id="lexical-specification">Lexical specification</h2>
+<p>Keyword: 'if' or 'else' or 'then'</p>
+<p>Integar: digit = '0' + '1' + ... + '9', digit digit* = digit+</p>
+<p>identifier: letter = [a-zA-Z], letter(letter+digit)*</p>
+<p>Whitespace: (' ' + '' + ')+</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230629233242362.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230629233242362" />
+<figcaption aria-hidden="true">image-20230629233242362</figcaption>
+</figure>
+<p>正则表达式描述了许多常规语言，如电话号码，邮件等等</p>
+<p>regular languages are a language specification:
+正则语言描述了一些符合特定规则的语言</p>
+<p>Given a string s and a rexp R, is <span class="math inline">\(s \in
+L(R)?\)</span></p>
+<p>为了回答上面这个问题，我们来整理下：</p>
+<h3 id="一些基本的正则表达式">一些基本的正则表达式</h3>
+<p>At least one: $ A+ AA*$</p>
+<p>Union: $ A|B A + B$</p>
+<p>Option: $ A? A + $</p>
+<p>Range: $ 'a' + 'b' + ... + 'z' $</p>
+<p>Exclude range: $ complement of [a-z] $</p>
+<p>具体步骤：</p>
+<blockquote>
+<ol type="1">
+<li>Write a rexp for lexemes of each token class:</li>
+</ol>
+<p>​ Number = digit+</p>
+<p>​ Keyword = 'if' + 'else' + ...</p>
+<p>​ ...</p>
+<ol start="2" type="1">
+<li>Contruct R, matching all lexemes for all tokens</li>
+</ol>
+<p>​ R = keyword + idenfier + Number ... = R1 + R2 + ... Rn
+(所有正则取并集)</p>
+<ol start="3" type="1">
+<li><p>Let input be x1...xn</p>
+<p>For $1 &lt;= i &lt;= n check x1...xi L(R) $</p></li>
+<li><p>if success, then we know that</p></li>
+</ol>
+<p>​ <span class="math inline">\(x1...xi \in L(Rj) \quad for \quad some
+\quad j\)</span></p>
+<ol start="5" type="1">
+<li>Remove x1...xi from input and go to (3)</li>
+</ol>
+</blockquote>
+<p><strong>How much input is need ?</strong></p>
+<p>就像人类读取一样，贪婪的，以==和=为例，双等号出现的时候使用两个等号作为一个匹配整体</p>
+<p><span class="math inline">\(x_1...xi \in L(R)\)</span></p>
+<p><span class="math inline">\(x_1...xj \in L(R)\)</span></p>
+<p><span class="math inline">\(i != j\)</span></p>
+<p>select which t = max(i, j)</p>
+<p><strong>Which token is used ?</strong></p>
+<p><span class="math inline">\(x_1...xi \in L(R_i)\)</span></p>
+<p><span class="math inline">\(x_1...xi \in L(R_j)\)</span></p>
+<p>可以按照优先级，哪个最先出现使用哪个</p>
+<p><strong>what if no rule matches ?</strong></p>
+<p>Error = [all strings not in the lexical specification] as last in
+priority</p>
+<p>如果所有的token class都不满足，最后由Error兜底</p>
+<h3 id="conclusion-1">Conclusion</h3>
+<ul>
+<li>Regular expressions are a concise notation for strings patterns</li>
+<li>Use in lexical analysis requires small extensions
+<ul>
+<li>To resolve ambiguities [matches as long as possible]</li>
+<li>To handle errors [highest priority match]</li>
+</ul></li>
+<li>Good algorithm known
+<ul>
+<li>Require only single pass over the input
+(仅仅一次遍历就可以确定每个词素的所属token class)</li>
+<li>Few operations per character (table lookup)</li>
+</ul></li>
+</ul>
+<h2 id="finite-automata">Finite automata</h2>
+<p>Rexp = specifications (正则表达式作为词法分析的规范语言)</p>
+<p>A finite automation consists of of</p>
+<ul>
+<li><p>An input alphabet <span
+class="math inline">\(\Sigma\)</span></p></li>
+<li><p>A set of states S</p></li>
+<li><p>A start state n</p></li>
+<li><p>A set of accepting states F 包含于S</p></li>
+<li><p>A set of transitions state -&gt; (some input) state</p></li>
+<li><p>Transition (状态转移)</p></li>
+</ul>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702223309277.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702223309277" style="zoom:50%;" /></p>
+<ul>
+<li><p>Is read(读作): In State s1 on input a goto state s2
+(在状态s1输入字符a将会进入s2状态)</p></li>
+<li><p>if end of input and in accepting state =&gt; accept</p></li>
+<li><p>Otherwise =&gt; reject</p>
+<ul>
+<li><p>在非接受态输入终止了</p></li>
+<li><p>在某一个状态无法进行状态转移</p></li>
+</ul></li>
+</ul>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230630233026614.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230630233026614" />
+<figcaption aria-hidden="true">image-20230630233026614</figcaption>
+</figure>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230630233102794.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230630233102794" />
+<figcaption aria-hidden="true">image-20230630233102794</figcaption>
+</figure>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230630233131470.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230630233131470" />
+<figcaption aria-hidden="true">image-20230630233131470</figcaption>
+</figure>
+<blockquote>
+<p>For some reason we're about to read x2 when we make an epsilon move
+the machine change state, but the input pointer stays in exactly the
+same place. So the new configuration of the machine would be that we're
+in state b. But our input pointer is still waiting to read x2. So you
+can think of epsilon move is a kind of free move for the machine. It can
+move to a different state without consuming any input.</p>
+<p>Just to be clear here, the machne does not have to make the epsilon
+move. It's a choice. So we can decide whether to make the epsilon move
+or not. Now, epsilon move was the first time we're mentioned the
+possibility that a finite automaton might have a choice in what moves it
+makes</p>
+</blockquote>
+<p>上面的叫做有选择的自动机</p>
+<p>有选择的自动机(NFA)和没有选择的自动机(DFA)</p>
+<p>确定性自动机：</p>
+<ul>
+<li><p>不存在选择，如epsilon move(因为epsilon
+move实际上本身就是一种选择)</p></li>
+<li><p>one transition per input per state</p></li>
+<li><p>A DFA takes only one path through the state graph:</p></li>
+</ul>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702223139657.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702223139657" style="zoom:50%;" /></p>
+<p>NFA:</p>
+<ul>
+<li>Can have multiple transitions for one input in a given state</li>
+<li>Can have <span class="math inline">\(\epsilon-moves\)</span></li>
+<li>An NFA can choose:</li>
+</ul>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702223124224.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702223124224" style="zoom:50%;" /></p>
+<p>NFA只要有一条path可以到达accept
+state，那么就说这个input属于这个nfa所代表的语言</p>
+<p><strong>Conclusion</strong></p>
+<ul>
+<li>NFAs and DFAs recognize the same setg of language: regular
+languages</li>
+<li>DFAs are faster to execute: there are no choices to consider</li>
+<li>BFAs are , in general, smaller</li>
+</ul>
+<blockquote>
+<p>epsilon move</p>
+</blockquote>
+<h2 id="rexp-2-nfa">Rexp 2 NFA</h2>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs coq">Lexical specification =&gt; Regular expression =&gt; NFA =&gt; DFA =&gt; <span class="hljs-keyword">Table</span>-driven implementation of DFA<br></code></pre></td></tr></table></figure>
+<p>For each kind of rexp, define an equalvalent NFA: NFA for rexp M</p>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702221029097.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702221029097" style="zoom:50%;" /></p>
+<p>For <span class="math inline">\(\epsilon\)</span></p>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702221052123.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702221052123" style="zoom:50%;" /></p>
+<p>For <span class="math inline">\(a\)</span></p>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702221104220.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702221104220" style="zoom:50%;" /></p>
+<p>如何联合？</p>
+<p>we add an epsilon transition to the start state of B. What that says
+is that first few recognize some portion of the input that belongs to
+the language of a
+(我们已经识别了前面一个正则表达式，希望不消耗掉任何一个字符跳转到另一个正则表达式).
+And when we get to what we've been the final state of a, we can jump to
+the start state of b without consuming any input and try to read the
+rest of the string as part of the string in the language of B.</p>
+<p>For <span class="math inline">\(AB\)</span></p>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702221203335.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702221203335" style="zoom:50%;" /></p>
+<p>For <span class="math inline">\(A+B\)</span></p>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702221219541.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702221219541" style="zoom:50%;" /></p>
+<p>For <span class="math inline">\(A^*\)</span></p>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702221643107.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702221643107" style="zoom:50%;" /></p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702161855178.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230702161855178" />
+<figcaption aria-hidden="true">image-20230702161855178</figcaption>
+</figure>
+<h2 id="nfa-2-dfa">NFA 2 DFA</h2>
+<p><strong><span
+class="math inline">\(\epsilon-closure\)</span></strong></p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702231414583.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230702231414583" />
+<figcaption aria-hidden="true">image-20230702231414583</figcaption>
+</figure>
+<p>An NFA may be in many states at any time (NFA
+在同一刻可能有多个状态，比如下面的起始点有ABCDHI)</p>
+<p>How many different states ?</p>
+<p>NFA有N个不同的状态，子集种类最大有<span
+class="math inline">\(2^N\)</span>（包含空集） <span
+class="math display">\[
+N \quad states \\
+|S| \le N \\
+2 ^{N} - 1 \quad non-empty \quad subsets
+\]</span></p>
+<p>$$ NFA: \ states: S \ start: s S \ final: F S \ a(X) = {y | x X_n x
+y}</p>
+<p>\ \ \ \</p>
+<p>DFA: \ states: subsets of S \ start: -closure(s) \ final: {X | X F }
+\ X Y if Y = -closure(a(X)) $$</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">NFA:</span><br><span class="hljs-symbol">states:</span> S<br><span class="hljs-symbol">start:</span> s <span class="hljs-keyword">in</span> S<br><span class="hljs-symbol">final:</span> F 包含于S<br>a(<span class="hljs-built_in">X</span>) = &#123;<span class="hljs-built_in">y</span> | <span class="hljs-built_in">x</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">X</span> <span class="hljs-built_in">x</span> -&gt;(a) <span class="hljs-built_in">y</span>&#125;<br><br><br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702225328912.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230702225328912" />
+<figcaption aria-hidden="true">image-20230702225328912</figcaption>
+</figure>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702225314437.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230702225314437" />
+<figcaption aria-hidden="true">image-20230702225314437</figcaption>
+</figure>
+<p>DFA can be impl by a 2D table T</p>
+<ul>
+<li>One dimension is states</li>
+<li>Other dimension is input symbol</li>
+</ul>
+<p>For every transition $ s_i s_k $ define <span
+class="math inline">\(T[i, a] = k\)</span></p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pf">i = <span class="hljs-number">0</span> 控制字符的指针<br><span class="hljs-keyword">state</span> = <span class="hljs-number">0</span> 控制状态<br>while (input[i]) &#123;<br>	<span class="hljs-keyword">state</span> = A[<span class="hljs-keyword">state</span>, input[i++]];<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230702232859459.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230702232859459" style="zoom:50%;" /></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>S</td>
+<td>T</td>
+<td>U</td>
+</tr>
+<tr class="even">
+<td>T</td>
+<td>T</td>
+<td>U</td>
+</tr>
+<tr class="odd">
+<td>U</td>
+<td>T</td>
+<td>U</td>
+</tr>
+</tbody>
+</table>
+<p>如果觉得states太多，表太大，可以考虑共享内存和链表的方式存储表结构，对于N个states的NFA来说最多需要<span
+class="math inline">\(2^N - 1\)</span> 对应的DFA states</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230702232401012.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230702232401012" />
+<figcaption aria-hidden="true">image-20230702232401012</figcaption>
+</figure>
+<p>这个时候states(行数)为NFA的states数量</p>
+<p><strong>Conclusion</strong></p>
+<ul>
+<li>NFA -&gt; DFA conversion is key</li>
+<li>Tools trade between speed and space
+<ul>
+<li>DFAs: faster, less compact</li>
+<li>NFAs: slower, concise</li>
+</ul></li>
+</ul>
+<h2 id="conclusion-2">Conclusion</h2>
+<p>怎么实现</p>
+<p>自动机的应用（本质上是保存状态，进行状态转移）</p>
 
                 
               </div>

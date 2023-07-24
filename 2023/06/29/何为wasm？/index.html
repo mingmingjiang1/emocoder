@@ -1,0 +1,787 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/emocoder/img/fluid.png">
+  <link rel="icon" href="/emocoder/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="迷途知返">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="何为wasm？ WebAssembly 是一种新的编码方式，可以在现代的网络浏览器中运行 － 它是一种低级的类汇编语言，具有紧凑的二进制格式，可以接近原生的性能运行，并为诸如 C &#x2F; C ++等语言提供一个编译目标，以便它们可以在 Web 上运行。它也被设计为可以与 JavaScript 共存，允许两者一起工作。 对于网络平台而言，WebAssembly 具有巨大的意义——这为客户端 app 提供">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迷途知返">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/06/29/%E4%BD%95%E4%B8%BAwasm%EF%BC%9F/index.html">
+<meta property="og:site_name" content="迷途知返">
+<meta property="og:description" content="何为wasm？ WebAssembly 是一种新的编码方式，可以在现代的网络浏览器中运行 － 它是一种低级的类汇编语言，具有紧凑的二进制格式，可以接近原生的性能运行，并为诸如 C &#x2F; C ++等语言提供一个编译目标，以便它们可以在 Web 上运行。它也被设计为可以与 JavaScript 共存，允许两者一起工作。 对于网络平台而言，WebAssembly 具有巨大的意义——这为客户端 app 提供">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-29T15:14:14.040Z">
+<meta property="article:modified_time" content="2023-06-29T15:14:14.040Z">
+<meta property="article:author" content="迷途知返">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>迷途知返</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/emocoder/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/emocoder/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/emocoder/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mingmingjiang1.github.io","root":"/emocoder/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/emocoder/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/emocoder/js/utils.js" ></script>
+  <script  src="/emocoder/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/emocoder/">
+      <strong>Emoer</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/emocoder/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-29 23:14" pubdate>
+          2023年6月29日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="何为wasm">何为wasm？</h2>
+<p>WebAssembly 是一种新的编码方式，可以在现代的网络浏览器中运行 －
+它是一种低级的类汇编语言，具有紧凑的二进制格式，可以接近原生的性能运行，<strong>并为诸如
+C / C ++等语言提供一个编译目标</strong>，以便它们可以在 Web
+上运行。它也被设计为可以<strong>与 JavaScript
+共存</strong>，允许两者一起工作。</p>
+<p>对于网络平台而言，WebAssembly 具有巨大的意义——这为客户端 app
+提供了一种在网络平台以接近本地速度的方式运行多种语言编写的代码的方式；在这之前，客户端
+app 是不可能做到的。</p>
+<p>WebAssembly 被设计为可以和 JavaScript 一起协同工作——通过使用
+WebAssembly 的 JavaScript API，你可以把 WebAssembly 模块加载到一个
+JavaScript 应用中并且在两者之间共享功能。这允许你在同一个应用中利用
+WebAssembly 的性能和威力以及 JavaScript
+的表达力和灵活性，即使你可能并不知道如何编写 WebAssembly 代码。</p>
+<p><strong>webassembly的目标</strong></p>
+<ul>
+<li>快速、高效、可移植</li>
+<li>WebAssembly
+是一门低阶语言，但是它有确实有一种人类可读的文本格式（wat格式），这允许通过手工来写代码，看代码以及调试代码。</li>
+<li>保持安全——WebAssembly
+被限制运行在一个安全的沙箱执行环境中。像其他网络代码一样，它遵循浏览器的同源策略和授权策略</li>
+<li>不破坏网络——WebAssembly
+的设计原则是与其他网络技术和谐共处并保持向后兼容</li>
+</ul>
+<p>webassembly如何适应网络平台，从两方面入手：</p>
+<ul>
+<li>提供运行时宿主环境：vm</li>
+<li>可以使用网络平台的一些api：如DOM, CSSOM, WebGL, IndexDB,
+WebAudio</li>
+</ul>
+<h2 id="前景和发展有什么用">前景和发展，有什么用？</h2>
+<h2 id="原理大致怎么做的">原理，大致怎么做的？</h2>
+<h3 id="常规使用方式">常规使用方式</h3>
+<p>(使用基于llvm的语言)如C++编写程序 =&gt; 借用编译工具(Emscripten)
+=&gt; wassm格式的代码 =&gt; 用来加载和运行该模块的
+JavaScript”胶水“代码</p>
+<figure>
+<img
+src="https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts/emscripten-diagram.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol type="1">
+<li>Emscripten 首先把 C/C++提供给 clang+LLVM——一个成熟的开源
+C/C++编译器工具链，比如，在 OSX 上是 XCode 的一部分。</li>
+<li>Emscripten 将 clang+LLVM 编译的结果转换为一个.wasm 二进制文件。</li>
+<li>就自身而言，WebAssembly 当前不能直接的存取 DOM；它只能调用
+JavaScript，并且只能传入整形和浮点型的原始数据类型作为参数。这就是说，为了使用任何
+Web API，WebAssembly 需要调用到 JavaScript，然后由 JavaScript 调用 Web
+API。因此，Emscripten 创建了 HTML 和 JavaScript
+胶水代码以便完成这些功能。</li>
+</ol>
+<h3 id="直接写wasm">直接写wasm</h3>
+<p>就像真实的汇编语言一样，WebAssembly
+的二进制格式也有文本表示——两者之间 1:1
+对应。你可以手工书写或者生成这种格式然后使用这些工具（<a
+target="_blank" rel="noopener" href="http://webassembly.org/getting-started/advanced-tools/">WebAssemby
+text-to-binary tools</a>）中的任何一个把它转换为二进制格式。</p>
+<h3 id="wasm基本概念">wasm基本概念</h3>
+<p>其实上面提到了js作为胶水代码，那必然有相关的概念，</p>
+<p>模块：</p>
+<p>内存：</p>
+<p>表格：</p>
+<p><strong>实例</strong>：</p>
+<h2 id="wasm基本概念-1">wasm基本概念</h2>
+<h3 id="c-wassm">C++ =&gt; wassm</h3>
+<p>Wassm: 机器理解的语言</p>
+<p>wat: 人可理解的wassm</p>
+<p>wassm可以通过一些工具（）转为人可阅读的一段文本，这段文本是树状的表达式，类似抽象语法树(AST)，树里的每个节点都是用括号括起来的，并且每个节点都有自己的标记，代表属于语言的某一部分（是函数？还是参数？等等），而没有用括号包裹的一般都是operation，如下：</p>
+<figure class="highlight wasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs wasm"><span class="hljs-punctuation">(</span><span class="hljs-keyword">func</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">param</span> <span class="hljs-type">i32</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">param</span> <span class="hljs-type">f32</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">local</span> <span class="hljs-type">f64</span><span class="hljs-punctuation">)</span><br>  <span class="hljs-keyword">local.get</span> <span class="hljs-number">0</span><br>  <span class="hljs-keyword">local.get</span> <span class="hljs-number">1</span><br>  <span class="hljs-keyword">local.get</span> <span class="hljs-number">2</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+<p>这是一个函数节点，函数节点包含3个子节点（2个参数节点和一个局部变量节点，参数的标记是param，局部变量1的标记是local），并且还有3个operation（下面会提到一些基本的operation）。</p>
+<p>常见节点：</p>
+<figure class="highlight wasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs wasm"><span class="hljs-keyword">module</span><br><span class="hljs-keyword">param</span><br><span class="hljs-keyword">result</span><br><span class="hljs-keyword">export</span>: <span class="hljs-punctuation">(</span><span class="hljs-keyword">export</span> <span class="hljs-string">&quot;add&quot;</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">func</span> <span class="hljs-title function_">$add</span><span class="hljs-punctuation">))</span>, 导出函数<span class="hljs-variable">$add</span>, 暴露对外部语言的一个接口：add，简写方式：在定义函数的时候即刻导出<br><br><span class="hljs-keyword">import</span>: <span class="hljs-punctuation">(</span><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;console&quot;</span> <span class="hljs-string">&quot;log&quot;</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">func</span> <span class="hljs-title function_">$log</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">param</span> <span class="hljs-type">i32</span><span class="hljs-punctuation">)))</span>, wassm提供了二级命名空间，如这里的console.log，代表的是即将导入的外部语言的console模块下的log变量，后面<span class="hljs-keyword">func</span> <span class="hljs-title function_">$log</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">param</span> <span class="hljs-type">i32</span><span class="hljs-punctuation">)</span>是导入函数的签名，必须要和原语言的类型一致，对于js这种语言其实不起作用。<br>WebAssembly has a two-level namespace so the <span class="hljs-keyword">import</span> statement here is saying that we&#x27;re asking to <span class="hljs-keyword">import</span> the log function from the console module. <br><br>Imported functions are just like normal functions: they have a signature that WebAssembly validation checks statically, and they are given an index and can be named and called.<br><br>JavaScript functions have no notion of signature, so any JavaScript function can be passed, regardless of the <span class="hljs-keyword">import</span>&#x27;s declared signature. （会忽略js的函数签名）<br><br>Once a <span class="hljs-keyword">module</span> declares an <span class="hljs-keyword">import</span>, the caller of WebAssembly.instantiate<span class="hljs-punctuation">()</span> must pass in an <span class="hljs-keyword">import</span> object that has the corresponding properties.<br></code></pre></td></tr></table></figure>
+<p>operation：</p>
+<p>read：</p>
+<p>​ 按索引读（其实就是按照函数栈内的偏移量读）：The instruction
+<code>local.get 0</code> would get the i32 parameter,
+<code>local.get 1</code> would get the f32 parameter, and
+<code>local.get 2</code> would get the f64 local.</p>
+<p>​ 具名读：write <code>local.get $p1</code> instead of
+<code>local.get 0</code>, etc</p>
+<p>​
+具名读速度应该会慢点，只是方便开发人员阅读，因为最终还是要转成机器可理解的方式</p>
+<p>write：</p>
+<p>常见opertaion</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crystal">call <span class="hljs-variable">$&#123;</span>name&#125;<br><span class="hljs-variable">$&#123;</span><span class="hljs-keyword">type</span>&#125;.const <br></code></pre></td></tr></table></figure>
+<p>在讲write操作之前，讨论关于函数的计算模型——堆栈机，因为write操作比较抽象，就是一条简单的指令；</p>
+<p>来看写操作：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-type">i32</span>.<span class="hljs-keyword">add</span><br></code></pre></td></tr></table></figure>
+<p>表示基于i32类型的，从栈内取出两个数字相加并放回栈内</p>
+<blockquote>
+<p>如果类型不对会怎么样？</p>
+</blockquote>
+<p>在js里使用wassm（涉及相关api，memory，global）</p>
+<p>在wassm里使用js或者其他语言（涉及导入声明和instance传入的一个对象）</p>
+<p><strong>全局变量</strong></p>
+<p>WebAssembly has the ability to create global variable instances,
+accessible from both JavaScript and importable/exportable across one or
+more <a
+target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/Module"><code>WebAssembly.Module</code></a>
+instances. This is very useful, as it allows dynamic linking of multiple
+modules.</p>
+<p>wassm可以创建全局变量，这些变量可以来自js或者可导入/导出的<a
+target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/Module"><code>WebAssembly.Module</code></a>
+instances。</p>
+<figure class="highlight wasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs wasm"><span class="hljs-punctuation">(</span><span class="hljs-keyword">module</span><br>   <span class="hljs-punctuation">(</span><span class="hljs-keyword">global</span> <span class="hljs-variable">$g</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;js&quot;</span> <span class="hljs-string">&quot;global&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">mut</span> <span class="hljs-type">i32</span><span class="hljs-punctuation">))</span> // 声明来自js的全局变量<br>   <span class="hljs-punctuation">(</span><span class="hljs-keyword">func</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">export</span> <span class="hljs-string">&quot;getGlobal&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">result</span> <span class="hljs-type">i32</span><span class="hljs-punctuation">)</span> // 函数<span class="hljs-number">1</span><br>        <span class="hljs-punctuation">(</span><span class="hljs-keyword">global.get</span> <span class="hljs-variable">$g</span><span class="hljs-punctuation">))</span><br>   <span class="hljs-punctuation">(</span><span class="hljs-keyword">func</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">export</span> <span class="hljs-string">&quot;incGlobal&quot;</span><span class="hljs-punctuation">)</span>// 函数<span class="hljs-number">2</span>，导出<br>        <span class="hljs-punctuation">(</span><span class="hljs-keyword">global.set</span> <span class="hljs-variable">$g</span><br>            <span class="hljs-punctuation">(</span><span class="hljs-keyword">i32.add</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">global.get</span> <span class="hljs-variable">$g</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">i32.const</span> <span class="hljs-number">1</span><span class="hljs-punctuation">))))</span><br><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+<p><strong>内存操作</strong></p>
+<p>Memory:</p>
+<p>The above example is a pretty terrible logging function: it only
+prints a single integer! What if we wanted to log a text string? To deal
+with strings and other more complex data types, WebAssembly provides
+<strong>memory</strong> (although we also have <a
+target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format#reference_types">Reference
+types</a> in newer implementation of WebAssembly). According to
+WebAssembly, <strong>memory is just a large array of bytes</strong> that
+can grow over time. WebAssembly contains instructions like
+<code>i32.load</code> and <code>i32.store</code> for reading and writing
+from <a
+target="_blank" rel="noopener" href="https://webassembly.github.io/spec/core/exec/index.html#linear-memory">linear
+memory</a>.</p>
+<p>对应到js里，其实就是ArrayBuffer</p>
+<p>So a string is just a sequence of bytes somewhere inside this linear
+memory. Let's assume that we've written a suitable string of bytes to
+memory; how do we pass that string out to JavaScript?</p>
+<p>Wassm提供了memory接口，可以暴露wassm的memory给js消费，js可以用ArrayBuffer相关api进行消费</p>
+<p>当然也可以创建memory给wassm使用</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">js:</span><br>WebAssembly.Memory<br><br><span class="hljs-symbol">wassm:</span><br>(import <span class="hljs-string">&quot;js&quot;</span> <span class="hljs-string">&quot;mem&quot;</span> (memory <span class="hljs-number">1</span>))<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Note:</strong> Above, note the double semicolon syntax
+(<code>;;</code>) for allowing comments in WebAssembly files.</p>
+</blockquote>
+<p><strong>类型</strong></p>
+<p>WebAssembly currently has four available <em>number types</em>:</p>
+<ul>
+<li><code>i32</code>: 32-bit integer</li>
+<li><code>i64</code>: 64-bit integer</li>
+<li><code>f32</code>: 32-bit float</li>
+<li><code>f64</code>: 64-bit float</li>
+</ul>
+<h3 id="vector-types"><a
+target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format#vector_types">Vector
+types</a></h3>
+<ul>
+<li><code>v128</code>: 128 bit vector of packed integer, floating-point
+data, or a single 128 bit type.</li>
+</ul>
+<h3 id="reference-types"><a
+target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format#reference_types">Reference
+types</a></h3>
+<p>bulk mem operations</p>
+<p>seven new built-in operations are provided for bulk memory operations
+such as copying and initializing, to allow WebAssembly to model native
+functions such as <code>memcpy</code> and <code>memmove</code> in a more
+efficient, performant way.</p>
+<ul>
+<li><code>data.drop</code>: Discard the data in an data segment.</li>
+<li><code>elem.drop</code>: Discard the data in an element segment.</li>
+<li><code>memory.copy</code>: Copy from one region of linear memory to
+another.</li>
+<li><code>memory.fill</code>: Fill a region of linear memory with a
+given byte value.</li>
+<li><code>memory.init</code>: Copy a region from a data segment.</li>
+<li><code>table.copy</code>: Copy from one region of a table to
+another.</li>
+<li><code>table.init</code>: Copy a region from an element segment.</li>
+</ul>
+<p><strong>多线程</strong></p>
+<p>https://github.com/AllenWrong/Self-learning-Record/blob/master/CS143%20Compiler.md</p>
+<p>Sidecar:</p>
+<p>https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/06/29/何为wasm？/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>迷途知返</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/emocoder/2023/07/15/Design%20Pattern/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/emocoder/2023/06/22/faas%E4%B8%8Eseverless/" title="faas与severless">
+                        <span class="hidden-mobile">faas与severless</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/emocoder/js/events.js" ></script>
+<script  src="/emocoder/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/emocoder/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/emocoder/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/emocoder/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

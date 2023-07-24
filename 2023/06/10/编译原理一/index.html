@@ -16,18 +16,20 @@
   <meta name="author" content="迷途知返">
   <meta name="keywords" content="">
   
-    <meta name="description" content="WIP">
+    <meta name="description" content="Introduction Compiler vs Interpreter  History of Compiler  很喜欢的一句话： When hardware cost the most in absolute and relative terms more than they would ever cost again already, the software was the domina">
 <meta property="og:type" content="article">
 <meta property="og:title" content="斯坦福cs231(编译原理)の 1 Introduction">
 <meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/06/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E4%B8%80/index.html">
 <meta property="og:site_name" content="迷途知返">
-<meta property="og:description" content="WIP">
+<meta property="og:description" content="Introduction Compiler vs Interpreter  History of Compiler  很喜欢的一句话： When hardware cost the most in absolute and relative terms more than they would ever cost again already, the software was the domina">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230625222308600.png">
 <meta property="article:published_time" content="2023-06-10T10:06:44.000Z">
-<meta property="article:modified_time" content="2023-06-11T06:48:43.439Z">
+<meta property="article:modified_time" content="2023-06-28T03:34:18.885Z">
 <meta property="article:author" content="迷途知返">
 <meta property="article:tag" content="编译原理，计算机基础，cool">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mingmingjiang1.github.io/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230625222308600.png">
   
   
   
@@ -220,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3 字
+          1.8k 字
         
       </span>
     
@@ -231,7 +233,7 @@
         
         
         
-          1 分钟
+          16 分钟
         
       </span>
     
@@ -274,7 +276,100 @@
             
               <div class="markdown-body">
                 
-                <p>WIP</p>
+                <h2 id="introduction">Introduction</h2>
+<h3 id="compiler-vs-interpreter">Compiler vs Interpreter</h3>
+<p><img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20230625222308600.png" srcset="/emocoder/img/loading.gif" lazyload alt="image-20230625222308600" style="zoom:50%;" /></p>
+<h3 id="history-of-compiler">History of Compiler</h3>
+<blockquote>
+<p>很喜欢的一句话：</p>
+<p>When hardware cost the most in absolute and relative terms more than
+they would ever cost again already, the software was the dominant
+expense. And in making good use out of computers.</p>
+<p>当硬件占据了绝对成本，就该考虑软件了。</p>
+</blockquote>
+<blockquote>
+<p>FORTRAN：</p>
+<p>The first compiler: Huge impact on computer science</p>
+<p>Led to an enormous body of theoretical work</p>
+<p>Modern compilers preserve the outline of FORTRAN</p>
+</blockquote>
+<p>现代编译器一般由以下组成：</p>
+<ul>
+<li>Lexical Analysis</li>
+<li>Parsing</li>
+<li>Semantic Analysis</li>
+<li>Optimization</li>
+<li>Code Genderation</li>
+</ul>
+<p>First Step: recognize words — Smallest unit above letters</p>
+<p>This is a sentence</p>
+<p>Lexical analysis divides program text into "words" or "tokens".</p>
+<p>If x==y then z = 1; else z = 2;</p>
+<p>编译器如何知道第一个双等于不是两个分开的独立的等于号？</p>
+<p>Once words are understood, the next step is to understand sentence
+structure</p>
+<p>Parsing = Digramming Sentences — The diagram is a tree</p>
+<p>看一个自然语言的例子</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230625224323367.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230625224323367" />
+<figcaption aria-hidden="true">image-20230625224323367</figcaption>
+</figure>
+<p>看一个编程语言的例子:</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230625224931669.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230625224931669" />
+<figcaption aria-hidden="true">image-20230625224931669</figcaption>
+</figure>
+<p>一旦句子的结构清晰了，就可以尝试去理解它的意思，compilers perform
+limited semantic analysis to catch inconsistencies.</p>
+<p>🌰：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">Jack </span>said <span class="hljs-keyword">Jerry </span>left his assignments <span class="hljs-built_in">at</span> home<br>这个句子里his指代不明确<br><br><span class="hljs-keyword">Jack </span>said <span class="hljs-keyword">Jack </span>left his assignment <span class="hljs-built_in">at</span> home ?<br>这个句子里更糟糕了，his可能指第一个<span class="hljs-keyword">Jack，当然也可能是第二个Jack，还有可能是其他人</span><br></code></pre></td></tr></table></figure>
+<p>类比编程语言：定义了作用域限制了二义性</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs abnf">&#123;<br>	int Jack <span class="hljs-operator">=</span> <span class="hljs-number">3</span><span class="hljs-comment">;</span><br>	&#123;<br>		int Jack <span class="hljs-operator">=</span> <span class="hljs-number">4</span><span class="hljs-comment">;</span><br>		cout &lt;&lt; Jack<span class="hljs-comment">;</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Compiler perform many semantic checks besides bariable bindings</p>
+<p>eg:</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">Jack </span>said <span class="hljs-keyword">Jerry </span>left her assignments <span class="hljs-built_in">at</span> home<br></code></pre></td></tr></table></figure>
+<p>a tyoe mismatch between her and Jack, we know thet are different
+people</p>
+<p>优化在自然语言中该户没有对应的部分，但是有点像简写；优化程序的目的是：运行速度更快，使用内存更少</p>
+<p>简写不是随便的：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">x</span> <span class="hljs-operator">=</span> Y * <span class="hljs-number">0</span> <span class="hljs-operator">=</span>&gt; X <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br>这是不正确的，Y如果是NaN，那么X应该仍然是NaN，而不是<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<p>代码生成通常指汇编代码生成，有点类型自然语言里的"翻译"</p>
+<p>现代编译器大多是这样的轮廓，只不过各部分所占据的比重不一样，现代编译器更注重优化：</p>
+<figure>
+<img
+src="/Users/bytedance/Library/Application%20Support/typora-user-images/image-20230625230214905.png" srcset="/emocoder/img/loading.gif" lazyload
+alt="image-20230625230214905" />
+<figcaption aria-hidden="true">image-20230625230214905</figcaption>
+</figure>
+<h2 id="economy-of-编译器">Economy of 编译器</h2>
+<p>Why are there so many programming langs ？</p>
+<p>Why are there new programming langs ？</p>
+<p>Why is a good programming lang ？</p>
+<h3 id="why-are-there-so-many-programming-langs">Why are there so many
+programming langs ?</h3>
+<p>不同的领域有着不同的语言需求</p>
+<ul>
+<li><p>比如科学计算，需要好的浮点数处理，快速的矩阵运算和并行，代表语言：FORTRAN(formula
+translation,公式翻译)</p></li>
+<li><p>商业应用：需要数据分析和报表，代表语言：sql</p></li>
+<li><p>系统编程：需要实时性，与操作系统打交道，C/C++</p></li>
+</ul>
+<h3 id="why-are-there-new-programming-langs">Why are there new
+programming langs</h3>
+<ul>
+<li>程序员的训练是一门语言的主要成本</li>
+<li>很容易开始一门新的语言</li>
+<li>新的领域产生，新的语言更适用于新的领域</li>
+</ul>
+<h3 id="why-is-a-good-programming-lang">Why is a good programming lang
+？</h3>
+<p>没有统一的标准去规定哪种语言是最好的语言</p>
+<h2 id="cool语法">Cool语法</h2>
+<p>wip</p>
 
                 
               </div>

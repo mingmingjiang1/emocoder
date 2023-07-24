@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/emocoder/img/fluid.png">
+  <link rel="icon" href="/emocoder/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="迷途知返">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Resembler 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798991">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迷途知返">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/07/16/Resembler/index.html">
+<meta property="og:site_name" content="迷途知返">
+<meta property="og:description" content="Resembler 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798991">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-16T06:09:18.191Z">
+<meta property="article:modified_time" content="2023-07-16T06:09:18.191Z">
+<meta property="article:author" content="迷途知返">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>迷途知返</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/emocoder/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/emocoder/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/emocoder/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mingmingjiang1.github.io","root":"/emocoder/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/emocoder/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/emocoder/js/utils.js" ></script>
+  <script  src="/emocoder/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/emocoder/">
+      <strong>Emoer</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/emocoder/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-16 14:09" pubdate>
+          2023年7月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          26k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          215 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="resembler">Resembler</h2>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br><span class="hljs-comment">// 当前进党设置了closed标识位且待重组的字节为0</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Reassembler::is_closed</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> closed_ &amp;&amp; <span class="hljs-built_in">bytes_pending</span>() == <span class="hljs-number">0</span>; &#125;   <br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Reassembler::insert</span><span class="hljs-params">(<span class="hljs-type">uint64_t</span> first_index, string data, <span class="hljs-type">bool</span> is_last_substring, Writer &amp;output)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (is_last_substring) &#123;<br>        closed_ = <span class="hljs-literal">true</span>;<br>    &#125;<br>待处理的超出可容纳范围 || Data have been transferred || data为空 || 可用capacity为<span class="hljs-number">0</span><br>    <span class="hljs-keyword">if</span> (first_index &gt;= unassembled_index_ + output.<span class="hljs-built_in">available_capacity</span>() || <span class="hljs-comment">/* Out of bound */</span><br>        first_index + data.<span class="hljs-built_in">length</span>() - <span class="hljs-number">1</span> &lt; unassembled_index_ ||            <span class="hljs-comment">/* Data have been transferred */</span><br>        data.<span class="hljs-built_in">empty</span>() || output.<span class="hljs-built_in">available_capacity</span>() == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">is_closed</span>()) &#123;<br>            output.<span class="hljs-built_in">close</span>();<br>        &#125;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> cap = output.<span class="hljs-built_in">available_capacity</span>();<br>    <span class="hljs-comment">// new_index actually distinguish where the current data start, the start index</span><br>    <span class="hljs-type">uint64_t</span> new_index = first_index;<br>    <br>    <span class="hljs-comment">// Data needs to fit the capability limitation	</span><br>    <span class="hljs-keyword">if</span> (first_index &lt;= unassembled_index_) &#123;<br>        <span class="hljs-comment">// 有重复</span><br>        new_index = unassembled_index_;<br>        <span class="hljs-comment">// overlapped_length = 70 - 60;</span><br>        <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> overlapped_length = unassembled_index_ - first_index;<br>        <span class="hljs-comment">// substr(10, 20 - 10); data.size = [60, 80] =&gt; [0, 20]</span><br>        data = data.<span class="hljs-built_in">substr</span>(overlapped_length, <span class="hljs-built_in">min</span>(data.<span class="hljs-built_in">size</span>() - overlapped_length, cap));<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 没有重复</span><br>        <span class="hljs-comment">// get 全部数据or可容纳的部分</span><br>        data = data.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">min</span>(data.<span class="hljs-built_in">size</span>(), cap));<br>        <span class="hljs-keyword">if</span> (first_index + data.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span> &gt; unassembled_index_ + cap - <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-comment">// </span><br>            data = data.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, unassembled_index_ + cap - first_index);<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 主要是处理 unassembled_substrings_ 和</span><br>    <span class="hljs-comment">// 获取 &gt;=new_index的最小索引</span><br>    <span class="hljs-keyword">auto</span> rear_iter = unassembled_substrings_.<span class="hljs-built_in">lower_bound</span>(new_index);<br>    <span class="hljs-keyword">while</span> (rear_iter != unassembled_substrings_.<span class="hljs-built_in">end</span>()) &#123;<br>        <span class="hljs-keyword">auto</span> &amp;[rear_index, rear_data] = *rear_iter;<br>        <span class="hljs-comment">// 和rear_index没有重叠</span><br>        <span class="hljs-keyword">if</span> (new_index + data.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span> &lt; rear_index) &#123;<br>            <span class="hljs-keyword">break</span>;<br>        &#125; <span class="hljs-comment">// No overlap conflict</span><br>        <br>        <span class="hljs-comment">// 否则就是有重叠</span><br>        <span class="hljs-type">uint64_t</span> rear_overlapped_length = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">if</span> (new_index + data.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span> &lt; rear_index + rear_data.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-comment">// the last index of current data less than counterpart of the rear_data</span><br>            <span class="hljs-comment">// denote that current: [. [  ]. ], then cut from [new_index, new_index + overlap_len]，这种case新的或者旧的应该包含重叠部分，这里采用的是旧的包含重叠部分，新的不包含重叠部分</span><br>            rear_overlapped_length = new_index + data.<span class="hljs-built_in">size</span>() - rear_index;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-comment">// else current: [. [  ] ]. 这种case旧的substring就不应该需要了，新的替换</span><br>            rear_overlapped_length = rear_data.<span class="hljs-built_in">size</span>();<br>        &#125;<br>        <span class="hljs-comment">// Prepare for next rear early, because the data may be erased afterwards.</span><br>        <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> next_rear = rear_index + rear_data.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>; <span class="hljs-comment">// last index of rear_data</span><br>        <span class="hljs-keyword">if</span> (rear_overlapped_length == rear_data.<span class="hljs-built_in">size</span>()) &#123;<br>          <span class="hljs-comment">// 走了上面的else，就会走这里</span><br>            unassembled_bytes_ -= rear_data.<span class="hljs-built_in">size</span>();<br>            unassembled_substrings_.<span class="hljs-built_in">erase</span>(rear_index); <span class="hljs-comment">// 抹除旧的</span><br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>          	<span class="hljs-comment">// 走了上面的if，就会走这里</span><br>            <span class="hljs-comment">// We don&#x27;t combine current data and rear data.</span><br>            <span class="hljs-comment">// Erase the overlapped part in current data is more efficient.</span><br>            data.<span class="hljs-built_in">erase</span>(data.<span class="hljs-built_in">end</span>() - <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int64_t</span>&gt;(rear_overlapped_length), data.<span class="hljs-built_in">end</span>());<br>        &#125;<br>        <span class="hljs-comment">// 寻找下一个 &gt;= next_rear的substring</span><br>        rear_iter = unassembled_substrings_.<span class="hljs-built_in">lower_bound</span>(next_rear);<br>    &#125;<br>    <br>     <span class="hljs-comment">// 同样地主要是处理 unassembled_substrings_ 和最大索引</span><br>     <span class="hljs-comment">// if the current substring behind the unassembled_index_</span><br>     <span class="hljs-keyword">if</span> (first_index &gt; unassembled_index_) &#123;<br>        <span class="hljs-comment">// 获取&gt;new_index的最小值</span><br>        <span class="hljs-keyword">auto</span> front_iter = unassembled_substrings_.<span class="hljs-built_in">upper_bound</span>(new_index);<br>        <span class="hljs-keyword">if</span> (front_iter != unassembled_substrings_.<span class="hljs-built_in">begin</span>()) &#123;<br>            <span class="hljs-comment">// 递减front_iter</span><br>            front_iter--;<br>            <span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> &amp;[front_index, front_data] = *front_iter;<br>            <span class="hljs-comment">// if first_index, ]</span><br>            <span class="hljs-keyword">if</span> (front_index + front_data.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span> &gt;= first_index) &#123;<br>                <span class="hljs-type">uint64_t</span> overlapped_length = <span class="hljs-number">0</span>;<br>                <span class="hljs-comment">// if  ] last_index</span><br>                <span class="hljs-keyword">if</span> (front_index + front_data.<span class="hljs-built_in">size</span>() &lt;= first_index + data.<span class="hljs-built_in">size</span>()) &#123;<br>                   <span class="hljs-comment">// 一次性把之前的全部delete了，所以不需要遍历</span><br>                    overlapped_length = front_index + front_data.<span class="hljs-built_in">size</span>() - first_index;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-comment">// if  last_index  ]</span><br>                    overlapped_length = data.<span class="hljs-built_in">size</span>();<br>                &#125;<br>                <span class="hljs-keyword">if</span> (overlapped_length == front_data.<span class="hljs-built_in">size</span>()) &#123;<br>                    unassembled_bytes_ -= front_data.<span class="hljs-built_in">size</span>();<br>                    unassembled_substrings_.<span class="hljs-built_in">erase</span>(front_index);<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    data.<span class="hljs-built_in">erase</span>(data.<span class="hljs-built_in">begin</span>(), data.<span class="hljs-built_in">begin</span>() + <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int64_t</span>&gt;(overlapped_length));<br>                    <span class="hljs-comment">// Don&#x27;t forget to update the inserted location</span><br>                    new_index = first_index + overlapped_length;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <br>    <span class="hljs-comment">// If the processed data is empty, no need to insert it.</span><br>    <span class="hljs-keyword">if</span> (data.<span class="hljs-built_in">size</span>() &gt; <span class="hljs-number">0</span>) &#123;<br>        unassembled_bytes_ += data.<span class="hljs-built_in">size</span>();<br>        unassembled_substrings_.<span class="hljs-built_in">insert</span>(<span class="hljs-built_in">make_pair</span>(new_index, std::<span class="hljs-built_in">move</span>(data)));<br>    &#125;<br><br>	 <span class="hljs-comment">// 从unassembled_strings中取出合理的（这里的合理指有序取，所以顺序遍历从unassembled_strings中取和上一层未组装的地方）插入发送缓冲区</span><br>   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> iter = unassembled_substrings_.<span class="hljs-built_in">begin</span>(); iter != unassembled_substrings_.<span class="hljs-built_in">end</span>();) &#123;<br>        <span class="hljs-keyword">auto</span> &amp;[sub_index, sub_data] = *iter;<br>        <span class="hljs-keyword">if</span> (sub_index == unassembled_index_) &#123;<br>          	<span class="hljs-comment">// 找到了</span><br>            <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> prev_bytes_pushed = output.<span class="hljs-built_in">bytes_pushed</span>();<br>            output.<span class="hljs-built_in">push</span>(sub_data);<br>            <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> bytes_pushed = output.<span class="hljs-built_in">bytes_pushed</span>();<br>            <span class="hljs-comment">// 但是可能装不下</span><br>            <span class="hljs-comment">// which case can go this if condition path ? when the Writer has no available space to store data.</span><br>            <span class="hljs-keyword">if</span> (bytes_pushed != prev_bytes_pushed + sub_data.<span class="hljs-built_in">size</span>()) &#123;<br>                <span class="hljs-comment">// Cannot push all data, we need to reserve the un-pushed part.</span><br>                <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> pushed_length = bytes_pushed - prev_bytes_pushed;<br>               <span class="hljs-comment">// 已经装进去的 </span><br>                unassembled_index_ += pushed_length;<br>               <span class="hljs-comment">// 未装进去的</span><br>                unassembled_bytes_ -= pushed_length;<br>               <span class="hljs-comment">// 把没有装进去的放回缓存区（unassembled_substrings_）</span><br>                unassembled_substrings_.<span class="hljs-built_in">insert</span>(<span class="hljs-built_in">make_pair</span>(unassembled_index_, sub_data.<span class="hljs-built_in">substr</span>(pushed_length)));<br>                <span class="hljs-comment">// Don&#x27;t forget to remove the previous incompletely transferred data</span><br>                unassembled_substrings_.<span class="hljs-built_in">erase</span>(sub_index);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>            unassembled_index_ += sub_data.<span class="hljs-built_in">size</span>();<br>            unassembled_bytes_ -= sub_data.<span class="hljs-built_in">size</span>();<br>            unassembled_substrings_.<span class="hljs-built_in">erase</span>(sub_index);<br>            iter = unassembled_substrings_.<span class="hljs-built_in">find</span>(unassembled_index_);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">break</span>; <span class="hljs-comment">// No need to do more. Data has been discontinuous.</span><br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">is_closed</span>()) &#123;<br>        <span class="hljs-comment">// if it is the last substring and bytes_pending === 0, then close</span><br>        output.<span class="hljs-built_in">close</span>();<br>    &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="tcpreceiver">TCPReceiver</h2>
+<p>这一节最好合上一节来看</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;tcp_receiver.hh&quot;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPReceiver::receive</span><span class="hljs-params">(TCPSenderMessage message, Reassembler &amp;reassembler, Writer &amp;inbound_stream)</span></span><br><span class="hljs-function"></span>&#123;<br>  	<span class="hljs-comment">// 没有设置SYN，此时不应该接受数据</span><br>    <span class="hljs-keyword">if</span> (!set_syn_) &#123;<br>      	<span class="hljs-comment">// 且当前报道文也不是SYN的</span><br>        <span class="hljs-keyword">if</span> (!message.SYN) &#123;<br>            <span class="hljs-keyword">return</span>; <span class="hljs-comment">// drop all data if SYN isn&#x27;t received</span><br>        &#125;<br>        <span class="hljs-comment">// 当前报道文是SYN的，设置ISN：随机的32位数字</span><br>        isn_ = message.seqno; <span class="hljs-comment">// FIN occupied one seqno</span><br>        set_syn_ = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 设置SYN标志位</span><br>    &#125;<br><br>    <span class="hljs-comment">// inbound_stream.bytes_pushed()即unassembled_index, + 1即为下一个期待接入的序号（first_index），需要基于ISN转为abs_seqno =&gt; stram_index</span><br>    <span class="hljs-comment">// stream_index = abs_seqno - 1 + SYN</span><br>    <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> checkpoint = inbound_stream.<span class="hljs-built_in">bytes_pushed</span>() + <span class="hljs-number">1</span>;<br>    <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> abs_seqno = message.seqno.<span class="hljs-built_in">unwrap</span>(isn_, checkpoint);<br>    <span class="hljs-comment">// unwrap function starts from isn_, which occupies one seqno.</span><br>    <span class="hljs-comment">// We calculate one index more so we need to minus it.</span><br>    <span class="hljs-comment">// But if SYN exists in this message, compensation is needed.</span><br>    <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> stream_index = abs_seqno - <span class="hljs-number">1</span> + message.SYN;<br>    <span class="hljs-comment">// 调用上一节实现的insert方法</span><br>    reassembler.<span class="hljs-built_in">insert</span>(stream_index, message.payload.<span class="hljs-built_in">release</span>(), message.FIN, inbound_stream);<br>&#125;<br><br><span class="hljs-comment">// receive调用结束了之后调用</span><br><span class="hljs-function">TCPReceiverMessage <span class="hljs-title">TCPReceiver::send</span><span class="hljs-params">(<span class="hljs-type">const</span> Writer &amp;inbound_stream)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    TCPReceiverMessage recv_msg &#123;&#125;;<br><br>    <span class="hljs-comment">// ws为接受方的缓存里的available_capacity，</span><br>    <span class="hljs-type">const</span> <span class="hljs-type">uint16_t</span> window_size<br>        = inbound_stream.<span class="hljs-built_in">available_capacity</span>() &gt; UINT16_MAX ? UINT16_MAX : inbound_stream.<span class="hljs-built_in">available_capacity</span>();<br>    <span class="hljs-keyword">if</span> (!set_syn_) &#123;<br>        <span class="hljs-keyword">return</span> &#123;std::optional&lt;Wrap32&gt; &#123;&#125;, window_size&#125;;<br>    &#125;<br>    <span class="hljs-comment">// add one ISN(SYN) length，ackno为下一个期待的序列号</span><br>    <span class="hljs-type">uint64_t</span> abs_ackno_offset = inbound_stream.<span class="hljs-built_in">bytes_pushed</span>() + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (inbound_stream.<span class="hljs-built_in">is_closed</span>()) &#123;<br>        abs_ackno_offset++; <span class="hljs-comment">// add one FIN</span><br>    &#125;<br>    recv_msg.ackno = isn_ + abs_ackno_offset;<br>    recv_msg.window_size = window_size;<br><br>    <span class="hljs-keyword">return</span> recv_msg;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>绝对序列号是为了不让别人轻易猜到，但是为什么用32位？</li>
+<li>为什么<code>const uint64_t stream_index = abs_seqno - 1 + message.SYN;</code></li>
+</ul>
+<h2 id="tcpsender">TCPSender</h2>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;tcp_sender.hh&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;tcp_config.hh&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;random&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-comment">/* TCPSender constructor (uses a random ISN if none given) */</span><br>TCPSender::<span class="hljs-built_in">TCPSender</span>(<span class="hljs-type">uint64_t</span> initial_RTO_ms, optional&lt;Wrap32&gt; fixed_isn)<br>    : <span class="hljs-built_in">isn_</span>(fixed_isn.<span class="hljs-built_in">value_or</span>(Wrap32 &#123;<span class="hljs-built_in">random_device</span>()()&#125;)), <span class="hljs-built_in">initial_RTO_ms_</span>(initial_RTO_ms)<br>&#123;&#125;<br><br><span class="hljs-function"><span class="hljs-type">uint64_t</span> <span class="hljs-title">TCPSender::sequence_numbers_in_flight</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> outstanding_seqno_; &#125;<br><br><span class="hljs-function"><span class="hljs-type">uint64_t</span> <span class="hljs-title">TCPSender::consecutive_retransmissions</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> consecutive_retransmission_times_; &#125;<br><br><span class="hljs-function">optional&lt;TCPSenderMessage&gt; <span class="hljs-title">TCPSender::maybe_send</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!segments_out_.<span class="hljs-built_in">empty</span>() &amp;&amp; set_syn_) &#123;<br>        TCPSenderMessage segment = std::<span class="hljs-built_in">move</span>(segments_out_.<span class="hljs-built_in">front</span>());<br>        segments_out_.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">return</span> segment;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">nullopt</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPSender::push</span><span class="hljs-params">(Reader &amp;outbound_stream)</span></span><br><span class="hljs-function"></span>&#123;<br>  	<span class="hljs-comment">// ws默认从receiver的返回结果中取，娶不到默认为1</span><br>    <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> curr_window_size = window_size_ ? window_size_ : <span class="hljs-number">1</span>;<br>    <span class="hljs-comment">// 填充</span><br>    <span class="hljs-keyword">while</span> (curr_window_size &gt; outstanding_seqno_) &#123;<br>        TCPSenderMessage msg;<br><br>        <span class="hljs-keyword">if</span> (!set_syn_) &#123;<br>            msg.SYN = <span class="hljs-literal">true</span>;<br>            set_syn_ = <span class="hljs-literal">true</span>;<br>        &#125;<br><br>        msg.seqno = <span class="hljs-built_in">get_next_seqno</span>();<br>        <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> payload_size<br>            = <span class="hljs-built_in">min</span>(TCPConfig::MAX_PAYLOAD_SIZE, curr_window_size - outstanding_seqno_ - msg.SYN);<br>        std::string payload = std::<span class="hljs-built_in">string</span>(outbound_stream.<span class="hljs-built_in">peek</span>()).<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, payload_size);<br>        outbound_stream.<span class="hljs-built_in">pop</span>(payload_size);<br><br>        <span class="hljs-keyword">if</span> (!set_fin_ &amp;&amp; outbound_stream.<span class="hljs-built_in">is_finished</span>()<br>            &amp;&amp; payload.<span class="hljs-built_in">size</span>() + outstanding_seqno_ + msg.SYN &lt; curr_window_size) &#123;<br>            msg.FIN = <span class="hljs-literal">true</span>;<br>            set_fin_ = <span class="hljs-literal">true</span>;<br>        &#125;<br><br>        msg.payload = <span class="hljs-built_in">Buffer</span>(std::<span class="hljs-built_in">move</span>(payload));<br><br>        <span class="hljs-comment">// no data, stop sending</span><br>        <span class="hljs-keyword">if</span> (msg.<span class="hljs-built_in">sequence_length</span>() == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// no outstanding segments, restart timer</span><br>        <span class="hljs-keyword">if</span> (outstanding_seg_.<span class="hljs-built_in">empty</span>()) &#123;<br>            RTO_timeout_ = initial_RTO_ms_;<br>            timer_ = <span class="hljs-number">0</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 还没发送，放入未确认缓存</span><br>        segments_out_.<span class="hljs-built_in">push</span>(msg);<br>				<br>      	<span class="hljs-comment">// 当然，未确认的序列号也要相应增加</span><br>        outstanding_seqno_ += msg.<span class="hljs-built_in">sequence_length</span>();<br>        <span class="hljs-comment">// &#123; next_abs_seqno_: msg &#125;</span><br>      	outstanding_seg_.<span class="hljs-built_in">insert</span>(std::<span class="hljs-built_in">make_pair</span>(next_abs_seqno_, msg));<br>        <span class="hljs-comment">// 增加</span><br>      	next_abs_seqno_ += msg.<span class="hljs-built_in">sequence_length</span>();<br><br>       <span class="hljs-comment">// 如果是FIN报道文，直接结束</span><br>        <span class="hljs-keyword">if</span> (msg.FIN) &#123;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function">TCPSenderMessage <span class="hljs-title">TCPSender::send_empty_message</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    TCPSenderMessage segment;<br>    segment.seqno = <span class="hljs-built_in">get_next_seqno</span>();<br><br>    <span class="hljs-keyword">return</span> segment;<br>&#125;<br><br><span class="hljs-comment">// receive =&gt; push =&gt; send</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPSender::receive</span><span class="hljs-params">(<span class="hljs-type">const</span> TCPReceiverMessage &amp;msg)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!msg.ackno.<span class="hljs-built_in">has_value</span>()) &#123;<br>        ;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> recv_abs_seqno = msg.ackno.<span class="hljs-built_in">value</span>().<span class="hljs-built_in">unwrap</span>(isn_, next_abs_seqno_);<br>        <span class="hljs-keyword">if</span> (recv_abs_seqno &gt; next_abs_seqno_) &#123;<br>            <span class="hljs-comment">// Impossible, we couldn&#x27;t transmit future data</span><br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> iter = outstanding_seg_.<span class="hljs-built_in">begin</span>(); iter != outstanding_seg_.<span class="hljs-built_in">end</span>();) &#123;<br>            <span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> &amp;[abs_seqno, segment] = *iter;<br>          	<span class="hljs-comment">// 如果当前的未发送的片段的序列号小于已经确认的，说明是已经确认了</span><br>            <span class="hljs-keyword">if</span> (abs_seqno + segment.<span class="hljs-built_in">sequence_length</span>() &lt;= recv_abs_seqno) &#123;<br>                outstanding_seqno_ -= segment.<span class="hljs-built_in">sequence_length</span>();<br>                iter = outstanding_seg_.<span class="hljs-built_in">erase</span>(iter);<br>                <span class="hljs-comment">// reset RTO and if outstanding data is not empty, start timer，为什么要重新计时？</span><br>                RTO_timeout_ = initial_RTO_ms_;<br>                <span class="hljs-keyword">if</span> (!outstanding_seg_.<span class="hljs-built_in">empty</span>()) &#123;<br>                    timer_ = <span class="hljs-number">0</span>;<br>                &#125;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        consecutive_retransmission_times_ = <span class="hljs-number">0</span>;<br>    &#125;<br>    window_size_ = msg.window_size;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPSender::tick</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">size_t</span> ms_since_last_tick)</span></span><br><span class="hljs-function"></span>&#123;<br>    timer_ += ms_since_last_tick;<br>    <span class="hljs-keyword">auto</span> iter = outstanding_seg_.<span class="hljs-built_in">begin</span>();<br>    <span class="hljs-keyword">if</span> (timer_ &gt;= RTO_timeout_ &amp;&amp; iter != outstanding_seg_.<span class="hljs-built_in">end</span>()) &#123;<br>        <span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> &amp;[abs_seqno, segment] = *iter;<br>        <span class="hljs-keyword">if</span> (window_size_ &gt; <span class="hljs-number">0</span>) &#123;<br>            RTO_timeout_ *= <span class="hljs-number">2</span>;<br>        &#125;<br>        timer_ = <span class="hljs-number">0</span>;<br>        consecutive_retransmission_times_++;<br>        segments_out_.<span class="hljs-built_in">push</span>(segment);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>tick可以理解为心脏跳动，每隔一段时间自动调用，理想情况下这个时间间隔是一样的（但实际是这样吗？），而基于tick方法可以设置一个定时器，比如说，当开始发送的时候，定时器标志位为true，并且timer
+=
+0，每次调用tick方法都会累计timer的值，如果segment发送并在规定时间内返回，则timer
+reset为0，同时处理掉缓存区那些已经确认的segment；与此同时，由于tick定期调用，如果发现timer超时了，则重新发送最旧的没有收到对应ack的segment；</p>
+<blockquote>
+<p>这里有个细节问题：当收到有效的ackno的时候，始终reset
+timer，很明显不会触发重新发送，这个时候有没有可能实际上之前发送的某个segment超时了呢？然而没触发超时。</p>
+<p>这和超时时间的设置有很大关系，假设当前发送的sgement丢失了，然后Sender调用receive，此时由于没有正确的ackno并不会reset
+计时器，继而send下一个segment，并收到响应（这个时候前一个timer的时间就达到了&gt;2RTT），在还没调用本次receive方法之前，就触发了超时重传，</p>
+<p>seqno和ackseqno究竟是什么</p>
+<p>tcp是以segment为单位进行发送和接收的，会丢失segment</p>
+<p>当发生segment丢失，接收方做什么？</p>
+<p>不会调用receive方法，如果下一个响应到来，对该segment调用receive方法，</p>
+</blockquote>
+<h2 id="tcp-connection">TCP Connection</h2>
+<p>TCPConnection的一个重要功能是决定TCP
+连接什么时候完全结束。当TCP连接完全结束时，停止对任何接收到的segment回复ackno，并且active()方法返回false
+。</p>
+<p>TCP连接有两种关闭的方法：</p>
+<p>不干净的关闭：TCPConnection发送或接收到一个首部字段中的RST标志位被设置的segment
+。这种情况下，inbound和outbound的ByteStream都处于error
+state，并且active()方法可以马上返回false 。</p>
+<p>干净的关闭：在没有error的情况下关闭（active()=false）。这种情况可以尽可能地保证两个字节流都完全可靠地交付到接收对等方。</p>
+<p>由于两将军问题，不可能保证对等方都能完全干净关闭连接，但是可以非常接近。</p>
+<p>从一个对等设备的角度来看，对其与“远程”对等设备的连接进行干净关闭有四个先决条件，条件1保证了输入流被读取干净了，条件2和3保证了输出流被对等方读取干净了。条件4也是关于输入流的，保证了输入流的正常关闭。</p>
+<p>输入流被完全确认（StreamReassembler为空）并且结束（收到了FIN）</p>
+<p>输出流被应用层结束（调用ByteStream的end_input()方法），并且被完全发送出去（ByteStream为空），首部字段包括FIN的segment也被发送出去。</p>
+<p>输出流被对等方完全确认（对方的StreamReassembler为空，实际上要求本地的_outstanding_segments为空）</p>
+<p>本地TCPConnection需要让对等方满足条件3。有两种方式：</p>
+<p>选择A：在两个流都已经结束后 linger 一段时间：</p>
+<p>本地TCPConnection确认了整个输入流，但是难以确认对等端是否知道自己确认了整个输入流，即对等端是否收到ack（因为对等端不会对本地发送的ack进行ack
+）。如果不能确保对等端收到ack，也就不能确保对等端的_outstanding_segments为空，那么对等端就有可能不停地重传无法得到本地确认的segment，输入流永远无法关闭。</p>
+<p>我们可以让本地的TCPConnection等待一段时间，如果对等端没有重传任何东西，那么就可以相信对等端收到了ack。</p>
+<p>具体地，当一个连接满足条件1到条件3，并且在收到对等端最后一个segment后，等待了至少
+初始重传超时时间（_cfg.rt_timeout）的十倍，才能断开。</p>
+<p>这意味着TCPConnection需要保持alive一段时间，保持对本地端口号的独占声明并可能发送
+acks 以响应传入的segment，即使在 TCPSender 和 TCPReceiver
+完全完成其工作并且两个流都已经结束了。</p>
+<p>选择B：被动关闭</p>
+<p>如果在TCPConnection发送FIN之前，TCPConnection的输入流就结束了（收到了FIN），那么这个TCPConnection在两个流结束后不需要
+linger
+。（因为FIN在发送ack之后，所以FIN的seqno大于之前发送的ack，所以对方对FIN的确认，就相当于确认了之前发送的所有ack</p>
+<p>在lab 4中，我们将创建总体模块，称为TCP
+connection，该模块将TCPSender和TCPReceiver结合起来。</p>
+<p>我们的TCP
+segment可以封装到用户(TCP-In-UDP)或IP(TCP/IP)数据报的有效载荷中。</p>
+<p>https://blog.csdn.net/qq_45698833/article/details/120536017</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;tcp_connection.hh&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">TCPConnection::remaining_outbound_capacity</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> _sender.<span class="hljs-built_in">stream_in</span>().<span class="hljs-built_in">remaining_capacity</span>(); &#125;<br><br><span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">TCPConnection::bytes_in_flight</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> _sender.<span class="hljs-built_in">bytes_in_flight</span>(); &#125;<br><br><span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">TCPConnection::unassembled_bytes</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> _receiver.<span class="hljs-built_in">unassembled_bytes</span>(); &#125;<br><br><span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">TCPConnection::time_since_last_segment_received</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> _time_since_last_segment_received;&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">TCPConnection::active</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> _active; &#125;<br><br><span class="hljs-comment">// 由操作系统调用，接收从UDP或IP数据报中的解封装的TCPsegment</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPConnection::segment_received</span><span class="hljs-params">(<span class="hljs-type">const</span> TCPSegment &amp;seg)</span> </span>&#123; <br>    <span class="hljs-comment">// 如果连接断开了，不接收任何segment</span><br>    <span class="hljs-keyword">if</span>(!_active)&#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-comment">// 接收到一个segment，重置计数</span><br>    _time_since_last_segment_received = <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// 被动建立连接的一方可能处于的状态,处于listen状态</span><br>    <span class="hljs-comment">// 没有收到过任何segment，也没有发送过任何segment,</span><br>    <span class="hljs-keyword">if</span>(!_receiver.<span class="hljs-built_in">ackno</span>().<span class="hljs-built_in">has_value</span>() &amp;&amp; _sender.<span class="hljs-built_in">next_seqno_absolute</span>() == <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-comment">// 只接收syn</span><br>        <span class="hljs-keyword">if</span>(!seg.<span class="hljs-built_in">header</span>().syn)&#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        _receiver.<span class="hljs-built_in">segment_received</span>(seg);<br>        <span class="hljs-comment">// 收到对方的syn，就发送SYN与对方建立连接，处于SYN_RECV状态</span><br>        <span class="hljs-comment">// 三次握手的阶段二</span><br>        <span class="hljs-built_in">connect</span>();<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-comment">// 主动建立连接的一方可能处于的状态,处于SYN_SENT状态，三次握手的阶段一</span><br>    <span class="hljs-comment">// 发送出去的流没有得到确认，也没有收到过对方的segment。</span><br>    <span class="hljs-keyword">if</span>(_sender.<span class="hljs-built_in">next_seqno_absolute</span>() &gt; <span class="hljs-number">0</span> &amp;&amp; _sender.<span class="hljs-built_in">bytes_in_flight</span>() == _sender.<span class="hljs-built_in">next_seqno_absolute</span>() &amp;&amp; <br>       !_receiver.<span class="hljs-built_in">ackno</span>().<span class="hljs-built_in">has_value</span>())&#123;<br>        <span class="hljs-comment">// 如果有效载荷不为0，不符合SYN，直接丢弃</span><br>        <span class="hljs-keyword">if</span>(seg.<span class="hljs-built_in">payload</span>().<span class="hljs-built_in">size</span>() )&#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">// 如果ack等于0，则双方同时发起了建立连接</span><br>        <span class="hljs-keyword">if</span>(!seg.<span class="hljs-built_in">header</span>().ack)&#123;<br>            <span class="hljs-keyword">if</span>(seg.<span class="hljs-built_in">header</span>().syn)&#123;<br>                _receiver.<span class="hljs-built_in">segment_received</span>(seg);<br>                <span class="hljs-comment">// 发送空的segment，以返回ack</span><br>                _sender.<span class="hljs-built_in">send_empty_segment</span>();<br>            &#125;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">// 如果syn=1，ack=1，rst=1，则关闭连接</span><br>        <span class="hljs-keyword">if</span>(seg.<span class="hljs-built_in">header</span>().rst)&#123;<br>            _receiver.<span class="hljs-built_in">stream_out</span>().<span class="hljs-built_in">set_error</span>();<br>            _sender.<span class="hljs-built_in">stream_in</span>().<span class="hljs-built_in">set_error</span>();<br>            _active = <span class="hljs-literal">false</span>;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">// 如果syn=1，ack=1，rst!=1，或者其他情况</span><br>    _receiver.<span class="hljs-built_in">segment_received</span>(seg);<br>    _sender.<span class="hljs-built_in">ack_received</span>(seg.<span class="hljs-built_in">header</span>().ackno,seg.<span class="hljs-built_in">header</span>().win);<br>    <span class="hljs-comment">// 发送确认的报文，进入ESTABLISHED状态，连接建立。处于三次握手的第三阶段</span><br>    <span class="hljs-keyword">if</span> (_sender.<span class="hljs-built_in">stream_in</span>().<span class="hljs-built_in">buffer_empty</span>() &amp;&amp; seg.<span class="hljs-built_in">length_in_sequence_space</span>())<br>        _sender.<span class="hljs-built_in">send_empty_segment</span>();<br>    <span class="hljs-keyword">if</span> (seg.<span class="hljs-built_in">header</span>().rst) &#123;<br>        _sender.<span class="hljs-built_in">send_empty_segment</span>();<br>        <span class="hljs-built_in">unclean_shutdown</span>();<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-built_in">send_sender_segments</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">TCPConnection::write</span><span class="hljs-params">(<span class="hljs-type">const</span> string &amp;data)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(data.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br>    <span class="hljs-comment">// 向TCPSender的ByteStream中写入数据</span><br>    <span class="hljs-type">size_t</span> write_size = _sender.<span class="hljs-built_in">stream_in</span>().<span class="hljs-built_in">write</span>(data);<br>    _sender.<span class="hljs-built_in">fill_window</span>();<br>    <span class="hljs-comment">// 对TCPSender中的segment设置ackno和windowsize,再发送给对等端</span><br>    <span class="hljs-built_in">send_sender_segments</span>();<br>    <span class="hljs-keyword">return</span> write_size;<br>&#125;<br><br><span class="hljs-comment">// 此方法被OS周期性调用</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPConnection::tick</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">size_t</span> ms_since_last_tick)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(!_active)&#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    _time_since_last_segment_received += ms_since_last_tick;<br>    <span class="hljs-comment">// 告知TCPSender过去的时间</span><br>    _sender.<span class="hljs-built_in">tick</span>(ms_since_last_tick);<br>    <span class="hljs-comment">// 如果连续重传的次数超过上限，则强制关闭连接</span><br>    <span class="hljs-keyword">if</span>(_sender.<span class="hljs-built_in">consecutive_retransmissions</span>() &gt; TCPConfig::MAX_RETX_ATTEMPTS)&#123;<br>        <span class="hljs-built_in">unclean_shutdown</span>();    <br>    &#125;<br>    <span class="hljs-built_in">send_sender_segments</span>();<br>&#125;<br><br><span class="hljs-comment">// 结束向TCPConnection中写入，也就是关闭输出流（仍然允许读取输入的数据）</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPConnection::end_input_stream</span><span class="hljs-params">()</span> </span>&#123;<br>    _sender.<span class="hljs-built_in">stream_in</span>().<span class="hljs-built_in">end_input</span>();<br>    <span class="hljs-comment">// 发送fin，不能保证这一次能将fin发送出去，因为接收窗口有可能空间不够，ByteStream无法全部发送出去</span><br>    _sender.<span class="hljs-built_in">fill_window</span>();<br>    <span class="hljs-built_in">send_sender_segments</span>();<br>&#125;<br><br><span class="hljs-comment">// 主动连接</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPConnection::connect</span><span class="hljs-params">()</span> </span>&#123;<br>    _sender.<span class="hljs-built_in">fill_window</span>();<br>    <span class="hljs-built_in">send_sender_segments</span>();<br>&#125;<br><br><br><br><span class="hljs-comment">// 对TCPSender的 _segments_out中的segment设置首部的ackno和windowsize字段，还有ACK标志位</span><br><span class="hljs-comment">// 再加入到TCPConnection的 _segments_out，真正地将TCPsegment发送出去</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPConnection::send_sender_segments</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">// 此处必须要是引用类型，才能指向_sender中的同一个成员变量,才能对其进行操作</span><br>    <span class="hljs-comment">// std::queue&lt;TCPSegment&gt;&amp;sender_segs_out = _sender.segments_out();</span><br><br>    <span class="hljs-comment">// 对TCPSender的 _segments_out进行遍历，将所有的segment的头部都加上ackno和windowsize</span><br>    <span class="hljs-comment">// 再发送出去</span><br>    <span class="hljs-keyword">while</span>(!_sender.<span class="hljs-built_in">segments_out</span>().<span class="hljs-built_in">empty</span>())&#123;<br>        TCPSegment seg = _sender.<span class="hljs-built_in">segments_out</span>().<span class="hljs-built_in">front</span>();<br>        _sender.<span class="hljs-built_in">segments_out</span>().<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-comment">// 只有当ackno()的返回值非空时，才需要加上</span><br>        <span class="hljs-keyword">if</span>(_receiver.<span class="hljs-built_in">ackno</span>().<span class="hljs-built_in">has_value</span>())&#123;<br>            seg.<span class="hljs-built_in">header</span>().ack = <span class="hljs-literal">true</span>;<br>            seg.<span class="hljs-built_in">header</span>().ackno = _receiver.<span class="hljs-built_in">ackno</span>().<span class="hljs-built_in">value</span>();<br>            seg.<span class="hljs-built_in">header</span>().win = _receiver.<span class="hljs-built_in">window_size</span>();<br>        &#125;<br>        <span class="hljs-comment">// 将segment真正发送出去</span><br>        _segments_out.<span class="hljs-built_in">push</span>(seg);<br>    &#125;<br>    <span class="hljs-comment">// 每次发送segment后，都需要判断是否需要干净关闭连接</span><br>    <span class="hljs-built_in">clean_shutdown</span>();<br>    <br>&#125;<br><span class="hljs-comment">// 不干净的关闭，直接强制关闭连接</span><br><span class="hljs-comment">// 将输入输出流设置为错误状态</span><br><span class="hljs-comment">// 将连接的active置为false，向对等方发送rst</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPConnection::unclean_shutdown</span><span class="hljs-params">()</span></span>&#123;<br>    _receiver.<span class="hljs-built_in">stream_out</span>().<span class="hljs-built_in">set_error</span>();<br>    _sender.<span class="hljs-built_in">stream_in</span>().<span class="hljs-built_in">set_error</span>();<br>    _active = <span class="hljs-literal">false</span>;<br>    TCPSegment seg = _sender.<span class="hljs-built_in">segments_out</span>().<span class="hljs-built_in">front</span>();<br>    _sender.<span class="hljs-built_in">segments_out</span>().<span class="hljs-built_in">pop</span>();<br>    seg.<span class="hljs-built_in">header</span>().ack = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">if</span>(_receiver.<span class="hljs-built_in">ackno</span>().<span class="hljs-built_in">has_value</span>())&#123;<br>        seg.<span class="hljs-built_in">header</span>().ackno = _receiver.<span class="hljs-built_in">ackno</span>().<span class="hljs-built_in">value</span>();<br>    &#125;<br>    seg.<span class="hljs-built_in">header</span>().win = _receiver.<span class="hljs-built_in">window_size</span>();<br>    seg.<span class="hljs-built_in">header</span>().rst = <span class="hljs-literal">true</span>;<br>    _segments_out.<span class="hljs-built_in">push</span>(seg);<br><br>&#125;<br><br><span class="hljs-comment">// 干净关闭连接，判断能否干净地关闭连接，</span><br><span class="hljs-comment">// 判断是否需要在两个流结束后linger一段时间</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">TCPConnection::clean_shutdown</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">// 自己的接收的StreamReassembler（重组缓存）为空</span><br>    <span class="hljs-keyword">if</span>(_receiver.<span class="hljs-built_in">stream_out</span>().<span class="hljs-built_in">input_ended</span>())&#123;<br>        <span class="hljs-comment">// 如果sender的输出流还没有结束，即ByteStream不为空，fin还没有发送出去</span><br>        <span class="hljs-keyword">if</span>(!_sender.<span class="hljs-built_in">stream_in</span>().<span class="hljs-built_in">eof</span>())&#123;<br>        <span class="hljs-comment">// 那么需要在两个流结束后linger一段时间</span><br>            _linger_after_streams_finish = <span class="hljs-literal">false</span>;<br>        <span class="hljs-comment">// 如果sender发送了fin，且得到了确认</span><br>        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(_sender.<span class="hljs-built_in">bytes_in_flight</span>() == <span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-comment">// 那么只有不需要linger或者linger了指定时间后，才能断开连接</span><br>            <span class="hljs-keyword">if</span>(!_linger_after_streams_finish || <span class="hljs-built_in">time_since_last_segment_received</span>() &gt;= <span class="hljs-number">10</span> * _cfg.rt_timeout)&#123;<br>                _active = <span class="hljs-literal">false</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br> <br><br>  TCPConnection::~<span class="hljs-built_in">TCPConnection</span>() &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">active</span>()) &#123;<br>            cerr &lt;&lt; <span class="hljs-string">&quot;Warning: Unclean shutdown of TCPConnection\n&quot;</span>;<br>            _sender.<span class="hljs-built_in">send_empty_segment</span>();<br>            <span class="hljs-built_in">unclean_shutdown</span>();<br>            <span class="hljs-comment">// Your code here: need to send a RST segment to the peer</span><br>        &#125;<br>    &#125; <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> exception &amp;e) &#123;<br>        std::cerr &lt;&lt; <span class="hljs-string">&quot;Exception destructing TCP FSM: &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs zephir">发送：TCPConnection::write =&gt; send_sender_segments: 遍历Sender的segments，包装其头部，放到一段内存缓存里 =&gt; clean_shutdown: 看下是否需要关闭<br><br>接收：TCPConnection::segment_received =&gt; send_sender_segments 放到一段内存缓存里<br></code></pre></td></tr></table></figure>
+<h2 id="ip">IP</h2>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;network_interface.hh&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;arp_message.hh&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;ethernet_frame.hh&quot;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-comment">// ethernet_address: Ethernet (what ARP calls &quot;hardware&quot;) address of the interface</span><br><span class="hljs-comment">// ip_address: IP (what ARP calls &quot;protocol&quot;) address of the interface</span><br><span class="hljs-comment">// cppcheck-suppress uninitMemberVar</span><br>NetworkInterface::<span class="hljs-built_in">NetworkInterface</span>(<span class="hljs-type">const</span> EthernetAddress &amp;ethernet_address, <span class="hljs-type">const</span> Address &amp;ip_address)<br>    : <span class="hljs-built_in">ethernet_address_</span>(ethernet_address), <span class="hljs-built_in">ip_address_</span>(ip_address)<br>&#123;<br>    cerr &lt;&lt; <span class="hljs-string">&quot;DEBUG: Network interface has Ethernet address &quot;</span> &lt;&lt; <span class="hljs-built_in">to_string</span>(ethernet_address_) &lt;&lt; <span class="hljs-string">&quot; and IP address &quot;</span><br>         &lt;&lt; ip_address.<span class="hljs-built_in">ip</span>() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br><br><span class="hljs-comment">// dgram: the IPv4 datagram to be sent</span><br><span class="hljs-comment">// next_hop: the IP address of the interface to send it to (typically a router or default gateway, but</span><br><span class="hljs-comment">// may also be another host if directly connected to the same network as the destination)</span><br><br><span class="hljs-comment">// Note: the Address type can be converted to a uint32_t (raw 32-bit IP address) by using the</span><br><span class="hljs-comment">// Address::ipv4_numeric() method.</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">NetworkInterface::send_datagram</span><span class="hljs-params">(<span class="hljs-type">const</span> InternetDatagram &amp;dgram, <span class="hljs-type">const</span> Address &amp;next_hop)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 下一跳的地址</span><br>    <span class="hljs-type">const</span> <span class="hljs-type">uint32_t</span> addr_numeric = next_hop.<span class="hljs-built_in">ipv4_numeric</span>();<br><br>    <span class="hljs-comment">/* ARP Table has stored the mapping info, we send the datagram directly */</span><br>  	<span class="hljs-comment">// 如果ARP Table包含下一跳的地址，直接</span><br>    <span class="hljs-keyword">if</span> (arp_table_.<span class="hljs-built_in">contains</span>(addr_numeric)) &#123;<br>        EthernetFrame eth_frame;<br>      	<span class="hljs-comment">// 当前物理机以太网地址</span><br>        eth_frame.header.src = ethernet_address_;<br>      	<span class="hljs-comment">// 目标物理机以太网地址</span><br>        eth_frame.header.dst = arp_table_.<span class="hljs-built_in">at</span>(addr_numeric).eth_addr;<br>        eth_frame.header.type = EthernetHeader::TYPE_IPv4;<br>      	<span class="hljs-comment">// 序列化</span><br>        eth_frame.payload = <span class="hljs-built_in">serialize</span>(dgram);<br>      	<span class="hljs-comment">// 发乳待发送缓冲区</span><br>        outbound_frames_.<span class="hljs-built_in">push</span>(eth_frame);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      	<span class="hljs-comment">// 没有则发送arp请求</span><br>        <span class="hljs-comment">/* ARP Table has no such mapping and we haven&#x27;t send an ARP request for target ip */</span><br>        <span class="hljs-keyword">if</span> (arp_requests_lifetime_.<span class="hljs-built_in">find</span>(addr_numeric) == arp_requests_lifetime_.<span class="hljs-built_in">end</span>()) &#123;<br>            <span class="hljs-comment">// next hop ipv4 addr is not contained in the arp requests waiting list</span><br>            ARPMessage arp_msg;<br>            arp_msg.opcode = ARPMessage::OPCODE_REQUEST;<br>            arp_msg.sender_ip_address = ip_address_.<span class="hljs-built_in">ipv4_numeric</span>();<br>            arp_msg.sender_ethernet_address = ethernet_address_;<br>            arp_msg.target_ip_address = addr_numeric;<br>            arp_msg.target_ethernet_address = &#123;<span class="hljs-comment">/* empty */</span>&#125;;<br><br>            EthernetFrame arp_eth_frame;<br>            arp_eth_frame.header.src = ethernet_address_;<br>            arp_eth_frame.header.dst = ETHERNET_BROADCAST;<br>            arp_eth_frame.header.type = EthernetHeader::TYPE_ARP;<br>            arp_eth_frame.payload = <span class="hljs-built_in">serialize</span>(arp_msg);<br>            outbound_frames_.<span class="hljs-built_in">push</span>(arp_eth_frame);<br>						<br>          	<span class="hljs-comment">// 广播请求</span><br>            arp_requests_lifetime_.<span class="hljs-built_in">emplace</span>(std::<span class="hljs-built_in">make_pair</span>(addr_numeric, ARP_REQUEST_DEFAULT_TTL));<br>        &#125;<br>        <span class="hljs-comment">// We need to store the datagram in the list. After we know the eth addr, we can queue</span><br>        <span class="hljs-comment">// the corresponding dgrams.</span><br>      	<span class="hljs-comment">// 广播下一跳的以太网地址的 ARP 请求， 并将 IP 报文放入队列中待 ARP 回复收到后能将其发送出去。</span><br>        arp_datagrams_waiting_list_.<span class="hljs-built_in">emplace_back</span>(std::pair &#123;next_hop, dgram&#125;);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// frame: the incoming Ethernet frame</span><br><span class="hljs-function">optional&lt;InternetDatagram&gt; <span class="hljs-title">NetworkInterface::recv_frame</span><span class="hljs-params">(<span class="hljs-type">const</span> EthernetFrame &amp;frame)</span></span><br><span class="hljs-function"></span>&#123;<br>  	<span class="hljs-comment">// 如果当前frame的目标物理机不是当前物理机且也不是广播请求的目标物理机，直接返回</span><br>    <span class="hljs-keyword">if</span> (frame.header.dst != ethernet_address_ &amp;&amp; frame.header.dst != ETHERNET_BROADCAST) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">nullopt</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/* IP datagrams，是IP数据报，反序列数据并直接返回datagram */</span><br>    <span class="hljs-keyword">if</span> (frame.header.type == EthernetHeader::TYPE_IPv4) &#123;<br>        InternetDatagram datagram;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">not</span> <span class="hljs-built_in">parse</span>(datagram, frame.payload)) &#123;<br>            <span class="hljs-comment">// printf(&quot;[NetworkInterface ERROR]: &#x27;recv_frame&#x27; IPV4 parse error\n&quot;);</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">nullopt</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> datagram;<br>    &#125;<br><br>    <span class="hljs-comment">/* ARP datagrams，广播数据报 */</span><br>    <span class="hljs-keyword">if</span> (frame.header.type == EthernetHeader::TYPE_ARP) &#123;<br>        ARPMessage arp_msg;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">not</span> <span class="hljs-built_in">parse</span>(arp_msg, frame.payload)) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[NetworkInterface ERROR]: &#x27;recv_frame&#x27; ARP parse error\n&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">nullopt</span>;<br>        &#125;<br><br>        <span class="hljs-type">const</span> <span class="hljs-type">bool</span> is_arp_request = arp_msg.opcode == ARPMessage::OPCODE_REQUEST<br>                                    &amp;&amp; arp_msg.target_ip_address == ip_address_.<span class="hljs-built_in">ipv4_numeric</span>();<br>        <span class="hljs-comment">// 如果是广播请求，则回复即可</span><br>      	<span class="hljs-keyword">if</span> (is_arp_request) &#123;<br>            ARPMessage arp_reply_msg;<br>            arp_reply_msg.opcode = ARPMessage::OPCODE_REPLY;<br>            arp_reply_msg.sender_ip_address = ip_address_.<span class="hljs-built_in">ipv4_numeric</span>();<br>            arp_reply_msg.sender_ethernet_address = ethernet_address_;<br>            arp_reply_msg.target_ip_address = arp_msg.sender_ip_address;<br>            arp_reply_msg.target_ethernet_address = arp_msg.sender_ethernet_address;<br><br>            EthernetFrame arp_reply_eth_frame;<br>            arp_reply_eth_frame.header.src = ethernet_address_;<br>            arp_reply_eth_frame.header.dst = arp_msg.sender_ethernet_address;<br>            arp_reply_eth_frame.header.type = EthernetHeader::TYPE_ARP;<br>            arp_reply_eth_frame.payload = <span class="hljs-built_in">serialize</span>(arp_reply_msg);<br>            outbound_frames_.<span class="hljs-built_in">push</span>(arp_reply_eth_frame);<br>        &#125;<br>				<br>      	<span class="hljs-comment">// 如果是响应，对应上面send发送的广播数据报</span><br>        <span class="hljs-type">const</span> <span class="hljs-type">bool</span> is_arp_response<br>            = arp_msg.opcode == ARPMessage::OPCODE_REPLY &amp;&amp; arp_msg.target_ethernet_address == ethernet_address_;<br><br>        <span class="hljs-comment">// we can get arp info from either ARP request or ARP reply</span><br>        <span class="hljs-keyword">if</span> (is_arp_request || is_arp_response) &#123;<br>          	<span class="hljs-comment">// 更新arp_table</span><br>            arp_table_.<span class="hljs-built_in">emplace</span>(std::<span class="hljs-built_in">make_pair</span>(arp_msg.sender_ip_address,<br>                                              <span class="hljs-type">arp_t</span> &#123;arp_msg.sender_ethernet_address, ARP_DEFAULT_TTL&#125;));<br>            <span class="hljs-comment">// delete arp datagrams waiting list，并且发送该存储的请求</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> iter = arp_datagrams_waiting_list_.<span class="hljs-built_in">begin</span>(); iter != arp_datagrams_waiting_list_.<span class="hljs-built_in">end</span>();) &#123;<br>                <span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> &amp;[ipv4_addr, datagram] = *iter;<br>                <span class="hljs-keyword">if</span> (ipv4_addr.<span class="hljs-built_in">ipv4_numeric</span>() == arp_msg.sender_ip_address) &#123;<br>                    <span class="hljs-built_in">send_datagram</span>(datagram, ipv4_addr);<br>                    iter = arp_datagrams_waiting_list_.<span class="hljs-built_in">erase</span>(iter);<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    iter++;<br>                &#125;<br>            &#125;<br>            arp_requests_lifetime_.<span class="hljs-built_in">erase</span>(arp_msg.sender_ip_address);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">nullopt</span>;<br>&#125;<br><br><span class="hljs-comment">// ms_since_last_tick: the number of milliseconds since the last call to this method</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">NetworkInterface::tick</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">size_t</span> ms_since_last_tick)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">/* delete expired ARP items in ARP Table */</span><br>    <span class="hljs-comment">// <span class="hljs-doctag">FIXME:</span> Don&#x27;t use &#x27;iter++&#x27; if we have erase current iter&#x27;s data!</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> iter = arp_table_.<span class="hljs-built_in">begin</span>(); iter != arp_table_.<span class="hljs-built_in">end</span>(); <span class="hljs-comment">/* nop */</span>) &#123;<br>        <span class="hljs-keyword">auto</span> &amp;[ipv4_addr_numeric, arp] = *iter;<br>        <span class="hljs-keyword">if</span> (arp.ttl &lt;= ms_since_last_tick) &#123;<br>            iter = arp_table_.<span class="hljs-built_in">erase</span>(iter);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            arp.ttl -= ms_since_last_tick;<br>            iter++;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/* delete expired ARP requests */</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;[ipv4_addr, arp_ttl] : arp_requests_lifetime_) &#123;<br>        <span class="hljs-comment">/* resent ARP request if this request has expired，使得任何已经过期的 IP 地址到 Ethernet 地址的映射失效 */</span> <br>        <span class="hljs-keyword">if</span> (arp_ttl &lt;= ms_since_last_tick) &#123;<br>            ARPMessage arp_msg;<br>            arp_msg.opcode = ARPMessage::OPCODE_REQUEST;<br>            arp_msg.sender_ip_address = ip_address_.<span class="hljs-built_in">ipv4_numeric</span>();<br>            arp_msg.sender_ethernet_address = ethernet_address_;<br>            arp_msg.target_ip_address = ipv4_addr;<br>            arp_msg.target_ethernet_address = &#123;<span class="hljs-comment">/* empty */</span>&#125;;<br><br>            EthernetFrame arp_eth_frame;<br>            arp_eth_frame.header.src = ethernet_address_;<br>            arp_eth_frame.header.dst = ETHERNET_BROADCAST;<br>            arp_eth_frame.header.type = EthernetHeader::TYPE_ARP;<br>            arp_eth_frame.payload = <span class="hljs-built_in">serialize</span>(arp_msg);<br>            outbound_frames_.<span class="hljs-built_in">push</span>(arp_eth_frame);<br><br>            <span class="hljs-comment">/* reset ARP ttl for this component */</span><br>            arp_ttl = ARP_REQUEST_DEFAULT_TTL;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            arp_ttl -= ms_since_last_tick;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function">optional&lt;EthernetFrame&gt; <span class="hljs-title">NetworkInterface::maybe_send</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!outbound_frames_.<span class="hljs-built_in">empty</span>()) &#123;<br>        EthernetFrame eth_frame = std::<span class="hljs-built_in">move</span>(outbound_frames_.<span class="hljs-built_in">front</span>());<br>        outbound_frames_.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">return</span> eth_frame;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">nullopt</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="ip-router">IP Router</h2>
+<h2 id="together">Together</h2>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/07/16/Resembler/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>迷途知返</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/emocoder/2023/07/15/Design%20Pattern/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/emocoder/js/events.js" ></script>
+<script  src="/emocoder/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/emocoder/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/emocoder/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/emocoder/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

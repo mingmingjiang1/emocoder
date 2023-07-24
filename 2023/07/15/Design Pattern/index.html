@@ -1,0 +1,1017 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/emocoder/img/fluid.png">
+  <link rel="icon" href="/emocoder/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="迷途知返">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="设计模式&amp;渲染模式&amp;优化&amp;React Design Pattern Singleton pattern：This single instance can be shared throughout our application, which makes Singletons great for managing global state in an application.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迷途知返">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/07/15/Design%20Pattern/index.html">
+<meta property="og:site_name" content="迷途知返">
+<meta property="og:description" content="设计模式&amp;渲染模式&amp;优化&amp;React Design Pattern Singleton pattern：This single instance can be shared throughout our application, which makes Singletons great for managing global state in an application.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.patterns.dev/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fddxwdqwkr%2Fimage%2Fupload%2Ff_auto%2Fv1660456914%2Fpatterns.dev%2Fweb-vitals.png&w=3840&q=75">
+<meta property="article:published_time" content="2023-07-15T05:06:36.405Z">
+<meta property="article:modified_time" content="2023-07-15T05:06:36.405Z">
+<meta property="article:author" content="迷途知返">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.patterns.dev/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fddxwdqwkr%2Fimage%2Fupload%2Ff_auto%2Fv1660456914%2Fpatterns.dev%2Fweb-vitals.png&w=3840&q=75">
+  
+  
+  
+  <title>迷途知返</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/emocoder/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/emocoder/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/emocoder/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mingmingjiang1.github.io","root":"/emocoder/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/emocoder/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/emocoder/js/utils.js" ></script>
+  <script  src="/emocoder/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/emocoder/">
+      <strong>Emoer</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/emocoder/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-15 13:06" pubdate>
+          2023年7月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          112 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1
+id="设计模式渲染模式优化react">设计模式&amp;渲染模式&amp;优化&amp;React</h1>
+<h2 id="design-pattern">Design Pattern</h2>
+<p>Singleton pattern：This <em>single instance</em> can be shared
+throughout our application, which makes Singletons great for managing
+global state in an application.</p>
+<p>特点：</p>
+<ol type="1">
+<li>Singletons are classes which can be instantiated once</li>
+<li>can be accessed globally</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> instance;<br><span class="hljs-keyword">let</span> counter = <span class="hljs-number">0</span>;<br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Counter</span> &#123;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">if</span> (instance) &#123;<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;You can only create one instance!&quot;</span>);<br>    &#125;<br>    instance = <span class="hljs-variable language_">this</span>;<br>  &#125;<br> <br>  <span class="hljs-title function_">getInstance</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>;<br>  &#125;<br> <br>  <span class="hljs-title function_">getCount</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> counter;<br>  &#125;<br> <br>  <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> ++counter;<br>  &#125;<br> <br>  <span class="hljs-title function_">decrement</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> --counter;<br>  &#125;<br>&#125;<br> <br><span class="hljs-keyword">const</span> singletonCounter = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">freeze</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>());<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> singletonCounter;<br></code></pre></td></tr></table></figure>
+<h2 id="tradeoffs">Tradeoffs</h2>
+<p>In many programming languages, such as Java or C++, it's not possible
+to directly create objects the way we can in JavaScript. In those
+object-oriented programming languages, we need to create a class, which
+creates an object. That created object has the value of the instance of
+the class, just like the value of <code>instance</code> in the
+JavaScript example.</p>
+<p>However, the class implementation shown in the examples above is
+actually overkill. Since we can directly create objects in JavaScript,
+we can simply use a regular object to achieve the exact same result.
+Let's cover some of the disadvantages of using Singletons!</p>
+<p>js的字面量很容易写出单粒模式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">const</span> counter = &#123;<br>  <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> ++count;<br>  &#125;,<br>  <span class="hljs-title function_">decrement</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> --count;<br>  &#125;<br>&#125;;<br><br><span class="hljs-title class_">Object</span>.<span class="hljs-title function_">freeze</span>(counter);<br><span class="hljs-keyword">export</span> &#123; counter &#125;;<br></code></pre></td></tr></table></figure>
+<p>In React, we often rely on a global state through state management
+tools such as <strong>Redux</strong> or <strong>React Context</strong>
+instead of using Singletons. Although their global state behavior might
+seem similar to that of a Singleton, these tools provide a
+<strong>read-only state</strong> rather than the <em>mutable</em> state
+of the Singleton. When using Redux, only pure function <em>reducers</em>
+can update the state, after a component has sent an <em>action</em>
+through a <em>dispatcher</em>.</p>
+<p>Although the downsides to having a global state don't magically
+disappear by using these tools, we can at least make sure that the
+global state is mutated the way we intend it, since components cannot
+update the state directly.</p>
+<p>Proxy</p>
+<p>代理对象控制了我们和原对象交互时的行为，它拦截了任何action which
+interact with object</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">const person</span> = &#123;<br>  name: <span class="hljs-string">&quot;John Doe&quot;</span>,<br>  age: 42,<br>  nationality: <span class="hljs-string">&quot;American&quot;</span>,<br>&#125;;<br> <br><span class="hljs-attribute">const personProxy</span> = new Proxy(person, &#123;&#125;);<br></code></pre></td></tr></table></figure>
+<p>https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609056520/patterns.dev/jspat-51_xvbob9.mp4</p>
+<p>Provider</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> <span class="hljs-title class_">DataContext</span> = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createContext</span>()<br> <br><span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> data = &#123; ... &#125;<br> <br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">DataContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#123;data&#125;</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">SideBar</span> /&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">Content</span> /&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">DataContext.Provider</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609056518/patterns.dev/jspat-48_jxmuyy.mp4</p>
+<p>Prototype</p>
+<h2 id="performance">Performance</h2>
+<h3 id="preload-vs-prefetch">preload vs prefetch</h3>
+<h3 id="async-vs-defer">async vs defer</h3>
+<p>现代的网站中，脚本往往比 HTML
+更“重”：它们的大小通常更大，处理时间也更长。</p>
+<p>当浏览器加载 HTML 时遇到
+<code>&lt;script&gt;...&lt;/script&gt;</code> 标签，浏览器就不能继续构建
+DOM。它必须立刻执行此脚本。对于外部脚本
+<code>&lt;script src="..."&gt;&lt;/script&gt;</code>
+也是一样的：浏览器必须等脚本下载完，并执行结束，之后才能继续处理剩余的页面。</p>
+<p>这会导致两个重要的问题：</p>
+<ol type="1">
+<li>脚本不能访问到位于它们下面的 DOM
+元素，因此，脚本无法给它们添加处理程序等。</li>
+<li>如果页面顶部有一个笨重的脚本，它会“阻塞页面”。在该脚本下载并执行结束前，用户都不能看到页面内容</li>
+</ol>
+<p>🌰：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>...content before script...<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://javascript.info/article/script-async-defer/long.js?speed=1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- This isn&#x27;t visible until the script loads --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>...content after script...<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>这里有一些解决办法。例如，我们可以把脚本放在页面底部。此时，它可以访问到它上面的元素，并且不会阻塞页面显示内容：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>  ...all content is above the script...<br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://javascript.info/article/script-async-defer/long.js?speed=1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>但是这种解决方案远非完美。例如，浏览器只有在下载了完整的 HTML
+文档之后才会下载该脚本（获取更多的资源）。对于长的 HTML
+文档来说，这样可能会造成明显的延迟。</p>
+<p>如下例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>  ...all content is above the script...<br>	100000 lines omit ..........<br>  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://javascript.info/article/script-async-defer/long.js?speed=1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>执行上面100000行，这时候遇到了script才去下载。有一种想法：script能不能放在前面，只是提前获取这个脚本，但是不执行，这样就不会，阻塞后续DOM的解析了。由此产生了defer：</p>
+<p>defer：遇到脚本，先下载，但是不执行，可以想象在js单线程的场景下如何实现——队列，这些任务放在队列里[promise1,
+promise2]，呆到特定时机（DomContentLoaded）去执行这个队列，队列里任务的顺序和脚本出现的顺序相关，所以defer有一个优点，很好地通过手动编排script出现的顺序保证了存在依赖脚本的加载顺序。</p>
+<p>可不可以通过并行的角度实现呢？</p>
+<p>遇到脚本，下载的同时并执行，async就是这样的思路，每个附带async的script都是独立的一个任务，放在单独一个线程里去下下载并执行，但是这样不能保证脚本的执行顺序。</p>
+<p>这对于使用高速连接的人来说，这不值一提，他们不会感受到这种延迟。但是这个世界上仍然有很多地区的人们所使用的网络速度很慢，并且使用的是远非完美的移动互联网连接。</p>
+<p>幸运的是，这里有两个 <code>&lt;script&gt;</code>
+特性（attribute）可以为我们解决这个问题：<code>defer</code> 和
+<code>async</code>。</p>
+<blockquote>
+<p>参考：</p>
+<p>https://zh.javascript.info/script-async-defer</p>
+</blockquote>
+<p>https://zhuanlan.zhihu.com/p/48521680</p>
+<p>缓存</p>
+<h3 id="server-push">Server push</h3>
+<h3 id="http-itself">http itself</h3>
+<h3 id="client">client</h3>
+<h3
+id="bundle-splitting-split-your-code-into-small-reusable-pieces">Bundle
+splitting: Split your code into small, reusable pieces</h3>
+<h3 id="loading-sequence">loading sequence</h3>
+<h3 id="performance-metrics">performance metrics</h3>
+<h3 id="tree-shaking">tree shaking</h3>
+<p>wip</p>
+<h3 id="lazy-loading">lazy loading</h3>
+<p>wip</p>
+<h3 id="route-base-splitting">route Base Splitting</h3>
+<p>Dynamically load components based on the current route</p>
+<h3 id="dynamic-import-vs-static-import">Dynamic import vs static
+import</h3>
+<ol type="1">
+<li><p>Static import</p></li>
+<li><p>Dynamic import: 仅导入你需要的模块</p></li>
+<li><p>Load non-critical components when they are visible in the
+viewport</p></li>
+<li><p>Load non-critical resources when a user interacts with UI
+requiring it</p></li>
+</ol>
+<h3 id="list-virtualization">list virtualization</h3>
+<p>wip</p>
+<h3 id="compression">compression:</h3>
+<p>JavaScript is the second biggest <a
+target="_blank" rel="noopener" href="https://almanac.httparchive.org/en/2020/page-weight#fig-2">contributor
+to page size</a> and the second most <a
+target="_blank" rel="noopener" href="https://almanac.httparchive.org/en/2020/page-weight#fig-4">requested
+web resource</a> on the internet after images. We use patterns that
+reduce the transfer, load, and execution time for JavaScript to improve
+website performance. Compression can help reduce the time needed to
+transfer scripts over the network.</p>
+<p>js是和页面大小相关的第二大重要因素(继图片之后)，压缩js可以减少传输时间</p>
+<p>可以把压缩js和以下方法减少大js的影响：</p>
+<ul>
+<li><p>minification</p></li>
+<li><p>code-splitting</p></li>
+<li><p>bunding</p></li>
+<li><p>caching</p></li>
+<li><p>lazy-loading</p></li>
+</ul>
+<h4 id="http-compression">HTTP compression</h4>
+<p>Compression reduces the size of documents and files, so they take up
+less disk space than the originals. Smaller documents consume lower
+bandwidth and can be transferred over a network quickly. HTTP
+compression uses this simple concept to compress website content, reduce
+<a target="_blank" rel="noopener" href="https://almanac.httparchive.org/en/2020/page-weight">page
+weights</a>, lower bandwidth requirement, and improve performance.</p>
+<p>HTTP data compression may be categorized in different ways. One of
+them is lossy vs. lossless.</p>
+<p><strong>Lossy compression</strong> implies that the
+compression-decompression cycle results in a slightly altered document
+while retaining its usability. The change is mostly imperceptible to the
+end-user. The most common example of lossy compression is JPEG
+compression for images.</p>
+<p>With <strong>Lossless compression,</strong> the data recovered after
+compression and subsequent decompression will match precisely with the
+original. PNG images are an example of lossless compression. Lossless
+compression is relevant to text transfers and should be applied to
+text-based formats such as HTML, CSS, and JavaScript.</p>
+<p>Since you want all valid JS code on the browser, you should use
+lossless compression algorithms for JavaScript code. Before we compress
+the JS, minification helps eliminate the unnecessary syntax and reduce
+it to only the code required for execution.</p>
+<p><a
+target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Compression">HTTP
+协议中的数据压缩 - HTTP | MDN (mozilla.org)</a></p>
+<h4 id="minification">Minification</h4>
+<p>在压缩之前可以minify</p>
+<p><a
+target="_blank" rel="noopener" href="https://web.dev/reduce-network-payloads-using-text-compression/#minification">Minification</a>
+complements compression by removing whitespace and any unnecessary code
+to create a smaller but perfectly valid code file. When writing code, we
+use line breaks, indentation, spaces, well-named variables, and comments
+to improve code readability and maintainability.</p>
+<p>Minification is a standard practice for JS and CSS optimization. It's
+common for JavaScript library developers to provide minified versions of
+their files for production deployments, usually denoted with a min.js
+name extension. (e.g., <code>jquery.js</code> and
+<code>jquery.min.js</code>)</p>
+<p>Multiple tools are available for <a
+target="_blank" rel="noopener" href="https://developers.google.com/speed/docs/insights/MinifyResources">the
+minification of HTML, CSS, and JS</a> resources. <a
+target="_blank" rel="noopener" href="https://github.com/terser-js/terser">Terser</a> is a popular
+JavaScript compression tool for ES6+, and <a
+target="_blank" rel="noopener" href="https://webpack.js.org/">Webpack</a> v4 includes a plugin for this
+library by default to create minified build files. You can also use the
+<code>TerserWebpackPlugin</code> with older versions of Webpack or use
+Terser as a CLI tool without a module bundler.</p>
+<h4 id="compression-1">Compression</h4>
+<p>服务侧一般有两种压缩方式：</p>
+<ol type="1">
+<li>static compression:
+在项目构建的时候压缩，一般压缩不常变化的静态资源，可以较高程度压缩，虽然压缩时间比较长</li>
+<li>dynamic compression:
+当资源请求的时候才压缩，但是动态压缩一半压缩程度较低，因为压缩程度高，花费时间比较长，对于小型资源，也没啥优势，一般常用语动态资源。</li>
+</ol>
+<h4 id="压缩算法">压缩算法：</h4>
+<ol type="1">
+<li><p>Gzip</p>
+<p>The Gzip compression format has been around for almost 30 years and
+is a lossless algorithm based on the <a
+target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=whGwm0Lky2s&amp;t=851s">Deflate
+algorithm</a>. The deflate algorithm itself uses a combination of the <a
+target="_blank" rel="noopener" href="https://cs.stanford.edu/people/eroberts/courses/soco/projects/data-compression/lossless/lz77/algorithm.htm">LZ77
+algorithm</a> and <a
+target="_blank" rel="noopener" href="https://cs.stanford.edu/people/eroberts/courses/soco/projects/data-compression/lossless/huffman/algorithm.htm">Huffman
+coding</a> on blocks of data in an input data stream.</p>
+<p>The LZ77 algorithm identifies duplicate strings and replaces them
+with a backreference, which is a pointer to the place where it
+previously appeared, followed by the length of the string. Subsequently,
+Huffman coding identifies the commonly used references and replaces them
+with references with shorter bit sequences. Longer bit sequences are
+used to represent infrequently used references.</p>
+<p>All major browsers support Gzip. The <a
+target="_blank" rel="noopener" href="https://github.com/google/zopfli">Zopfli</a> compression algorithm
+is a slower but improved version of Deflate/Gzip, producing smaller GZip
+compatible files. It is most suitable for static compression, where it
+can provide more significant gains.</p></li>
+</ol>
+<figure>
+<img
+src="https://www.patterns.dev/_next/image?url=%2Fimg%2Fcompression%2Fcompressingjav--zhfjmtap05.png&amp;w=3840&amp;q=75" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>Brotli</li>
+</ol>
+<h4 id="check-compression">Check Compression</h4>
+<p>Chrome -&gt; DevTools -&gt; network -&gt; Headers. DevTools displays
+the content-encoding used in the response, as shown below.</p>
+<figure>
+<img
+src="https://www.patterns.dev/_next/image?url=%2Fimg%2Fcompression%2Fcompressingjav--4gwntp0et8s.png&amp;w=3840&amp;q=75" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>The lighthouse report includes a performance audit for "Enable Text
+Compression" that checks for text-based resource types received without
+the content-encoding header set to ‘br', ‘gzip' or ‘deflate'. Lighthouse
+uses Gzip to compute the potential savings for the resource.</p>
+<figure>
+<img
+src="https://www.patterns.dev/_next/image?url=%2Fimg%2Fcompression%2Fcompressingjav--qmwdq1rskk8.png&amp;w=3840&amp;q=75" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="trade-off">trade off</h4>
+<ol type="1">
+<li><p>gain(1+2) &gt;= gain(1) + gain(2):
+放在一起压缩的收益比分开压缩的收益更好</p>
+<p>Limited local data suggests a 5% to 10% loss for smaller chunks. The
+extreme case of unbundled chunks shows a 20% increase in size.
+Additional IPC, I/O, and processing costs are attached to each chunk
+that gets shared in the case of larger chunks. The v8 engine has a 30K
+streaming/parsing threshold. This means that all chunks smaller than 30K
+will parse on the critical loading path even if it is
+non-critical.</p></li>
+<li><p>但是分开压缩对缓存有好处：</p>
+<ol type="1">
+<li>如果某个资源发生改变，分开压缩的模块的情况下只需要重新获取对应的最新资源即可；但是如果是大文件压缩，则需要重新获取整个资源；</li>
+<li>另外，按需加载的情况下，我们也是尽可能只需要尽量小的资源，如果整个都压缩在一起了，势必也会不好，下载了很多无用的部分</li>
+</ol></li>
+</ol>
+<p>As a result of this trade-off, the maximum number of chunks used
+today by most production apps is around 10. This limit needs to be
+increased to support better caching and de-duplication for apps with
+large amounts of JavaScrip</p>
+<h2 id="render-patterns">Render Patterns</h2>
+<p>UX friendly</p>
+<p><img src="https://www.patterns.dev/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fddxwdqwkr%2Fimage%2Fupload%2Ff_auto%2Fv1660456914%2Fpatterns.dev%2Fweb-vitals.png&w=3840&q=75" srcset="/emocoder/img/loading.gif" lazyload alt="img" style="zoom: 25%;" /></p>
+<p>DX friendly</p>
+<figure>
+<img
+src="https://www.patterns.dev/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fddxwdqwkr%2Fimage%2Fupload%2Ff_auto%2Fv1658990025%2Fpatterns.dev%2F5.png&amp;w=3840&amp;q=75" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>trade off:</p>
+<figure>
+<img
+src="https://www.patterns.dev/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fddxwdqwkr%2Fimage%2Fupload%2Ff_auto%2Fv1658990025%2Fpatterns.dev%2F6.png&amp;w=3840&amp;q=75" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>The Chrome team <a
+target="_blank" rel="noopener" href="https://developers.google.com/web/updates/2019/02/rendering-on-the-web">has
+encouraged</a> developers to consider static or server-side rendering
+over a full rehydration approach. Over time, progressive loading and
+rendering techniques, by default, may help strike a good balance of
+performance and feature delivery when using a modern framework.</p>
+<h3 id="static-rendering">static Rendering</h3>
+<ul>
+<li>项目build的html就生成好了，直到下一次build之前都不会发生改变，所以页面比较死板</li>
+<li>速度特别快</li>
+<li>cdn缓存策略加速用户访问</li>
+<li>适合不常改变的幂等性网页(不论怎么请求结果都是一样的)</li>
+<li>不存在re-layout and repainting</li>
+</ul>
+<p>https://res.cloudinary.com/dq8xfyhu4/video/upload/l_logo_pke9dv,o_52,x_-1510,y_-900/ac_none/v1609691928/CS%20Visualized/Screen_Recording_2022-05-05_at_10.18.37_AM_bhybvb.webm</p>
+<h3 id="static-rendering-with-client">static Rendering with client</h3>
+<ul>
+<li>改变了static rendering的非动态数据的特点，允许请求动态数据</li>
+<li>同时为例避免re-layout and
+repainting，使用了骨架屏方案，防止数据渲染的时候引起UI变动；</li>
+<li>但是骨架屏的大小要准确</li>
+<li>给予了服务器压力，因为现在要实时获取数据了，每一个请求都需要server侧回应</li>
+</ul>
+<p>https://res.cloudinary.com/dq8xfyhu4/video/upload/l_logo_pke9dv,o_52,x_-1510,y_-900/ac_none/v1609691928/CS%20Visualized/Screen_Recording_2022-05-05_at_2.55.30_PM_r0jvez.webm</p>
+<h3 id="static-with-getstaticprops">static with getStaticProps</h3>
+<ul>
+<li>在build时期就可以动态的去获取数据，减少了一部分在客户端的请求</li>
+<li>但是这些请求与用户互关(not user-specific)</li>
+<li>但是如果这样的请求过多的话，build时间很能会很长</li>
+<li>这种方法也只适用于在构建时不经常更新数据的情况</li>
+</ul>
+<p>https://res.cloudinary.com/dq8xfyhu4/video/upload/l_logo_pke9dv,o_52,x_-1510,y_-900/ac_none/v1609691928/CS%20Visualized/Screen_Recording_2022-05-05_at_3.06.26_PM_djvt57.webm</p>
+<h3 id="incremental-sattic-regeneration">Incremental sattic
+regeneration</h3>
+<p>对于上面build time的问题(static with getStaticProps)和动态数据(static
+Rendering with client)的问题，可以使用这个方法解决</p>
+<ul>
+<li>和前面的思路不一样，之前是build
+的时候一次性产生所有静态资源，而现在是请求一个html，就重新生成一个（有优先从缓存里取），一般配合serveless
+function一起使用（减少了build time），数据仍然是在server侧生成的</li>
+<li>不需要build，但是似乎需要重新部署到cdn，为了避免重新部署，定时校验静态资源缓存</li>
+<li>Thus, only the first user is likely to have a poorer experience for
+pages that are not pre-rendered.</li>
+</ul>
+<p>https://res.cloudinary.com/dq8xfyhu4/video/upload/l_logo_pke9dv,o_52,x_-1510,y_-900/ac_none/v1609691928/CS%20Visualized/Screen_Recording_2022-05-05_at_3.49.59_PM_deygni.webm</p>
+<p>https://res.cloudinary.com/dq8xfyhu4/video/upload/l_logo_pke9dv,o_52,x_-1510,y_-900/ac_none/v1609691928/CS%20Visualized/updated_jvhqnv.webm</p>
+<h3 id="on-demand-incremental-sattic-regeneration">On-demand Incremental
+sattic regeneration</h3>
+<ul>
+<li><p>not user-specific</p></li>
+<li><p>不是定时更新cdn，而是基于特定事件</p></li>
+</ul>
+<h3 id="ssr">SSR</h3>
+<p>With server-side rendering, we generate the HTML for every request.
+This approach is most suitable for pages containing highly personalized
+data, for example, data based on the user cookie or generally any data
+obtained from the user's request. It's also suitable for pages that
+should be render-blocking, perhaps based on authentication state.</p>
+<ul>
+<li>可以和csr一样包含了user-specific data</li>
+<li>use request-based data, like cookie</li>
+<li>should be render-blocking</li>
+<li>The time it takes to start up the lambda, known as the long cold
+boot, is a common issue with serverless functions. Also, connections to
+databases can be slow. You should also not call a serverless function
+located on one side of the planet from the other.</li>
+<li>server侧压力大了，优化方法：
+<ul>
+<li><strong>Deploy databases in the same region as your serverless
+function</strong>：减少查询时间</li>
+<li><strong>Execution time of
+<code>getServerSideProp</code></strong>：The page generation does not
+start until the data from <code>getServerSideProps</code> is available.
+Hence, we must ensure that the <code>getServerSideProps</code> method
+doesn't run too long.</li>
+<li><strong>Add <code>Cache-control</code> headers to
+responses</strong></li>
+<li><strong>Upgrade server hardware</strong></li>
+</ul></li>
+</ul>
+<p>https://res.cloudinary.com/dq8xfyhu4/video/upload/l_logo_pke9dv,o_52,x_-1510,y_-900/ac_none/v1609691928/CS%20Visualized/Screen_Recording_2022-05-05_at_5.31.41_PM_oxsq12.webm</p>
+<h3 id="csr">CSR</h3>
+<p><模板 js执行的逻辑会挂在这个节点下面></p>
+<script>
+<p>如果这的逻辑很长或者下载该脚本及其依赖脚本时间过长，就会导致白屏</p>
+<p>SSR:</p>
+<p>实际上SSR的一定有的结构如下：</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;root&#x27;</span>&gt;</span></span><br><span class="language-xml">	<span class="hljs-tag">&lt;&gt;</span></span><span class="hljs-template-variable">&#123;renderToHtml(content)&#125;</span><span class="language-xml"><span class="hljs-tag">&lt;&gt;</span></span><br><span class="language-xml">	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;client.js&#x27;</span> /&gt;</span><span class="language-handlebars"><span class="language-xml"></span></span></span><br><span class="language-xml"><span class="language-handlebars"><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></span></span><br></code></pre></td></tr></table></figure>
+<p>把server侧的整个html交给了客户侧的js管理，但是这样每次请求一个新页面，就会重新刷新一次，它的粒度不够细，RSC可以解决这个问题。</p>
+<p>关于SSR的实践的几个点：</p>
+<ul>
+<li>同构是什么？server无法处理的一些事情，如事件绑定交给客户端</li>
+<li>客户端和server侧同步store，为什么要同步呢？</li>
+<li>路由的问题：如果要使用局部刷新的话，ssr要写两份路由，一份是客户端的路由，一份是对应的服务端路由</li>
+</ul>
+<p>SSR的实践：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7065303971723739144">React SSR
+初实践（一） - 掘金 (juejin.cn)</a></p>
+<h3 id="react-server-component">React Server Component</h3>
+<p>一句话来说：RSC可以使得客户端的React树既有客户端组建也有服务端组件，所以整个React树是可以实现局部刷新的</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6931902782131666951#heading-7">React
+Server Components到底行不行？ - 掘金 (juejin.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/470449193">React server
+component 深入指南 - 知乎 (zhihu.com)</a></p>
+<h3 id="http-streaming">HTTP streaming</h3>
+<p>[普通的请求结果：0 or 1，stream：随时使用，挤牙膏]</p>
+<p>With Edge SSR, we can stream parts of the document as soon as they're
+ready and hydrate these components granularly. This reduces the waiting
+time for users as they can see components as they stream in one by
+one.</p>
+<p>https://res.cloudinary.com/dq8xfyhu4/video/upload/l_logo_pke9dv,o_52,x_-1510,y_-900/ac_none/v1609691928/CS%20Visualized/Screen_Recording_2022-05-05_at_5.48.20_PM_auurip.webm</p>
+<p>结合：静态数据网页static rendering，user-specific server
+rendering</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/98848420">从 Fetch 到 Streams
+—— 以流的角度处理网络请求 - 知乎 (zhihu.com)</a></p>
+<h3 id="some-ideas-in-reacting">Some ideas in Reacting</h3>
+<h3 id="关于react性能优化">关于React性能优化</h3>
+<h3 id="关于写组件的一些体会">关于写组件的一些体会</h3>
+<p>headless UI:
+无UI组件，表示仅提供UI元素和交互的数据状态逻辑，但不提供标记(html元素)，样式</p>
+<p>暴露状态和一些控制逻辑给用户？</p>
+<p>但是状态在内部，用户不需要管，以及控制该状态的api也已经给用户了，具体如何使用该api控制该状态，进而控制UI全权交给了用户</p>
+<p>https://www.patterns.dev/posts/hoc-pattern</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/07/15/Design Pattern/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>迷途知返</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/emocoder/2023/07/16/Resembler/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/emocoder/2023/06/29/%E4%BD%95%E4%B8%BAwasm%EF%BC%9F/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/emocoder/js/events.js" ></script>
+<script  src="/emocoder/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/emocoder/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/emocoder/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/emocoder/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
