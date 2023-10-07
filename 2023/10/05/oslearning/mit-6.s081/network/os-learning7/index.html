@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/emocoder/img/fluid.png">
+  <link rel="icon" href="/emocoder/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="迷途知返">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="网络协议 Browser &#x3D;&gt; LAN &#x3D;&gt; Http server(本地通信由以太网负责) 但是这不能建立一个简单的网络，如果希望建立一个庞大的网络，需要网络层协议： Broswer &#x3D;&gt; LAN1 &#x3D;&gt; Router &#x3D;&gt; LAN2 &#x3D;&gt; http server(远程通信由IP层负责) 以太网协议 12345678910111213141516171819#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Network">
+<meta property="og:url" content="https://mingmingjiang1.github.io/emocoder/2023/10/05/oslearning/mit-6.s081/network/os-learning7/index.html">
+<meta property="og:site_name" content="迷途知返">
+<meta property="og:description" content="网络协议 Browser &#x3D;&gt; LAN &#x3D;&gt; Http server(本地通信由以太网负责) 但是这不能建立一个简单的网络，如果希望建立一个庞大的网络，需要网络层协议： Broswer &#x3D;&gt; LAN1 &#x3D;&gt; Router &#x3D;&gt; LAN2 &#x3D;&gt; http server(远程通信由IP层负责) 以太网协议 12345678910111213141516171819#">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1164.png">
+<meta property="og:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1165.png">
+<meta property="og:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1163.png">
+<meta property="og:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1162.png">
+<meta property="og:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1161.png">
+<meta property="og:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1160.png">
+<meta property="og:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1159.png">
+<meta property="article:published_time" content="2023-10-05T06:56:42.000Z">
+<meta property="article:modified_time" content="2023-10-06T07:22:02.903Z">
+<meta property="article:author" content="迷途知返">
+<meta property="article:tag" content="操作系统，计算机基础, C">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:\Users\Mmjiang\Desktop\oslearning\%E6%97%A0%E6%A0%87%E9%A2%98-2023-08-26-1164.png">
+  
+  
+  
+  <title>Network - 迷途知返</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/emocoder/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/emocoder/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/emocoder/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mingmingjiang1.github.io","root":"/emocoder/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/emocoder/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/emocoder/js/utils.js" ></script>
+  <script  src="/emocoder/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/emocoder/">
+      <strong>Emoer</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/emocoder/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/emocoder/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Network"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-05 14:56" pubdate>
+          2023年10月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Network</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="网络协议">网络协议</h2>
+<p>Browser =&gt; LAN =&gt; Http server(本地通信由以太网负责)</p>
+<p>但是这不能建立一个简单的网络，如果希望建立一个庞大的网络，需要网络层协议：</p>
+<p>Broswer =&gt; LAN1 =&gt; Router =&gt; LAN2 =&gt; http
+server(远程通信由IP层负责)</p>
+<h3 id="以太网协议">以太网协议</h3>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#define ETHADDR_LEN 6</span><br><span class="hljs-string">struct</span> <span class="hljs-string">eth</span> &#123;<br>	<span class="hljs-string">uint8</span> <span class="hljs-string">dhost</span> [<span class="hljs-string">ETHADDR_LEN</span>]<span class="hljs-string">;</span><br>	<span class="hljs-string">uint8</span> <span class="hljs-string">shost</span> [<span class="hljs-string">ETHADDR_LEN</span>]<span class="hljs-string">;</span><br>	<span class="hljs-string">uint16</span> <span class="hljs-string">type</span> <span class="hljs-string">//</span> <span class="hljs-string">它的上层协议类型</span><br>&#125; <span class="hljs-string">__attributr__((packed));</span><br><br><span class="hljs-comment">#define ETHTYPE_IP 0x0800 // ip</span><br><span class="hljs-comment">#define ETHTYPE_ARP 0x0806 // arp</span><br><br><br><span class="hljs-comment">#[payload][T16*8bit][S48bit][D48bit], 前24bit是制造商编号，后24bit是网卡编号]#</span><br><span class="hljs-comment">#表示包的开始和结束，#是给硬件识别的标志</span><br><br><br><span class="hljs-string">ARP,</span> <span class="hljs-string">Request</span> <span class="hljs-string">who-has</span> <span class="hljs-number">10.0</span><span class="hljs-number">.2</span><span class="hljs-number">.15</span> <span class="hljs-string">tell</span> <span class="hljs-number">10.0</span><span class="hljs-number">.0</span><span class="hljs-number">.2</span><span class="hljs-string">,</span> <span class="hljs-string">length</span> <span class="hljs-number">28</span><br><span class="hljs-attr">0x0000:</span> <span class="hljs-string">ffff</span> <span class="hljs-string">ffff</span> <span class="hljs-string">ffff(48bit,</span> <span class="hljs-string">这里表示广播地址)</span> <span class="hljs-number">5255 </span><span class="hljs-string">0a00</span> <span class="hljs-number">0202</span><span class="hljs-string">(src</span> <span class="hljs-string">host</span> <span class="hljs-string">mac)</span> <span class="hljs-number">0806</span><span class="hljs-string">(16</span> <span class="hljs-string">bit</span> <span class="hljs-string">type)</span> <span class="hljs-number">0001</span><span class="hljs-string">(payload)</span><br><span class="hljs-attr">0x0010:</span> <span class="hljs-number">0800 </span><span class="hljs-number">0604 </span><span class="hljs-number">0001</span><span class="hljs-string">(这里0001~这里，共64</span> <span class="hljs-string">bytes是hrd</span> <span class="hljs-string">+</span> <span class="hljs-string">pro</span> <span class="hljs-string">+</span> <span class="hljs-string">hln</span> <span class="hljs-string">+</span> <span class="hljs-string">pln</span> <span class="hljs-string">+</span> <span class="hljs-string">op)</span> <span class="hljs-number">5255 </span><span class="hljs-string">0a00</span> <span class="hljs-number">0202</span><span class="hljs-string">(sender</span> <span class="hljs-string">ethnet</span> <span class="hljs-string">addr)</span> <span class="hljs-string">0a00</span> <span class="hljs-number">0202</span><span class="hljs-string">(sip,</span> <span class="hljs-number">10.0</span><span class="hljs-number">.2</span><span class="hljs-number">.2</span><span class="hljs-string">)</span><br><span class="hljs-attr">0x0020:</span> <span class="hljs-number">0000 </span><span class="hljs-number">0000 </span><span class="hljs-number">0000</span><span class="hljs-string">(target</span> <span class="hljs-string">ethnet</span> <span class="hljs-string">addr,</span> <span class="hljs-string">unknown</span> <span class="hljs-string">when</span> <span class="hljs-string">request)</span> <span class="hljs-string">0a00</span> <span class="hljs-string">020f(tip,</span> <span class="hljs-number">10.0</span><span class="hljs-number">.2</span><span class="hljs-number">.15</span><span class="hljs-string">)</span><br></code></pre></td></tr></table></figure>
+<h3 id="arp协议">ARP协议</h3>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><br><br><span class="hljs-string">ARP,</span> <span class="hljs-string">Reply</span> <span class="hljs-number">10.0</span><span class="hljs-number">.2</span><span class="hljs-number">.15</span> <span class="hljs-string">is-at</span> <span class="hljs-number">52</span><span class="hljs-string">:44:00:12:34:56,</span> <span class="hljs-string">length</span> <span class="hljs-number">28</span><br><span class="hljs-attr">0x0000:</span> <span class="hljs-string">ffff</span> <span class="hljs-string">ffff</span> <span class="hljs-string">ffff(48bit,</span> <span class="hljs-string">这里表示广播地址)</span> <span class="hljs-number">5255 </span><span class="hljs-string">0a00</span> <span class="hljs-number">0202</span><span class="hljs-string">(src</span> <span class="hljs-string">host</span> <span class="hljs-string">mac)</span> <span class="hljs-number">0806</span><span class="hljs-string">(16</span> <span class="hljs-string">bit</span> <span class="hljs-string">type)</span> <span class="hljs-number">0001</span><span class="hljs-string">(payload)</span>   <span class="hljs-string">.....RU.....(.表示没有对应的ascii)</span><br><span class="hljs-attr">0x0010:</span> <span class="hljs-number">0800 </span><span class="hljs-number">0604 </span><span class="hljs-number">0002 </span><span class="hljs-number">5254 </span><span class="hljs-string">0a00</span> <span class="hljs-number">0202 </span><span class="hljs-string">0a00</span> <span class="hljs-number">0202</span><br><span class="hljs-attr">0x0020:</span> <span class="hljs-number">5255 </span><span class="hljs-string">0a00</span> <span class="hljs-number">0202 </span><span class="hljs-string">0a00</span> <span class="hljs-number">0202</span><br><br><br><span class="hljs-string">struct</span> <span class="hljs-string">arp</span> &#123;<br>	<span class="hljs-string">uint16</span> <span class="hljs-string">hrd</span><br>	<span class="hljs-string">uint16</span> <span class="hljs-string">pro</span><br>	<span class="hljs-string">uint8</span> <span class="hljs-string">hln</span><br>	<span class="hljs-string">uint8</span> <span class="hljs-string">pln</span><br>	<span class="hljs-string">uint16</span> <span class="hljs-string">op</span><br>	<br>	<span class="hljs-string">char</span> <span class="hljs-string">sha</span>[<span class="hljs-string">ETHADDR_LEN</span>]<br>	<span class="hljs-string">uint32</span> <span class="hljs-string">sip</span><br>	<span class="hljs-string">char</span> <span class="hljs-string">tha</span>[<span class="hljs-string">ETHADDR_LEN</span>]<br>	<span class="hljs-string">uint132</span> <span class="hljs-string">tip</span><br>&#125; <span class="hljs-string">__attribute__((packed))</span><br><br><span class="hljs-comment">#define ARP_HRD_ETHER 1 // ethernet</span><br><span class="hljs-string">enum</span> &#123;<br>	<span class="hljs-string">ARP_OP_REQUEST</span> <span class="hljs-string">=</span> <span class="hljs-number">1</span><span class="hljs-string">;</span><br>	<span class="hljs-string">ARP_OP_REPLY</span> <span class="hljs-string">=</span> <span class="hljs-number">2</span><span class="hljs-string">;</span><br>&#125;<br><br><span class="hljs-comment">#[arp][T16*8bit][S48bit][D48bit] 以太网的有效载荷就是arp数据包，紧跟在以太网报头之后</span><br><br><br><br>[[[[[<span class="hljs-string">DNS</span>]<span class="hljs-string">UDP</span>] <span class="hljs-string">protol</span> <span class="hljs-string">IP</span> <span class="hljs-string">type</span> <span class="hljs-string">ETH</span>]]<br><span class="hljs-string">发送上往下构建包，type和protocol告知下面该用什么协议去检查和理解payload</span><br></code></pre></td></tr></table></figure>
+<p><img src="C:\Users\Mmjiang\Desktop\oslearning\无标题-2023-08-26-1164.png" srcset="/emocoder/img/loading.gif" lazyload alt="无标题-2023-08-26-1164" style="zoom:50%;" /></p>
+<h3 id="ip协议">IP协议</h3>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-comment">// an IP packet header (comes after an Ethernet)</span><br><span class="hljs-keyword">struct</span> ip &#123;<br>	<span class="hljs-keyword">uint8</span> ip_vhl; <span class="hljs-comment">// version &lt;&lt; 5 | header length &gt;&gt; 2</span><br>	<span class="hljs-keyword">uint8</span> ip_tos; <span class="hljs-comment">// type of service</span><br>	<span class="hljs-keyword">uint16</span> ip_len; <span class="hljs-comment">// total length</span><br>	<span class="hljs-keyword">uint16</span> ip_id; <span class="hljs-comment">// identification</span><br>	<span class="hljs-keyword">uint16</span> ip_off; <span class="hljs-comment">// fragment offset field</span><br>	<span class="hljs-keyword">uint8</span> ip_ttl; <span class="hljs-comment">// time to live</span><br>	<span class="hljs-keyword">uint8</span> ip_p; <span class="hljs-comment">// protocol,上层协议是什么</span><br>	<span class="hljs-keyword">uint8</span> ip_sum; <span class="hljs-comment">// checksum</span><br>	<span class="hljs-keyword">uint8</span> ip_src, ip_dst;<br>&#125;<br><br><span class="hljs-meta">#define IPPROTO_TCP 6</span><br><span class="hljs-meta">#define IPPROTO_UDP 17</span><br><br>ffff ffff ffff <span class="hljs-number">5254</span> <span class="hljs-number">0012</span> <span class="hljs-number">3456</span> <span class="hljs-number">0800</span> [<span class="hljs-number">4500</span><br><span class="hljs-number">002</span>f <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">6411</span>(<span class="hljs-number">11</span>是<span class="hljs-number">10</span>进制的<span class="hljs-number">17</span>表示UDP) <span class="hljs-number">4</span>eae(checksum) <span class="hljs-number">0</span>a00(<span class="hljs-number">10.0</span><span class="hljs-number">.2</span><span class="hljs-number">.15</span>) <span class="hljs-number">020</span>f <span class="hljs-number">0</span>a00(<span class="hljs-number">10.0</span><span class="hljs-number">.2</span><span class="hljs-number">.2</span>)<br><span class="hljs-number">0202</span>] <span class="hljs-number">07</span>d0 <span class="hljs-number">6403</span> <span class="hljs-number">001</span>b <span class="hljs-number">0000</span> <span class="hljs-number">6120</span> <span class="hljs-number">6</span>d55 <span class="hljs-number">7373</span><br><br></code></pre></td></tr></table></figure>
+<h3 id="udp协议">UDP协议</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// udp packet header (comes after an tp header)</span><br><br><span class="hljs-keyword">struct</span> udp &#123;<br>	<span class="hljs-type">uint16</span> sport; <span class="hljs-comment">// src port</span><br>	<span class="hljs-type">uint16</span> dport; <span class="hljs-comment">// dst port</span><br>	<span class="hljs-type">uint16</span> ulen; <span class="hljs-comment">// length, including udp header, not including ip header</span><br>	<span class="hljs-type">uint16</span> sum <span class="hljs-comment">// checksum</span><br>&#125;<br><br>syscall socket<br>sockets(<span class="hljs-number">53</span>)<br><br><br>ffff ffff ffff <span class="hljs-number">5254</span> <span class="hljs-number">0012</span> <span class="hljs-number">3456</span> <span class="hljs-number">0800</span> <span class="hljs-number">4500</span><br><span class="hljs-number">002</span>f <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">6411</span> <span class="hljs-number">4</span>eae <span class="hljs-number">0</span>a00 <span class="hljs-number">020</span>f <span class="hljs-number">0</span>a00<br><span class="hljs-number">0202</span> [<span class="hljs-number">07</span>d0(src) <span class="hljs-number">6403</span>(dst) <span class="hljs-number">001</span>b(<span class="hljs-built_in">len</span>) <span class="hljs-number">0000</span>(checksum) <span class="hljs-number">6120</span>(ascii) <span class="hljs-number">6</span>d55(ascii) <span class="hljs-number">7373</span>(ascii)... <span class="hljs-comment">// a.message.from.xv6</span><br></code></pre></td></tr></table></figure>
+<p><code>每个协议都有最大的数据长度，这是为什么？</code></p>
+<ul>
+<li><p>数据在沿着线路传播的时候，数据量越大，损失的几率越高，噪音越大，对于合理大小的校验和应该是16或者32位，它限制了包的大小。</p></li>
+<li><p>另外，数据越大，需要的路由器缓存也就越大，需要高质量的硬件支持</p></li>
+</ul>
+<p><img src="C:\Users\Mmjiang\Desktop\oslearning\无标题-2023-08-26-1165.png" srcset="/emocoder/img/loading.gif" lazyload alt="无标题-2023-08-26-1165" style="zoom:50%;" /></p>
+<h2 id="网络协议栈">网络协议栈</h2>
+<p><img src="C:\Users\Mmjiang\Desktop\oslearning\无标题-2023-08-26-1163.png" srcset="/emocoder/img/loading.gif" lazyload alt="无标题-2023-08-26-1163" style="zoom:50%;" /></p>
+<h2 id="网络协议硬件中的协作模式">网络协议硬件中的协作模式</h2>
+<p>在单核处理器上，中断拥有最高的优先级执行度，所以当中断发生时，其他进程被暂时pending；但是在多核处理器上，将有更多的并行性，其他处理器上的进程不会被打扰，甚至可以读取网络线程处理好的数据缓存。另外，这网络协议栈中，去恶劣很常见，是w为了应对网络的临时性突变，比如网络线程处理很慢，但是这个时候有大量数据发送过来。</p>
+<p>Q：同意网卡可以同时接收和发送吗？</p>
+<p>A：可以，如果发送和接收的是同一个网卡的情况下，比如回环地址</p>
+<p><img src="C:\Users\Mmjiang\Desktop\oslearning\无标题-2023-08-26-1162.png" srcset="/emocoder/img/loading.gif" lazyload alt="无标题-2023-08-26-1162" style="zoom:50%;" /></p>
+<p>经典网卡模式：数据到了，存放到网卡的缓存中，同时网卡驱动从NIC
+buffer拷贝数据到主机内存，然后触发中断。</p>
+<p>缺点：由于NIC和内存的通过控制总线交互耗时比较长，导致处理比较慢。</p>
+<p><img src="C:\Users\Mmjiang\Desktop\oslearning\无标题-2023-08-26-1161.png" srcset="/emocoder/img/loading.gif" lazyload style="zoom:50%;" /></p>
+<p>现代大部分处理器(E1000)：初始化的时候，网卡就知道了DMA
+ring(DMA是主机内存的概念，而非网卡内的，它是计算机内部用于存放网络数据包的一段特定内存，是一个指针数组)的地址，后续有数据写入或者读取都是和DMA
+ring交互的，没读写一次，记住下一个DMA ring的位置</p>
+<p><img src="C:\Users\Mmjiang\Desktop\oslearning\无标题-2023-08-26-1160.png" srcset="/emocoder/img/loading.gif" lazyload style="zoom:50%;" /></p>
+<p><img src="C:\Users\Mmjiang\Desktop\oslearning\无标题-2023-08-26-1159.png" srcset="/emocoder/img/loading.gif" lazyload alt="无标题-2023-08-26-1159" style="zoom:50%;" /></p>
+<p>简单画图描述了下课堂里提到的相关论文的一幅图，横坐标是网卡输入速率，纵坐标是cpu处理后由网卡转发的速率，可以观察no
+pulling前面半部分，输入速率和输出速率持平，可是到了5000之后就是下降趋势了
+(这里输出最大是5000packets/s，也就是网络线程最大处理速度是200
+packets/ms)，这是为什么？</p>
+<p>考虑单核情况下，会有两个任务</p>
+<ul>
+<li>接收网卡数据传入带来的中断</li>
+<li>处理数据的处理和转发的网络线程</li>
+</ul>
+<p>一个是网卡接收到数据后，触发中断程序，同时cpu也在处理之前的输入，所以每次有新的输入进来的时候，都会触发中断，而拼盘的中断也是有代价的，这样就导致了转发任务一直主语饥饿状态，这就是课堂里所说的live
+lock</p>
+<p><code>如何解决?</code></p>
+<p>第一个中断到达的时候，运行interrupt routine，但是interrupt
+routine不从网卡上赋值数据包，它唤醒网络线程，同时设置网卡的中断为禁用状态，伪代码如下：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">Loop<br> pull <span class="hljs-keyword">a</span> few packets(eg: <span class="hljs-number">5</span>)<br> <span class="hljs-built_in">process</span><br> <span class="hljs-keyword">if</span> <span class="hljs-literal">none</span><br> 	enable INTR<br> 	sleep<br></code></pre></td></tr></table></figure>
+<p>使用了这种不断轮询的策略后，如上图所示，不会出现网络线程饥饿的现象，但是如果网卡速率过大的话，还是会发生丢包的。</p>
+<h2 id="homework">Homework</h2>
+<p>e1000_transmit</p>
+<p><code>tx_ring</code> 中的每个元素长这样：</p>
+<figure>
+<img
+src="https://pic2.zhimg.com/80/v2-4ad1343146b023e24d6c407ebf348d35_1440w.jpg" srcset="/emocoder/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">int</span><br>e1000_transmit(struct mbuf *m)<br>&#123;<br>  <span class="hljs-comment">//</span><br>  <span class="hljs-comment">// Your code here.</span><br>  <span class="hljs-comment">//</span><br>  <span class="hljs-comment">// the mbuf contains an ethernet frame; program it into</span><br>  <span class="hljs-comment">// the TX descriptor ring so that the e1000 sends it. Stash</span><br>  <span class="hljs-comment">// a pointer so that it can be freed after sending.</span><br>  <span class="hljs-comment">//</span><br>  <span class="hljs-comment">// ask the E1000 for the TX ring index at which </span><br>  <span class="hljs-comment">// it&#x27;s expecting the next packet, by reading the E1000_TDT control register.</span><br>  acquire(&amp;e1000_lock);<br>  uint32 <span class="hljs-keyword">index</span> = regs[E1000_TDT];<br>  <span class="hljs-comment">// the E1000 hasn&#x27;t finished the corresponding previous transmission request, so return an error.</span><br>  <span class="hljs-keyword">if</span> (!(tx_ring[<span class="hljs-keyword">index</span>].status &amp; E1000_TXD_STAT_DD)) &#123;<br>    release(&amp;e1000_lock);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>  &#125;<br>  <span class="hljs-comment">// free the last mbuf that was transmitted from that descriptor (if there was one).</span><br>  <span class="hljs-keyword">if</span> (tx_mbufs[<span class="hljs-keyword">index</span>]) &#123;<br>    mbuffree(tx_mbufs[<span class="hljs-keyword">index</span>]);<br>  &#125;<br>  <span class="hljs-comment">// stash away a pointer to the mbuf for later freeing.</span><br>  tx_mbufs[<span class="hljs-keyword">index</span>] = m;<br>  memset(&amp;tx_ring[<span class="hljs-keyword">index</span>],<span class="hljs-number">0</span>,sizeof(tx_ring[<span class="hljs-keyword">index</span>]));<br>  <span class="hljs-comment">// fill in the descriptor. m-&gt;head points to the packet&#x27;s content in memory, and m-&gt;len is the packet length.</span><br>  tx_ring[<span class="hljs-keyword">index</span>].addr = (uint64)m-&gt;head;<br>  tx_ring[<span class="hljs-keyword">index</span>].<span class="hljs-built_in">length</span> = m-&gt;len;<br>  <span class="hljs-comment">// set the necessary cmd flags.</span><br>  tx_ring[<span class="hljs-keyword">index</span>].cmd = E1000_TXD_CMD_RS | E1000_TXD_CMD_EOP;<br>  <span class="hljs-comment">// update the ring position by adding one to E1000_TDT modulo TX_RING_SIZE.</span><br>  regs[E1000_TDT] = (<span class="hljs-keyword">index</span> + <span class="hljs-number">1</span>) % TX_RING_SIZE;<br>  release(&amp;e1000_lock);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/351563871">MIT 6.S081 2020
+LAB11记录 - 知乎 (zhihu.com)</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/emocoder/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/emocoder/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-C/">#操作系统，计算机基础, C</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Network</div>
+      <div>https://mingmingjiang1.github.io/emocoder/2023/10/05/oslearning/mit-6.s081/network/os-learning7/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>迷途知返</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/emocoder/2023/10/05/oslearning/mit-6.s081/booting/main/" title="xv6 Booting">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">xv6 Booting</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/emocoder/2023/10/05/oslearning/mit-6.s081/filesys-recovery/main/" title="File system Recovery">
+                        <span class="hidden-mobile">File system Recovery</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/emocoder/js/events.js" ></script>
+<script  src="/emocoder/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/emocoder/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/emocoder/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/emocoder/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
